@@ -1,0 +1,147 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation(rootProject.ext.dependencies["espresso-core"], {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testImplementation rootProject.ext.dependencies["junit"]
+    api rootProject.ext.dependencies["constraint-layout"]
+    api rootProject.ext.dependencies["support-v4"]
+    api rootProject.ext.dependencies["appcompat-v7"]
+    api rootProject.ext.dependencies["recyclerview-v7"]
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["percent"]
+
+    //Rxjava2
+    api rootProject.ext.dependencies["rxandroid2"]
+    api rootProject.ext.dependencies["rxjava2"]
+
+    //Rxbinding
+    api rootProject.ext.dependencies["rxbinding"]
+    //api rootProject.ext.dependencies["rxbinding-material"]
+
+    //Rxlifecycle
+    api rootProject.ext.dependencies["rxlifecycle2"]
+    api rootProject.ext.dependencies["rxlifecycle2-components"]
+
+    //Retrofit2
+    api rootProject.ext.dependencies["retrofit2"]
+    api rootProject.ext.dependencies["retrofit2-converter-gson"]
+    api rootProject.ext.dependencies["retrofit2-converter-scalars"]
+    api rootProject.ext.dependencies["retrofit2-adapter-rxjava2"]
+    api rootProject.ext.dependencies["retrofit2-adapter-rxjava2-jakewharton"]
+
+    //Okhttp-interceptor
+    api rootProject.ext.dependencies["okhttp3-logging-interceptor"]
+    //PersistentCookieJar for OkHttp 3
+    api rootProject.ext.dependencies["persistent-cookiejar"]
+
+    //Dragger2
+    //api rootProject.ext.dependencies["dagger"]
+    //api rootProject.ext.dependencies["dagger-android"]
+    //api rootProject.ext.dependencies["dagger-android-support"]
+    //需要在App的build.gradle中添加，这里添加无效
+    //annotationProcessor rootProject.ext.dependencies["dagger-compiler"]
+    //需要在App的build.gradle中添加，这里添加无效
+    //annotationProcessor rootProject.ext.dependencies["dagger-android-processor"]
+
+    //Lifecycle
+    api rootProject.ext.dependencies["lifecycle"]
+    //需要在App的build.gradle中添加，这里添加无效
+    //annotationProcessor rootProject.ext.dependencies["lifecycle-compiler"]
+
+    //Room
+    api rootProject.ext.dependencies["room"]
+    //需要在App的build.gradle中添加，这里添加无效
+    //annotationProcessor rootProject.ext.dependencies["room-compiler"]
+
+    //Butterknife
+    api rootProject.ext.dependencies["butterknife"]
+    //需要在App的build.gradle中添加，这里添加无效
+    //annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+
+    //glide
+    api rootProject.ext.dependencies["glide"]
+    api rootProject.ext.dependencies["glide-transformations"]
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+
+    //SmartRefreshLayout
+    api rootProject.ext.dependencies["smartrefreshlayout"]
+    //没有使用特殊Header，可以不加这行
+    //api rootProject.ext.dependencies["smartrefreshheader"]
+
+    //Fragmentation
+    api rootProject.ext.dependencies["fragmentation"]
+    api rootProject.ext.dependencies["fragmentation-swipeback"]
+
+    //Gson
+    api rootProject.ext.dependencies["gson"]
+    //Bottom-navigation-bar
+    api rootProject.ext.dependencies["bottom-navigation-bar"]
+    //Multidex
+    api rootProject.ext.dependencies["multidex"]
+    //Logger
+    //api rootProject.ext.dependencies["logger"]
+    //AndPermission
+    //api rootProject.ext.dependencies["andpermission"]
+    //RxPermissions
+    api rootProject.ext.dependencies["rxpermissions"]
+    //Immersionbar
+    api rootProject.ext.dependencies["immersionbar"]
+    //Guava
+    api rootProject.ext.dependencies["guava"]
+    //Utilcode
+    api rootProject.ext.dependencies["utilcode"]
+}
+
+/**
+ * ./gradlew :mylib:uploadArchives
+ */
+apply plugin: 'maven'
+uploadArchives {
+    repositories.mavenDeployer {
+        //本地存放目录(自行选择)，可放在gradle.properties文件中引用
+        def mavenDirPath = file('D:\\futia\\mavendir')
+        //必须双引号，单引号不会转义$
+        repository(url: "file://${mavenDirPath.absolutePath}")
+        pom.project {
+            //可以随意取，一般取包名
+            groupId "com.bracks.futia"
+            //可以随意取，一般取库的名字
+            artifactId "mylib"
+            //版本号
+            version "1.0.0"
+        }
+    }
+}

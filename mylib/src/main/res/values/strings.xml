@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">mylib</string>
+
+
+    <!-- Error View -->
+    <string name="loading">加载中…</string>
+    <string name="error_connect">网络连接失败,请检查网络</string>
+    <string name="error_timeout">连接超时,请稍后再试</string>
+    <string name="error_bad_network">服务器异常</string>
+    <string name="error_parse">解析服务器响应数据失败</string>
+    <string name="error_unknown">未知错误</string>
+    <string name="error_response_return">服务器返回数据失败</string>
+    <!--通用文字-->
+    <string name="common_back">返回</string>
+    <string name="common_confirm">确定</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_empty"> </string>
+    <string name="common_search">搜索</string>
+
+
+    <!--权限-->
+    <string name="permission_tip">提示</string>
+    <string name="permission_need">我们需要</string>
+    <string name="permission_come_useapp">权限来正常使用APP</string>
+    <string name="permission_allow">授予</string>
+    <string name="permission_refuse">拒绝</string>
+    <string name="permission_write_and_camera">读写SD卡以及照相机</string>
+    <string name="permission_some">一些</string>
+    <string name="permission_allow_fail">获取授权失败</string>
+    <string name="permission_apply_fail">权限申请失败</string>
+    <string name="permission_message">我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！</string>
+    <string name="permission_setting">设置</string>
+    <string name="permission_cancel">取消</string>
+
+
+</resources>
