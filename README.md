@@ -3,6 +3,7 @@
 add project build gradle:
 
 allprojects {
+
     repositories {
     
         ...
