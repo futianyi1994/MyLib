@@ -11,9 +11,15 @@ allprojects {
 
 add app build gradle:
 dependencies {
+
     ...
+    
     implementation 'com.bracks.futia:mylib:1.0.0'
+    
     annotationProcessor rootProject.ext.dependencies["room-compiler"]
+    
     annotationProcessor rootProject.ext.dependencies["lifecycle-compiler"]
+    
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+    
 }
