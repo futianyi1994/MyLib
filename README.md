@@ -8,9 +8,7 @@ allprojects {
     
         ...
         
-        maven { 
-            url "https://raw.githubusercontent.com/futianyi1994/MyLib/maven"
-        }
+        maven { url "https://raw.githubusercontent.com/futianyi1994/MyLib/maven" }
       
     }
 }
