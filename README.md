@@ -4,8 +4,11 @@ add project build gradle:
 
 allprojects {
     repositories {
+    
         ...
+        
         maven { url "https://raw.githubusercontent.com/futianyi1994/MyLib/maven" }
+        
     }
 }
 
