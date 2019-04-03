@@ -2,6 +2,8 @@ package com.bracks.futia.mylib.utils.log;
 
 import android.util.Log;
 
+import com.bracks.futia.mylib.utils.CommonUtils;
+
 /**
  * Created on 2017-12-22  下午 01:34
  *
@@ -9,8 +11,8 @@ import android.util.Log;
  * @Description: log里面不能出现\r，否则打印不出log,\r是字符串结束标志
  */
 public class TLog {
-    public static final String LOG_TAG = "Tlog";
-    public static final boolean DEBUG = true;
+    private static final String LOG_TAG = "Tlog";
+    private static boolean DEBUG = CommonUtils.isDebug();
 
     public TLog() {
     }
@@ -77,5 +79,9 @@ public class TLog {
 
     public static boolean isDebug() {
         return DEBUG;
+    }
+
+    public static void setDebug(boolean debug) {
+        DEBUG = debug;
     }
 }

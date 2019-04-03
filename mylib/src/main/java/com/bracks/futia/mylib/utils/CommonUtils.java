@@ -1,8 +1,10 @@
 package com.bracks.futia.mylib.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.os.Looper;
 import android.view.View;
 
@@ -24,9 +26,11 @@ import java.util.List;
 public class CommonUtils {
     public static final String TAG = "CommonUtils";
 
-    private static Context context;
+    @SuppressLint("StaticFieldLeak")
+    private static Context mContext;
 
-    public final static String PKG_NAME = "com.koudaishu.zhejiangkoudaishu";
+    private static boolean debug;
+
 
     private CommonUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -38,7 +42,8 @@ public class CommonUtils {
      * @param context 上下文
      */
     public static boolean init(Context context) {
-        CommonUtils.context = context.getApplicationContext();
+        mContext = context.getApplicationContext();
+        debug = context.getApplicationInfo() != null && (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         return appOneInit();
     }
 
@@ -48,10 +53,19 @@ public class CommonUtils {
      * @return ApplicationContext
      */
     public static Context getContext() {
-        if (context != null) {
-            return context;
+        if (mContext != null) {
+            return mContext;
         }
         throw new NullPointerException("u should init first");
+    }
+
+    /**
+     * 是否debug模式
+     *
+     * @return
+     */
+    public static boolean isDebug() {
+        return debug;
     }
 
     /**
@@ -65,7 +79,7 @@ public class CommonUtils {
         String processAppName = ProcessUtils.getCurrentProcessName();
         TLog.i(TAG, "processAppName:  " + processAppName);
         //默认的app会在以包名为默认的process name下运行，如果查到的process name不是APP的process name就return掉
-        if (processAppName == null || !processAppName.equalsIgnoreCase(PKG_NAME)) {
+        if (processAppName == null || !processAppName.equalsIgnoreCase(mContext.getPackageName())) {
             TLog.i(TAG, "enter the service process!");
             // 则此application::onCreate 是被service 调用的，直接返回
             return false;
@@ -158,6 +172,4 @@ public class CommonUtils {
         lastClickTime = currentTime;
         return true;
     }
-
-
 }
