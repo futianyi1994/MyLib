@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.os.Looper;
-import android.view.View;
 
 import com.blankj.utilcode.util.ProcessUtils;
+import com.blankj.utilcode.util.Utils;
 import com.bracks.futia.mylib.utils.log.TLog;
 
 import java.security.Security;
@@ -42,6 +42,8 @@ public class CommonUtils {
      * @param context 上下文
      */
     public static boolean init(Context context) {
+        Utils.init(context);
+        //LoggerHelper.getInstance().init(false);
         mContext = context.getApplicationContext();
         debug = context.getApplicationInfo() != null && (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         return appOneInit();
@@ -142,17 +144,6 @@ public class CommonUtils {
             return false;
         }
         return true;
-    }
-
-    /**
-     * 测量View的宽高
-     *
-     * @param view View
-     */
-    public static void measureWidthAndHeight(View view) {
-        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        view.measure(widthMeasureSpec, heightMeasureSpec);
     }
 
     /**

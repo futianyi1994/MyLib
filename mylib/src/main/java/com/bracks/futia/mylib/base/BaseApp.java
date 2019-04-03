@@ -1,10 +1,10 @@
 package com.bracks.futia.mylib.base;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 
-import com.blankj.utilcode.util.Utils;
 import com.bracks.futia.mylib.utils.CommonUtils;
 import com.bracks.futia.mylib.utils.log.TLog;
 
@@ -29,18 +29,26 @@ public class BaseApp extends Application {
     public final static int APP_STATUS_NORMAL = 1;
     /**
      * 记录App的启动状态
+     *  //非正常启动流程，直接重新初始化应用界面(缺点：第一次一定会重启)
+     *  if (BaseApp.APP_STATUS != BaseApp.APP_STATUS_NORMAL) {
+     *      //App正常的启动，设置App的启动状态为正常启动
+     *      BaseApp.APP_STATUS = BaseApp.APP_STATUS_NORMAL;
+     *      BaseApp.reInitApp(HomeActivity.class);
+     *      return;
+     *  } else {
+     *      //正常启动流程
+     *  }
      */
     public static int APP_STATUS = APP_STATUS_KILLED;
 
+    @SuppressLint("StaticFieldLeak")
     public static Context mContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        Utils.init(this);
         CommonUtils.init(mContext);
-        //LoggerHelper.getInstance().init(false);
     }
 
     /**

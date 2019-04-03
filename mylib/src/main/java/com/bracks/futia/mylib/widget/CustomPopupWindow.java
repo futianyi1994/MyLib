@@ -12,8 +12,6 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.bracks.futia.mylib.utils.CommonUtils;
-
 
 /**
  * Good programmer.
@@ -320,7 +318,9 @@ public class CustomPopupWindow extends PopupWindow {
             if (listener != null && params.layoutResId != 0) {
                 listener.getChildView(popupWindow.controller.mPopupView, params.layoutResId);
             }
-            CommonUtils.measureWidthAndHeight(popupWindow.controller.mPopupView);
+            int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            popupWindow.controller.mPopupView.measure(widthMeasureSpec, heightMeasureSpec);
             return popupWindow;
         }
     }
