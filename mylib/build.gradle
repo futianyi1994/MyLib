@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 102
+        versionName "1.0.2"
         testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
     }
     buildTypes {
@@ -130,7 +130,7 @@ dependencies {
 /**
  * ./gradlew :mylib:uploadArchives
  */
-apply plugin: 'maven'
+/*apply plugin: 'maven'
 uploadArchives {
     repositories.mavenDeployer {
         //本地存放目录(自行选择)，可放在gradle.properties文件中引用
@@ -146,4 +146,4 @@ uploadArchives {
             version "1.0.0"
         }
     }
-}
+}*/
