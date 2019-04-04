@@ -15,7 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @date : 2018-09-02 上午 11:33
  * @author: futia
  * @email : futianyi1994@126.com
- * @description :
+ * @description : 下载工具类
+ * @deprecated Use {@link com.bracks.futia.mylib.net.download.breakpoint.DownloadManager} instead.
  */
 public class DownloadManager {
 
@@ -29,7 +30,8 @@ public class DownloadManager {
     public static <T> T init(Class<T> cls, String host, ProgressListener.ProgressCallback callback) {
         if (retrofit == null) {
             synchronized (DownloadManager.class) {
-                retrofit = new Retrofit.Builder()
+                retrofit = new Retrofit
+                        .Builder()
                         .baseUrl(host)
                         .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

@@ -29,7 +29,8 @@ public class UploadManager {
     public static <T> T init(Class<T> cls, String host, ProgressListener.ProgressCallback callback) {
         if (retrofit == null) {
             synchronized (UploadManager.class) {
-                retrofit = new Retrofit.Builder()
+                retrofit = new Retrofit
+                        .Builder()
                         .baseUrl(host)
                         .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

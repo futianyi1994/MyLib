@@ -3,6 +3,7 @@ package com.bracks.futia.mylib.net.download;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.futia.mylib.net.https.ProgressBean;
 import com.bracks.futia.mylib.net.https.ProgressListener;
+import com.bracks.futia.mylib.net.interceptor.DownloadInterceptor;
 import com.bracks.futia.mylib.utils.log.TLog;
 
 import io.reactivex.Maybe;
@@ -10,7 +11,6 @@ import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableMaybeObserver;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
 
 /**
  * good programmer.
@@ -20,6 +20,7 @@ import okhttp3.Response;
  * @email : futianyi1994@126.com
  * @description :
  */
+@Deprecated
 public class DownloadHelper {
     /**
      * 包装OkHttpClient，用于下载文件的回调
@@ -68,22 +69,14 @@ public class DownloadHelper {
 
                             @Override
                             public void onComplete() {
-                                //此次完成只代表精度条走到100，上传成功另有回调（网络请求的回调）
+                                //此次完成只代表精度条走到100//此次完成只代表精度条走到100，下载成功另有回调（网络请求的回调）
                             }
                         });
 
         //添加拦截器，自定义ResponseBody，添加下载进度
         builder
                 //.addInterceptor(HttpLogInterceptor.get())
-                .addInterceptor(chain -> {
-                    //拦截
-                    Response originalResponse = chain.proceed(chain.request());
-                    //包装响应体并返回
-                    return originalResponse
-                            .newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                })
+                .addInterceptor(new DownloadInterceptor(progressListener))
         ;
         return builder.build();
     }
