@@ -13,5 +13,5 @@
 	}
     
  	dependencies {
-		implementation 'com.github.futianyi1994:MyLib:1.0.1'  
+		implementation 'com.github.futianyi1994:MyLib:1.0.2'  
 	}
