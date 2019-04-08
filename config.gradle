@@ -15,7 +15,7 @@ ext {
             dagger2SdkVersion       : "2.17",
             lifecycSdkleVersion     : "1.1.1",
             roomSdkleVersion        : "1.1.1",
-            mylibVersion            : "1.0.2"
+            mylibVersion            : "1.0.3"
     ]
     dependencies = [
             "androidJUnitRunner"                   : "android.support.test.runner.AndroidJUnitRunner",
