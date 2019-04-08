@@ -1,6 +1,7 @@
 package com.bracks.futia.mylib.net.download.breakpoint;
 
 import android.os.Environment;
+import android.text.TextUtils;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.bracks.futia.mylib.utils.log.TLog;
@@ -27,37 +28,91 @@ public class DownloadUtils {
     private static final String PNG_CONTENTTYPE = "image/png";
     private static final String JPG_CONTENTTYPE = "image/jpg";
     private static final String MP4_CONTENTTYPE = "video/mp4";
-    private static String fileName = "";
+    private static File mFile;
+    private static File mFileDir;
+    private static String mFileName = "";
+
+    /**
+     * 写入文件
+     *
+     * @param responseBody
+     * @param info
+     * @return
+     * @throws IOException
+     */
+    public static DownloadInfo writeCache(ResponseBody responseBody, DownloadInfo info) throws IOException {
+        return writeCache(responseBody, null, null, null, info);
+    }
+
+    /**
+     * 写入文件
+     *
+     * @param responseBody
+     * @param fileDir
+     * @param info
+     * @return
+     * @throws IOException
+     */
+    public static DownloadInfo writeCache(ResponseBody responseBody, File fileDir, DownloadInfo info) throws IOException {
+        return writeCache(responseBody, null, fileDir, null, info);
+    }
+
+    /**
+     * 写入文件
+     *
+     * @param responseBody
+     * @param fileName
+     * @param info
+     * @return
+     * @throws IOException
+     */
+    public static DownloadInfo writeCache(ResponseBody responseBody, String fileName, DownloadInfo info) throws IOException {
+        return writeCache(responseBody, null, null, fileName, info);
+    }
 
     /**
      * 写入文件
      *
      * @param responseBody
      * @param file
+     * @param fileDir
+     * @param fileName
      * @param info
      * @return
      * @throws IOException
      */
-    public static DownloadInfo writeCache(ResponseBody responseBody, File file, DownloadInfo info) throws IOException {
+    public static DownloadInfo writeCache(ResponseBody responseBody, File file, File fileDir, String fileName, DownloadInfo info) throws IOException {
         if (file == null) {
-            String type = responseBody.contentType().toString();
-            TLog.d(TAG, "contentType:>>>>" + type);
-            if (type.equals(APK_CONTENTTYPE)) {
-                fileName = FileUtils.getFileNameNoExtension(info.getUrl()) + ".apk";
-            } else if (type.equals(PNG_CONTENTTYPE)) {
-                fileName = FileUtils.getFileNameNoExtension(info.getUrl()) + ".png";
-            } else if (type.equals(JPG_CONTENTTYPE)) {
-                fileName = FileUtils.getFileNameNoExtension(info.getUrl()) + ".jpg";
-            } else if (type.equals(MP4_CONTENTTYPE)) {
-                fileName = FileUtils.getFileNameNoExtension(info.getUrl()) + ".mp4";
+            mFileDir = fileDir == null ? Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) : fileDir;
+            if (TextUtils.isEmpty(fileName)) {
+                String type = responseBody.contentType().toString();
+                TLog.d(TAG, "contentType:>>>>" + type);
+                switch (type) {
+                    case APK_CONTENTTYPE:
+                        mFileName = FileUtils.getFileNameNoExtension(info.getUrl()) + ".apk";
+                        break;
+                    case PNG_CONTENTTYPE:
+                        mFileName = FileUtils.getFileNameNoExtension(info.getUrl()) + ".png";
+                        break;
+                    case JPG_CONTENTTYPE:
+                        mFileName = FileUtils.getFileNameNoExtension(info.getUrl()) + ".jpg";
+                        break;
+                    case MP4_CONTENTTYPE:
+                        mFileName = FileUtils.getFileNameNoExtension(info.getUrl()) + ".mp4";
+                        break;
+                    default:
+                        mFileName = FileUtils.getFileName(info.getUrl());
+                        break;
+                }
             } else {
-                fileName = FileUtils.getFileName(info.getUrl());
+                mFileName = fileName;
             }
-            //设置默认保存路径
-            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-            info.setSavePath(file.getAbsolutePath());
+            mFile = new File(mFileDir, mFileName);
+        } else {
+            mFile = file;
         }
-        FileUtils.createOrExistsFile(file);
+        info.setSavePath(mFile.getAbsolutePath());
+        FileUtils.createOrExistsFile(mFile);
 
         long allLength;
         if (info.getContentLength() == 0) {
@@ -67,7 +122,7 @@ public class DownloadUtils {
         }
         FileChannel channelOut;
         RandomAccessFile randomAccessFile;
-        randomAccessFile = new RandomAccessFile(file, "rwd");
+        randomAccessFile = new RandomAccessFile(mFile, "rwd");
         channelOut = randomAccessFile.getChannel();
         MappedByteBuffer mappedBuffer = channelOut.map(FileChannel.MapMode.READ_WRITE, info.getReadLength(), allLength - info.getReadLength());
         byte[] buffer = new byte[1024 * 8];

@@ -11,15 +11,15 @@ import com.bracks.futia.mylib.utils.log.TLog;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.functions.Functions;
-import io.reactivex.observers.DefaultObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -38,7 +38,7 @@ public class DownloadManager {
     private DownloadInfo info;
     private ProgressListener progressListener;
     private File outFile;
-    private Disposable disposable;
+    private CompositeDisposable compositeDisposable;
     private static BaseService service;
 
     private static Retrofit retrofit;
@@ -48,6 +48,7 @@ public class DownloadManager {
      */
     private DownloadManager() {
         info = new DownloadInfo();
+        compositeDisposable = new CompositeDisposable();
     }
 
     /**
@@ -163,35 +164,30 @@ public class DownloadManager {
                     info.setContentLength(total);
                 }
                 info.setReadLength(progress);
-                Observable
-                        .just(1)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new DefaultObserver<Integer>() {
-                            @Override
-                            public void onNext(Integer integer) {
-                                if (progressListener != null) {
-                                    progressListener.onProgress(info.getReadLength(), info.getContentLength(), done);
-                                    int pro = (int) ((100 * info.getReadLength()) / info.getContentLength());
-                                    TLog.d("progress:", String.format("%d%% done\n", pro));
-                                }
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                ToastUtils.showLong("下载过程出错：%s", e.getMessage());
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                //此次完成只代表精度条走到100
-                            }
-                        });
+                compositeDisposable.add(
+                        Observable
+                                .just(1)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        integer -> {
+                                            if (progressListener != null) {
+                                                progressListener.onProgress(info.getReadLength(), info.getContentLength(), done);
+                                                int pro = (int) ((100 * info.getReadLength()) / info.getContentLength());
+                                                TLog.d("progress:", String.format(Locale.getDefault(), "%d%% done\n", pro));
+                                            }
+                                        }
+                                        , throwable -> ToastUtils.showLong("下载过程出错：%s", throwable.getMessage())
+                                        , () -> {
+                                            //此次完成只代表精度条走到100
+                                        }
+                                )
+                );
             });
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.connectTimeout(60, TimeUnit.SECONDS);
             builder.addInterceptor(interceptor);
 
-            synchronized (com.bracks.futia.mylib.net.download.DownloadManager.class) {
+            synchronized (DownloadManager.class) {
                 retrofit = new Retrofit
                         .Builder()
                         .client(builder.build())
@@ -254,18 +250,20 @@ public class DownloadManager {
      */
     private void download(Consumer<? super DownloadInfo> onNext, Consumer<? super Throwable> onError, Action onComplete) {
         info.setState(DownloadInfo.DOENLOADING);
-        disposable = service
-                .download("bytes=" + info.getReadLength() + "-", info.getUrl())
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .retryWhen(new RxRetryWithObservFunc())
-                .map(responseBody -> DownloadUtils.writeCache(responseBody, outFile, info))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        onNext == null ? Functions.emptyConsumer() : onNext
-                        , onError == null ? Functions.ON_ERROR_MISSING : onError
-                        , onComplete == null ? Functions.EMPTY_ACTION : onComplete
-                );
+        compositeDisposable.add(
+                service
+                        .download("bytes=" + info.getReadLength() + "-", info.getUrl())
+                        .subscribeOn(Schedulers.io())
+                        .unsubscribeOn(Schedulers.io())
+                        .retryWhen(new RxRetryWithObservFunc())
+                        .map(responseBody -> DownloadUtils.writeCache(responseBody, outFile, null, null, info))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                onNext == null ? Functions.emptyConsumer() : onNext
+                                , onError == null ? Functions.ON_ERROR_MISSING : onError
+                                , onComplete == null ? Functions.EMPTY_ACTION : onComplete
+                        )
+        );
     }
 
     /**
@@ -274,8 +272,8 @@ public class DownloadManager {
     public void pause() {
         if (info.getState() == DownloadInfo.DOENLOADING) {
             info.setState(DownloadInfo.PAUSE);
-            if (disposable != null && !disposable.isDisposed()) {
-                disposable.dispose();
+            if (compositeDisposable != null && !compositeDisposable.isDisposed()) {
+                compositeDisposable.clear();
             }
         }
     }
@@ -290,8 +288,8 @@ public class DownloadManager {
             info.setContentLength(0);
             info.setReadLength(0);
             info.setState(DownloadInfo.STOP);
-            if (disposable != null && !disposable.isDisposed()) {
-                disposable.dispose();
+            if (compositeDisposable != null && !compositeDisposable.isDisposed()) {
+                compositeDisposable.clear();
             }
         }
     }
@@ -301,6 +299,8 @@ public class DownloadManager {
      */
     public void reStart() {
         stop();
-        start(info.getUrl());
+        if (info.getUrl() != null) {
+            start(info.getUrl());
+        }
     }
 }
