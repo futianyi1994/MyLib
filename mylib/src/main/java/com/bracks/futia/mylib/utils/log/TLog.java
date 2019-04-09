@@ -18,9 +18,7 @@ public class TLog {
     }
 
     public static void d(String log) {
-        if (DEBUG) {
-            Log.d(LOG_TAG, log);
-        }
+        d(LOG_TAG, log);
     }
 
     public static void d(String tag, String log) {
@@ -29,10 +27,14 @@ public class TLog {
         }
     }
 
-    public static void e(String log) {
+    public static void d(String tag, String msg, Throwable throwable) {
         if (DEBUG) {
-            Log.e(LOG_TAG, "" + log);
+            Log.d(tag, msg, throwable);
         }
+    }
+
+    public static void e(String log) {
+        e(LOG_TAG, log);
     }
 
     public static void e(String tag, String log) {
@@ -41,10 +43,14 @@ public class TLog {
         }
     }
 
-    public static void i(String log) {
+    public static void e(String tag, String msg, Throwable throwable) {
         if (DEBUG) {
-            Log.i(LOG_TAG, log);
+            Log.e(tag, msg, throwable);
         }
+    }
+
+    public static void i(String log) {
+        i(LOG_TAG, log);
     }
 
     public static void i(String tag, String log) {
@@ -53,10 +59,14 @@ public class TLog {
         }
     }
 
-    public static void v(String log) {
+    public static void i(String tag, String msg, Throwable throwable) {
         if (DEBUG) {
-            Log.v(LOG_TAG, log);
+            Log.i(tag, msg, throwable);
         }
+    }
+
+    public static void v(String log) {
+        v(LOG_TAG, log);
     }
 
     public static void v(String tag, String log) {
@@ -65,15 +75,31 @@ public class TLog {
         }
     }
 
-    public static void w(String log) {
+    public static void v(String tag, String msg, Throwable throwable) {
         if (DEBUG) {
-            Log.w(LOG_TAG, log);
+            Log.v(tag, msg, throwable);
         }
+    }
+
+    public static void w(String log) {
+        w(LOG_TAG, log);
     }
 
     public static void w(String tag, String log) {
         if (DEBUG) {
             Log.w(tag, log);
+        }
+    }
+
+    public static void w(String tag, Throwable throwable) {
+        if (DEBUG) {
+            Log.w(tag, throwable);
+        }
+    }
+
+    public static void w(String tag, String msg, Throwable throwable) {
+        if (DEBUG) {
+            Log.w(tag, msg, throwable);
         }
     }
 

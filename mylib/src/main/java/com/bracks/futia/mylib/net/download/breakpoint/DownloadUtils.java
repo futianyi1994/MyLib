@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.UUID;
 
 import okhttp3.ResponseBody;
 
@@ -102,6 +103,10 @@ public class DownloadUtils {
                         break;
                     default:
                         mFileName = FileUtils.getFileName(info.getUrl());
+                        if (TextUtils.isEmpty(mFileName)) {
+                            //默认取一个文件名
+                            mFileName = UUID.randomUUID() + ".tmp";
+                        }
                         break;
                 }
             } else {
@@ -125,7 +130,7 @@ public class DownloadUtils {
         randomAccessFile = new RandomAccessFile(mFile, "rwd");
         channelOut = randomAccessFile.getChannel();
         MappedByteBuffer mappedBuffer = channelOut.map(FileChannel.MapMode.READ_WRITE, info.getReadLength(), allLength - info.getReadLength());
-        byte[] buffer = new byte[1024 * 8];
+        byte[] buffer = new byte[1024 << 2];
         int len;
         int record = 0;
         while ((len = responseBody.byteStream().read(buffer)) != -1) {
