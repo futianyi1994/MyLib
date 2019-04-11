@@ -292,6 +292,16 @@ public class SPUtils {
      * 获取int
      *
      * @param key
+     * @return
+     */
+    public static int getInt(String key) {
+        return getSp().getInt(key, 0);
+    }
+
+    /**
+     * 获取int
+     *
+     * @param key
      * @param defalut
      * @return
      */
@@ -303,11 +313,31 @@ public class SPUtils {
      * 获取Boolean
      *
      * @param key
+     * @return
+     */
+    public static boolean getBoolean(String key) {
+        return getSp().getBoolean(key, false);
+    }
+
+    /**
+     * 获取Boolean
+     *
+     * @param key
      * @param defalut
      * @return
      */
     public static boolean getBoolean(String key, boolean defalut) {
         return getSp().getBoolean(key, defalut);
+    }
+
+    /**
+     * 获取Long
+     *
+     * @param key
+     * @return
+     */
+    public static long getLong(String key) {
+        return getSp().getLong(key, 0L);
     }
 
     /**

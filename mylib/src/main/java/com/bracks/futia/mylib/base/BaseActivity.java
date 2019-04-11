@@ -3,9 +3,9 @@ package com.bracks.futia.mylib.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.bracks.futia.mylib.AppManager;
@@ -38,7 +38,7 @@ public abstract class BaseActivity extends RxAppActivity implements BaseViewInte
         super.onCreate(savedInstanceState);
         AppManager.getAppManager().addActivity(this);
         if (getLayoutId() != 0) {
-            setActivityBackground(R.color.common_item_gray_bg);
+            setBackgroundColor(R.color.common_item_gray_bg);
             setContentView(getLayoutId());
         }
         // 通过注解绑定控件
@@ -73,12 +73,19 @@ public abstract class BaseActivity extends RxAppActivity implements BaseViewInte
     }
 
     /**
-     * 设置背景
+     * 设置背景颜色
+     *
+     * @param color
      */
-    protected void setActivityBackground(@ColorRes int id) {
-        //getDecorView 获得window最顶层的View
-        View view = this.getWindow().getDecorView();
-        view.setBackgroundColor(ContextCompat.getColor(this, id));
+    protected void setBackgroundColor(@ColorRes int color) {
+        this.getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(this, color));
+    }
+
+    /**
+     * 设置背景资源
+     */
+    protected void setBackgroundResource(@DrawableRes int resid) {
+        this.getWindow().getDecorView().setBackgroundResource(resid);
     }
 
     /**
