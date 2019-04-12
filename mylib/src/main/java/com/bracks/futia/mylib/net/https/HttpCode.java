@@ -13,13 +13,13 @@ public class HttpCode {
     /**
      * 请求成功
      */
-    public static final int CODE_SUCCESS = 0;
+    public static final int CODE_SUCCESS = 200;
     /**
      * 过期
      */
-    public static final int CODE_EXPIRED = 20002;
+    public static final int CODE_EXPIRED = 20001;
     /**
      * 登陆重定向
      */
-    public static final int CODE_REDIRECT = -1001;
+    public static final int CODE_REDIRECT = 20002;
 }
