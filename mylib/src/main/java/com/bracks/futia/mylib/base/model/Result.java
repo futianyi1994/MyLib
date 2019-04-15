@@ -17,11 +17,11 @@ import java.io.Serializable;
  */
 public class Result<T> implements Serializable {
     @SerializedName("errorCode")
-    private int code;
+    protected int code;
     @SerializedName("errorMsg")
-    private String msg;
+    protected String msg;
     @SerializedName("error")
-    private boolean error = true;
+    protected boolean error = true;
 
 
     public boolean OK() {

@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode 107
-        versionName "1.0.7"
+        versionCode 108
+        versionName "1.0.8"
         testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
     }
     buildTypes {
@@ -97,62 +97,77 @@ dependencies {
     //PersistentCookieJar for OkHttp 3
     api rootProject.ext.dependencies["persistent-cookiejar"]
 
-    //Dragger2
-    //api rootProject.ext.dependencies["dagger"]
-    //api rootProject.ext.dependencies["dagger-android"]
-    //api rootProject.ext.dependencies["dagger-android-support"]
-    //需要在App的build.gradle中添加，这里添加无效
-    //annotationProcessor rootProject.ext.dependencies["dagger-compiler"]
-    //需要在App的build.gradle中添加，这里添加无效
-    //annotationProcessor rootProject.ext.dependencies["dagger-android-processor"]
-
-    //Lifecycle
-    api rootProject.ext.dependencies["lifecycle"]
-    //需要在App的build.gradle中添加，这里添加无效
+    //Lifecycles：ViewModel and LiveData
+    api rootProject.ext.dependencies["lifecycle-extensions"]
+    //Lifecycles： Only (no ViewModel or LiveData)
+    //api rootProject.ext.dependencies["lifecycle-runtime"]
+    //Lifecycles：Just ViewModel
+    //api rootProject.ext.dependencies["lifecycle-viewmodel"]
+    //Lifecycles:：Just LiveData
+    //api rootProject.ext.dependencies["lifecycle-livedata"]
+    //Lifecycles：Java8 support Alternately lifecycle-compiler
+    api rootProject.ext.dependencies["lifecycle-common-java8"]
+    //需要在App的build.gradle中添加，这里添加无效(使用Java8时可以用lifecycle-common-java8代替)
     //annotationProcessor rootProject.ext.dependencies["lifecycle-compiler"]
-
-    //Room
-    api rootProject.ext.dependencies["room"]
-    //需要在App的build.gradle中添加，这里添加无效
-    //annotationProcessor rootProject.ext.dependencies["room-compiler"]
 
     //Butterknife
     api rootProject.ext.dependencies["butterknife"]
     //需要在App的build.gradle中添加，这里添加无效
     //annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
 
-    //glide
-    api rootProject.ext.dependencies["glide"]
-    api rootProject.ext.dependencies["glide-transformations"]
-    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
-
-    //SmartRefreshLayout
-    api rootProject.ext.dependencies["smartrefreshlayout"]
-    //没有使用特殊Header，可以不加这行
-    //api rootProject.ext.dependencies["smartrefreshheader"]
-
     //Fragmentation
     api rootProject.ext.dependencies["fragmentation"]
     api rootProject.ext.dependencies["fragmentation-swipeback"]
+    //Activity作用域的EventBus，更安全，可有效避免after onSavenInstanceState()异常(需添加Evenbus)
+    //api rootProject.ext.dependencies["fragmentation-eventbus"]
 
     //Gson
     api rootProject.ext.dependencies["gson"]
-    //Bottom-navigation-bar
-    api rootProject.ext.dependencies["bottom-navigation-bar"]
     //Multidex
     api rootProject.ext.dependencies["multidex"]
-    //Logger
-    //api rootProject.ext.dependencies["logger"]
-    //AndPermission
-    //api rootProject.ext.dependencies["andpermission"]
-    //RxPermissions
-    api rootProject.ext.dependencies["rxpermissions"]
-    //Immersionbar
-    api rootProject.ext.dependencies["immersionbar"]
-    //Guava
-    api rootProject.ext.dependencies["guava"]
     //Utilcode
     api rootProject.ext.dependencies["utilcode"]
+    //RxPermissions
+    api rootProject.ext.dependencies["rxpermissions"]
+    //Retrofit-url-manager
+    api rootProject.ext.dependencies["retrofit-url-manager"]
+
+    /***********************************以下根据需求添加**************************************/
+
+    //Dragger2
+    //compileOnly rootProject.ext.dependencies["dagger"]
+    //compileOnly rootProject.ext.dependencies["dagger-android"]
+    //compileOnly rootProject.ext.dependencies["dagger-android-support"]
+    //需要在App的build.gradle中添加，这里添加无效
+    //annotationProcessor rootProject.ext.dependencies["dagger-compiler"]
+    //需要在App的build.gradle中添加，这里添加无效
+    //annotationProcessor rootProject.ext.dependencies["dagger-android-processor"]
+
+    //Room
+    compileOnly rootProject.ext.dependencies["room"]
+    //需要在App的build.gradle中添加，这里添加无效
+    //annotationProcessor rootProject.ext.dependencies["room-compiler"]
+
+    //Glide
+    compileOnly rootProject.ext.dependencies["glide"]
+    compileOnly rootProject.ext.dependencies["glide-transformations"]
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+
+    //SmartRefreshLayout
+    compileOnly rootProject.ext.dependencies["smartrefreshlayout"]
+    //没有使用特殊Header，可以不加这行
+    //compileOnly rootProject.ext.dependencies["smartrefreshheader"]
+
+    //Bottom-navigation-bar
+    compileOnly rootProject.ext.dependencies["bottom-navigation-bar"]
+    //Guava
+    compileOnly rootProject.ext.dependencies["guava"]
+    //Logger
+    compileOnly rootProject.ext.dependencies["logger"]
+    //AndPermission
+    compileOnly rootProject.ext.dependencies["andpermission"]
+    //Immersionbar
+    compileOnly rootProject.ext.dependencies["immersionbar"]
 }
 
 /**

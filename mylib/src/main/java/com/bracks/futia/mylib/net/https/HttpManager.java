@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.Cache;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
@@ -114,7 +115,7 @@ public class HttpManager {
         if (retrofiitBuilder == null) {
             synchronized (HttpManager.class) {
                 //多域名时使用：me.jessyan:retrofit-url-manager:1.4.0
-                /*OkHttpClient okHttpClient = RetrofitUrlManager
+                OkHttpClient okHttpClient = RetrofitUrlManager
                         .getInstance()
                         .with(getOkHttpClientBuilder(true))
                         .build();
@@ -122,12 +123,14 @@ public class HttpManager {
                         .client(okHttpClient)
                         .baseUrl(baseUrl)
                         .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create());*/
-                retrofiitBuilder = new Retrofit.Builder()
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
+                //不使用多域名
+                /*retrofiitBuilder = new Retrofit.Builder()
                         .client(getOkHttpClientBuilder(true).build())
                         .baseUrl(baseUrl)
                         .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create());*/
             }
         }
         return retrofiitBuilder;
