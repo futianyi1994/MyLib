@@ -1,7 +1,6 @@
 # MyLib
 [![](https://jitpack.io/v/futianyi1994/MyLib.svg)](https://jitpack.io/#futianyi1994/MyLib)
 
-
 ## Download
 
 
@@ -13,5 +12,5 @@
 	}
     
  	dependencies {
-		implementation 'com.github.futianyi1994:MyLib:1.0.6'  
+		implementation 'com.github.futianyi1994:MyLib:1.0.7'  
 	}
