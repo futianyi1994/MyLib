@@ -70,6 +70,7 @@ ext {
             "lifecycle-common-java8"               : "android.arch.lifecycle:common-java8:${android["lifecycSdkleVersion"]}",
             "lifecycle-compiler"                   : "android.arch.lifecycle:compiler:${android["lifecycSdkleVersion"]}",
             "room"                                 : "android.arch.persistence.room:runtime:${android["roomSdkleVersion"]}",
+            "room-rxjava2"                         : "android.arch.persistence.room:rxjava2:${android["roomSdkleVersion"]}",
             "room-compiler"                        : "android.arch.persistence.room:compiler:${android["roomSdkleVersion"]}",
 
             "smartrefreshlayout"                   : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21",

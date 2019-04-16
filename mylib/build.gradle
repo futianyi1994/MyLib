@@ -145,6 +145,8 @@ dependencies {
 
     //Room
     compileOnly rootProject.ext.dependencies["room"]
+    //Room for Support Rxjava2
+    compileOnly rootProject.ext.dependencies["room-rxjava2"]
     //需要在App的build.gradle中添加，这里添加无效
     //annotationProcessor rootProject.ext.dependencies["room-compiler"]
 
