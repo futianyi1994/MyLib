@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,16 @@ import com.bracks.futia.mylib.R;
  * @description :  使用方法： DialogUtils.createLoadingDialog(getActivity(), "玩命加载中。。。",false).show();
  */
 public class DialogUtils {
+
+    private static Dialog loadingDialog;
+
+    public interface AfterShowListener {
+        /**
+         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
+         */
+        void onAfterShow();
+    }
+
     /**
      * 得到简单自定义的progressDialog（图片加文字）
      *
@@ -52,7 +63,7 @@ public class DialogUtils {
          * <item name="android:windowContentOverlay">@null</item>
          * </style>
          */
-        Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);
+        loadingDialog = new Dialog(context, R.style.loading_dialog);
         // 不可以用“返回键”取消
         loadingDialog.setCancelable(isCancelable);
         // 设置布局
@@ -67,6 +78,23 @@ public class DialogUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
+     *
+     * @param listener
+     */
+    public static void showWithoutFocus(AfterShowListener listener) {
+        if (listener != null) {
+            //Dialog 在初始化时会生成新的 Window，先禁止 Dialog Window 获取焦点，
+            //等Dialog显示后对DialogWindow的DecorView设置setSystemUiVisibility，接着再获取焦点。这样表面上看起来就没有退出沉浸模式。
+            loadingDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+            loadingDialog.show();
+            listener.onAfterShow();
+            //Clear the not focusable flag from the window
+            loadingDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         }
     }
 

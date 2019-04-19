@@ -47,7 +47,7 @@ public class CustomPopupWindow extends PopupWindow {
 
     public interface AfterShowListener {
         /**
-         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点
+         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(popupWindow.getContentView())
          */
         void onAfterShow();
     }
@@ -146,7 +146,7 @@ public class CustomPopupWindow extends PopupWindow {
     }
 
     /**
-     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点
+     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(popupWindow.getContentView())
      *
      * @param anchor
      * @param listener
@@ -157,7 +157,7 @@ public class CustomPopupWindow extends PopupWindow {
 
 
     /**
-     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点
+     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(popupWindow.getContentView())
      *
      * @param anchor
      * @param xoff
@@ -168,13 +168,15 @@ public class CustomPopupWindow extends PopupWindow {
         setFocusable(false);
         update();
         super.showAsDropDown(anchor, xoff, yoff);
-        listener.onAfterShow();
+        if (listener != null) {
+            listener.onAfterShow();
+        }
         setFocusable(true);
         update();
     }
 
     /**
-     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点
+     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(popupWindow.getContentView())
      *
      * @param anchor
      * @param xoff
@@ -187,7 +189,29 @@ public class CustomPopupWindow extends PopupWindow {
         setFocusable(false);
         update();
         super.showAsDropDown(anchor, xoff, yoff, gravity);
-        listener.onAfterShow();
+        if (listener != null) {
+            listener.onAfterShow();
+        }
+        setFocusable(true);
+        update();
+    }
+
+    /**
+     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(popupWindow.getContentView())
+     *
+     * @param parent
+     * @param gravity
+     * @param x
+     * @param y
+     * @param listener
+     */
+    public void showAtLocation(View parent, int gravity, int x, int y, AfterShowListener listener) {
+        setFocusable(false);
+        update();
+        super.showAtLocation(parent, gravity, x, y);
+        if (listener != null) {
+            listener.onAfterShow();
+        }
         setFocusable(true);
         update();
     }
