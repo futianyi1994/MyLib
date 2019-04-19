@@ -3,6 +3,7 @@ package com.bracks.futia.mylib.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 
 /**
@@ -40,6 +43,13 @@ public class CustomPopupWindow extends PopupWindow {
          * Timer结束时的回调
          */
         void onFinish();
+    }
+
+    public interface AfterShowListener {
+        /**
+         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点
+         */
+        void onAfterShow();
     }
 
     public interface ViewInterface {
@@ -133,6 +143,53 @@ public class CustomPopupWindow extends PopupWindow {
     @Override
     public int getHeight() {
         return controller.mPopupView.getMeasuredHeight();
+    }
+
+    /**
+     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点
+     *
+     * @param anchor
+     * @param listener
+     */
+    public void showAsDropDown(View anchor, AfterShowListener listener) {
+        showAsDropDown(anchor, 0, 0, listener);
+    }
+
+
+    /**
+     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点
+     *
+     * @param anchor
+     * @param xoff
+     * @param yoff
+     * @param listener
+     */
+    public void showAsDropDown(View anchor, int xoff, int yoff, AfterShowListener listener) {
+        setFocusable(false);
+        update();
+        super.showAsDropDown(anchor, xoff, yoff);
+        listener.onAfterShow();
+        setFocusable(true);
+        update();
+    }
+
+    /**
+     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点
+     *
+     * @param anchor
+     * @param xoff
+     * @param yoff
+     * @param gravity
+     * @param listener
+     */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void showAsDropDown(View anchor, int xoff, int yoff, int gravity, AfterShowListener listener) {
+        setFocusable(false);
+        update();
+        super.showAsDropDown(anchor, xoff, yoff, gravity);
+        listener.onAfterShow();
+        setFocusable(true);
+        update();
     }
 
     @Override
@@ -447,8 +504,8 @@ public class CustomPopupWindow extends PopupWindow {
 
             private boolean touchable = true;
             private boolean focusable;
-            private boolean outsideTouchable;
-            private boolean clippingEnabled;
+            private boolean outsideTouchable = false;
+            private boolean clippingEnabled = true;
 
             public PopupParams(Context mContext) {
                 this.mContext = mContext;
