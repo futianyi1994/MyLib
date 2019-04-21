@@ -51,12 +51,24 @@ public abstract class BaseRemoteDataSource implements BaseDataSource {
     }
 
     protected <T> void execute(Observable<? extends Result<T>> observable, Observer<T> observer, boolean isShow, boolean isDismiss) {
-        Observable<T> compose = observable
+        Observable<? extends Result<T>> observe = observable
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(applySchedulers());
+                .observeOn(AndroidSchedulers.mainThread());
+        Observable<T> compose;
+        if (baseViewModel.lifecycleActProvider != null) {
+            compose = observe
+                    .compose(baseViewModel.lifecycleActProvider.bindToLifecycle())
+                    .compose(applySchedulers());
+        } else if (baseViewModel.lifecycleFragProvider != null) {
+            compose = observe
+                    .compose(baseViewModel.lifecycleFragProvider.bindToLifecycle())
+                    .compose(applySchedulers());
+        } else {
+            compose = observe
+                    .compose(applySchedulers());
+        }
         addDisposable(
                 isShow
                         ?
