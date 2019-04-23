@@ -27,6 +27,7 @@ import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.Cache;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -57,7 +58,7 @@ public class HttpManager {
         return cookieJar.loadForRequest(HttpUrl.parse(url));
     }
 
-    public static OkHttpClient.Builder getOkHttpClientBuilder(boolean isResponseParamInterceptor) {
+    public static OkHttpClient.Builder getOkHttpClientBuilder() {
 
         HttpLoggingInterceptor loggingInterceptor = HttpLogInterceptor.get();
         HttpCacheInterceptor httpCacheInterceptor = new HttpCacheInterceptor();
@@ -93,6 +94,7 @@ public class HttpManager {
                         .addNetworkInterceptor(httpCacheInterceptor)
                         //.addInterceptor(headerInterceptor)
                         //.addInterceptor(requestParamInterceptor)
+                        //.addInterceptor(responseParamInterceptor);
                         //.addInterceptor(postAndGetFieldIntercepter)
                         //.addInterceptor(receivedCookiesInterceptor)
                         //.addInterceptor(appendUrlParamIntercepter)
@@ -101,10 +103,6 @@ public class HttpManager {
                         //日志拦截器放最后（可以打印更多更准确信息）
                         .addInterceptor(loggingInterceptor)
                 ;
-
-                if (isResponseParamInterceptor) {
-                    okHttpClientBuilder.addInterceptor(responseParamInterceptor);
-                }
             }
         }
         return okHttpClientBuilder;
@@ -112,12 +110,16 @@ public class HttpManager {
 
 
     public static Retrofit.Builder getRetrofitBuilder(String baseUrl) {
+        return getRetrofitBuilder(baseUrl, getOkHttpClientBuilder());
+    }
+
+    public static Retrofit.Builder getRetrofitBuilder(String baseUrl, OkHttpClient.Builder builder) {
         if (retrofiitBuilder == null) {
             synchronized (HttpManager.class) {
                 //多域名时使用：me.jessyan:retrofit-url-manager:1.4.0
                 OkHttpClient okHttpClient = RetrofitUrlManager
                         .getInstance()
-                        .with(getOkHttpClientBuilder(true))
+                        .with(builder)
                         .build();
                 retrofiitBuilder = new Retrofit.Builder()
                         .client(okHttpClient)
@@ -137,9 +139,22 @@ public class HttpManager {
     }
 
     public static <T> T getApiService(Class<T> cls, String baseUrl) {
+        return getApiService(cls, baseUrl, getOkHttpClientBuilder());
+    }
+
+    public static <T> T getApiService(Class<T> cls, String baseUrl, OkHttpClient.Builder builder) {
         if (retrofit == null) {
             synchronized (HttpManager.class) {
-                retrofit = getRetrofitBuilder(baseUrl).build();
+                retrofit = getRetrofitBuilder(baseUrl, builder).build();
+            }
+        }
+        return retrofit.create(cls);
+    }
+
+    public static <T> T getApiService(Class<T> cls, String baseUrl, Interceptor interceptor) {
+        if (retrofit == null) {
+            synchronized (HttpManager.class) {
+                retrofit = getRetrofitBuilder(baseUrl, getOkHttpClientBuilder().addInterceptor(interceptor)).build();
             }
         }
         return retrofit.create(cls);
