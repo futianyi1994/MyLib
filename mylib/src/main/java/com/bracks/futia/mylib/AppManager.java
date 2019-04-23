@@ -21,10 +21,12 @@ import java.util.Stack;
  */
 public class AppManager {
 
+    private static final String TAG = "AppManager";
     private static Stack<Activity> activityStack;
     private static AppManager instance;
 
-    private AppManager() {}
+    private AppManager() {
+    }
 
     /**
      * 单一实例
@@ -67,7 +69,7 @@ public class AppManager {
      */
     public void finishActivity(int enterAnim, int exitAnim) {
         Activity activity = activityStack.lastElement();
-        finishActivity(activity,enterAnim,exitAnim);
+        finishActivity(activity, enterAnim, exitAnim);
     }
 
 
@@ -86,10 +88,10 @@ public class AppManager {
     /**
      * 结束指定类名的Activity,带有动画
      */
-    public void finishActivity(Class<?> cls,int enterAnim, int exitAnim) {
+    public void finishActivity(Class<?> cls, int enterAnim, int exitAnim) {
         for (Activity activity : activityStack) {
             if (activity.getClass().equals(cls)) {
-                finishActivity(activity,enterAnim,exitAnim);
+                finishActivity(activity, enterAnim, exitAnim);
                 break;
             }
         }
@@ -109,7 +111,7 @@ public class AppManager {
     /**
      * 结束指定的Activity,带有动画
      */
-    public void finishActivity(Activity activity,int enterAnim, int exitAnim) {
+    public void finishActivity(Activity activity, int enterAnim, int exitAnim) {
         if (activity != null && !activity.isFinishing()) {
             activityStack.remove(activity);
             activity.finish();
@@ -124,14 +126,14 @@ public class AppManager {
     public void finishAllActivity() {
         for (int i = 0, size = activityStack.size(); i < size; i++) {
             if (null != activityStack.get(i)) {
-              //finishActivity方法中的activity.isFinishing()方法会导致某些activity无法销毁
-              //貌似跳转的时候最后一个activity 是finishing状态，所以没有执行
-              //内部实现不是很清楚，但是实测结果如此，使用下面代码则没有问题
-              // find by TopJohn
-              //finishActivity(activityStack.get(i));
+                //finishActivity方法中的activity.isFinishing()方法会导致某些activity无法销毁
+                //貌似跳转的时候最后一个activity 是finishing状态，所以没有执行
+                //内部实现不是很清楚，但是实测结果如此，使用下面代码则没有问题
+                // find by TopJohn
+                //finishActivity(activityStack.get(i));
 
-              activityStack.get(i).finish();
-              //break;
+                activityStack.get(i).finish();
+                //break;
             }
         }
         activityStack.clear();
@@ -143,7 +145,7 @@ public class AppManager {
      * @author kymjs
      */
     public Activity getActivity(Class<?> cls) {
-        if (activityStack != null){
+        if (activityStack != null) {
             for (Activity activity : activityStack) {
                 if (activity.getClass().equals(cls)) {
                     return activity;
@@ -171,11 +173,12 @@ public class AppManager {
      * 双击退出函数
      */
     private Boolean isExit = false;
+
     public void exitBy2Click(Context context) {
-        if (!isExit){
+        if (!isExit) {
             isExit = true;
             // 准备退出
-            Toast.makeText(context,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "再按一次退出程序", Toast.LENGTH_SHORT).show();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -183,14 +186,15 @@ public class AppManager {
                     // 取消退出 .如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
                     isExit = false;
                 }
-            },2000);
-        }else {
+            }, 2000);
+        } else {
             appExit();
         }
     }
 
     /**
      * 当前应用处于前台还是后台
+     *
      * @param context
      * @return
      */
@@ -200,10 +204,10 @@ public class AppManager {
         for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
             if (appProcess.processName.equals(context.getPackageName())) {
                 if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
-                    TLog.i("后台", appProcess.processName);
+                    TLog.i(TAG, "后台：" + appProcess.processName);
                     return true;
-                }else{
-                    TLog.i("前台", appProcess.processName);
+                } else {
+                    TLog.i(TAG, "前台：" + appProcess.processName);
                     return false;
                 }
             }

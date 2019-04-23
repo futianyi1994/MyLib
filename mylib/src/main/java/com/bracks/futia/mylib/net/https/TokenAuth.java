@@ -21,6 +21,7 @@ import okhttp3.Route;
  */
 
 public class TokenAuth implements Authenticator {
+    private static final String TAG = "TokenAuth";
     private boolean isLoginSyn;
 
     @Override
@@ -29,11 +30,11 @@ public class TokenAuth implements Authenticator {
         Request oriRequest = response.request();
 
         String oriUrl = oriRequest.url().toString();
-        TLog.i("url = " + oriUrl);
+        TLog.i(TAG, "url = " + oriUrl);
 
         //重新调用登陆接口获取token是否成功
         if (isLoginSyn) {
-            TLog.i("Authenticating for response: " + response);
+            TLog.i(TAG, "authenticating for response: " + response);
             String token = "";
             HttpUrl.Builder authorizedUrlBuilder = oriRequest.url()
                     .newBuilder()

@@ -173,7 +173,7 @@ public class DownloadManager {
                                             if (progressListener != null) {
                                                 progressListener.onProgress(info.getReadLength(), info.getContentLength(), done);
                                                 int pro = (int) ((100 * info.getReadLength()) / info.getContentLength());
-                                                TLog.d("progress:", String.format(Locale.getDefault(), "%d%% done\n", pro));
+                                                TLog.d(TAG, "progress:" + String.format(Locale.getDefault(), "%d%% done\n", pro));
                                             }
                                         }
                                         , throwable -> ToastUtils.showLong("下载过程出错：%s", throwable.getMessage())

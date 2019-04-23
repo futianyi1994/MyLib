@@ -41,7 +41,7 @@ public abstract class MBaseRecyclerViewAdapter<ENTITY> extends RecyclerView.Adap
         if (data != null) {
             this.data.addAll(data);
         } else {
-            TLog.e("data is null or empty");
+            TLog.e(TAG, "data is null or empty");
         }
         notifyDataSetChanged();
     }

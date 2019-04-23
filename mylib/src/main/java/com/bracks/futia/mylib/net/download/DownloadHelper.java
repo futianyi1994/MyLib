@@ -6,6 +6,8 @@ import com.bracks.futia.mylib.net.https.ProgressListener;
 import com.bracks.futia.mylib.net.interceptor.DownloadInterceptor;
 import com.bracks.futia.mylib.utils.log.TLog;
 
+import java.util.Locale;
+
 import io.reactivex.Maybe;
 import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -22,6 +24,9 @@ import okhttp3.OkHttpClient;
  */
 @Deprecated
 public class DownloadHelper {
+
+    private static final String TAG = "DownloadHelper";
+
     /**
      * 包装OkHttpClient，用于下载文件的回调
      *
@@ -40,7 +45,7 @@ public class DownloadHelper {
                         .create((MaybeOnSubscribe<ProgressBean>) emitter -> {
                             try {
                                 int pro = (int) ((100 * progress) / total);
-                                TLog.d("progress:", String.format("%d%% done\n", pro));
+                                TLog.d(TAG, "progress:" + String.format(Locale.getDefault(), "%d%% done\n", pro));
                                 ProgressBean progressBean = new ProgressBean();
                                 progressBean.setTitle("Download...");
                                 progressBean.setBytesRead(progress);

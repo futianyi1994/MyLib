@@ -50,7 +50,7 @@ public class BasePresenter<V extends BaseView> {
      * @param savedState 被意外销毁后重建后的Bundle
      */
     public void onCreatePersenter(@Nullable Bundle savedState) {
-        TLog.i(TAG, "P onCreatePersenter = ");
+        TLog.i(TAG, "P onCreatePersenter");
     }
 
 
@@ -58,7 +58,7 @@ public class BasePresenter<V extends BaseView> {
      * Presenter被销毁时调用
      */
     public void onDestroyPersenter() {
-        TLog.i(TAG, "P onDestroyPersenter = ");
+        TLog.i(TAG, "P onDestroyPersenter");
     }
 
     /**
@@ -68,7 +68,7 @@ public class BasePresenter<V extends BaseView> {
      * @param outState
      */
     public void onSaveInstanceState(Bundle outState) {
-        TLog.i(TAG, "P onSaveInstanceState = ");
+        TLog.i(TAG, "P onSaveInstanceState");
     }
 
     /**

@@ -77,7 +77,6 @@ public class PresenterProxyImpl<V extends BaseView, P extends BasePresenter<V>> 
      */
     @Override
     public P getPresenter() {
-        TLog.i(TAG, "Proxy getPresenter");
         if (mFactory != null) {
             if (mPresenter == null) {
                 mPresenter = mFactory.createPresenter();
@@ -108,7 +107,7 @@ public class PresenterProxyImpl<V extends BaseView, P extends BasePresenter<V>> 
      * 销毁Presenter
      */
     public void onDestroy() {
-        TLog.i(TAG, "Proxy onDestroy = ");
+        TLog.i(TAG, "Proxy onDestroy");
         if (mPresenter != null && mIsAttchView) {
             mPresenter.onDetachView();
             mIsAttchView = false;
@@ -123,7 +122,7 @@ public class PresenterProxyImpl<V extends BaseView, P extends BasePresenter<V>> 
      * @return Bundle，存入回调给Presenter的Bundle和当前Presenter的id
      */
     public Bundle onSaveInstanceState() {
-        TLog.i(TAG, "Proxy onSaveInstanceState = ");
+        TLog.i(TAG, "Proxy onSaveInstanceState");
         getPresenter();
         Bundle bundle = new Bundle();
         Bundle presenterBundle = new Bundle();
