@@ -29,7 +29,23 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    //自动追加版本号和版本名称
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                if (buildType.name == 'release') {
+                    outputFileName = "MyLib" + "_v" + defaultConfig.versionName + "_" + releaseTime() + ".apk"
+                }
+            }
+    }
 }
+
+//得到打包时间
+def static releaseTime() {
+    return new Date().format("yyyy-MM-dd")
+}
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
