@@ -18,12 +18,4 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <!-- 加载滚动条样式 -->
-    <style name="loading">
-        <item name="android:indeterminate">true</item>
-        <item name="android:indeterminateDrawable">@drawable/common_empty_loading</item>
-        <item name="android:indeterminateDuration">1000</item>
-        <item name="android:indeterminateOnly">true</item>
-    </style>
-
 </resources>

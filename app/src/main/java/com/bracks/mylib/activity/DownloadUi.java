@@ -1,4 +1,4 @@
-package com.bracks.mylib;
+package com.bracks.mylib.activity;
 
 import android.view.View;
 import android.widget.Button;
@@ -7,11 +7,12 @@ import android.widget.ProgressBar;
 import com.bracks.futia.mylib.base.BaseActivity;
 import com.bracks.futia.mylib.net.download.breakpoint.DownloadManager;
 import com.bracks.futia.mylib.net.https.ProgressListener;
+import com.bracks.mylib.R;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class DownloadUi extends BaseActivity {
 
 
     @BindView(R.id.btnStartDownload)
@@ -31,6 +32,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isTransparencyBar() {
+        return false;
+    }
+
+    @Override
     public void initData() {
         downloadManager = DownloadManager.getInstance();
         downloadManager.setProgressListener(new ProgressListener() {
@@ -46,11 +52,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
 
-    }
 
-    @Override
-    protected boolean isTransparencyBar() {
-        return false;
     }
 
     @OnClick({R.id.btnStartDownload, R.id.btnContinueDownload})

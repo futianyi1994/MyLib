@@ -29,9 +29,15 @@ import java.lang.annotation.RetentionPolicy;
  * @author: futia
  * @email : futianyi1994@126.com
  * @description : AlertDialog对话框辅助类
+ * <p>Example:
+ * <pre><code>
+ * new CustomAlertDialog
+ *                 .Builder(this)
+ *                 .creatDefaultDialog()
+ *                 .setAfterShowListener(dialog -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()))
+ *                 .build();
+ * </code></pre>
  */
-
-
 public class CustomAlertDialog extends AlertDialog {
     /**
      * 没有任何布局
@@ -55,10 +61,10 @@ public class CustomAlertDialog extends AlertDialog {
     public static final int CUSTOM_DIALOG1 = 3;
     public static final int CUSTOM_DIALOG2 = 4;
 
-    @IntDef({DEFAULT_PROMPT1, EMPTY_VIEW, DEFAULT_DIALOG, DEFAULT_PROMPT2})
+    @IntDef({EMPTY_VIEW, DEFAULT_PROMPT1, DEFAULT_PROMPT2, DEFAULT_DIALOG, CUSTOM_DIALOG1, CUSTOM_DIALOG2})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ViewStyle {
-        public int style() default DEFAULT_PROMPT1;
+        int style() default DEFAULT_PROMPT1;
 
     }
 
@@ -68,8 +74,6 @@ public class CustomAlertDialog extends AlertDialog {
     private String positiveButtonText;
     private String negativeButtonText;
     private String neutralButtonText;
-    private @StyleRes
-    int themeResId;
     private View contentView;
     private View view;
     private @ViewStyle
@@ -79,6 +83,7 @@ public class CustomAlertDialog extends AlertDialog {
     private int height;
     private int width;
     private long delayMillis;
+    private AfterShowListener afterShowListener = null;
     private PostDelayListener postDelayListener = null;
     private OnClickListener positiveButtonClickListener = null;
     private OnClickListener negativeButtonClickListener = null;
@@ -86,10 +91,19 @@ public class CustomAlertDialog extends AlertDialog {
     private View.OnClickListener positiveClickListener = null;
     private View.OnClickListener negativeClickListener = null;
 
-    private AlertDialog dialog;
 
     public interface PostDelayListener {
+        /**
+         * 设置延迟消失
+         */
         void delay();
+    }
+
+    public interface AfterShowListener {
+        /**
+         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
+         */
+        void onAfterShow(CustomAlertDialog dialog);
     }
 
     private CustomAlertDialog(@NonNull Context context) {
@@ -114,7 +128,6 @@ public class CustomAlertDialog extends AlertDialog {
         this.positiveButtonText = builder.positiveButtonText;
         this.negativeButtonText = builder.negativeButtonText;
         this.neutralButtonText = builder.neutralButtonText;
-        this.themeResId = builder.themeResId;
         this.contentView = builder.contentView;
         this.view = builder.view;
         this.viewStyle = builder.viewStyle;
@@ -123,27 +136,27 @@ public class CustomAlertDialog extends AlertDialog {
         this.width = builder.width;
         this.height = builder.height;
         this.delayMillis = builder.delayMillis;
+        this.afterShowListener = builder.afterShowListener;
         this.postDelayListener = builder.postDelayListener;
         this.positiveButtonClickListener = builder.positiveButtonClickListener;
         this.negativeButtonClickListener = builder.negativeButtonClickListener;
         this.neutralButtonClickListener = builder.neutralButtonClickListener;
         this.positiveClickListener = builder.positiveClickListener;
         this.negativeClickListener = builder.negativeClickListener;
-        getDialog(themeResId);
 
         //设置显示Dialog
         switch (this.viewStyle) {
             case EMPTY_VIEW:
-                setDialogView(DEFAULT_PROMPT1);
+                setDefaultDialogView(DEFAULT_PROMPT1);
                 break;
             case DEFAULT_PROMPT1:
-                setDialogView(DEFAULT_PROMPT1);
+                setDefaultDialogView(DEFAULT_PROMPT1);
                 break;
             case DEFAULT_PROMPT2:
-                setDialogView(DEFAULT_PROMPT2);
+                setDefaultDialogView(DEFAULT_PROMPT2);
                 break;
             case DEFAULT_DIALOG:
-                setDialogView(DEFAULT_DIALOG);
+                setDefaultDialogView(DEFAULT_DIALOG);
                 break;
             case CUSTOM_DIALOG1:
                 //setContentView要在设置宽高之前否则宽高设置无效
@@ -178,97 +191,120 @@ public class CustomAlertDialog extends AlertDialog {
     }
 
     /**
-     * 设置Dialog的布局样式
+     * 设置默认的Dialog的布局样式
+     *
+     * @param viewStyle
      */
-    private void setDialogView(@ViewStyle int viewStyle) {
-        View view = null;
+    private void setDefaultDialogView(@ViewStyle int viewStyle) {
+        View view;
         TextView tvTitle;
         TextView tvMessage;
         ImageView image;
         switch (viewStyle) {
             case DEFAULT_PROMPT1:
-                view = View.inflate(context, R.layout.custom_dialog_default_prompt, null);
-                tvMessage = (TextView) view.findViewById(R.id.tv_message);
-                image = (ImageView) view.findViewById(R.id.iv_image);
-                tvMessage.setText(message);
-                if (tipResId != 0) {
-                    image.setBackgroundResource(tipResId);
+                view = View.inflate(this.context, R.layout.custom_dialog_default_prompt, null);
+                tvMessage = view.findViewById(R.id.tv_message);
+                image = view.findViewById(R.id.iv_image);
+                tvMessage.setText(this.message);
+                if (this.tipResId != 0) {
+                    image.setBackgroundResource(this.tipResId);
                 }
                 setCustomView(view);
                 break;
             case DEFAULT_PROMPT2:
-                view = View.inflate(context, R.layout.common_dialog_layout, null);
-                tvTitle = (TextView) view.findViewById(R.id.title);
-                tvMessage = (TextView) view.findViewById(R.id.message);
-                Button positiveButton = (Button) view.findViewById(R.id.positiveButton);
-                Button negativeButton = (Button) view.findViewById(R.id.negativeButton);
-                tvTitle.setText(title);
-                tvMessage.setText(message);
-                if (TextUtils.isEmpty(message)) {
+                view = View.inflate(this.context, R.layout.common_dialog_layout, null);
+                tvTitle = view.findViewById(R.id.title);
+                tvMessage = view.findViewById(R.id.message);
+                Button positiveButton = view.findViewById(R.id.positiveButton);
+                Button negativeButton = view.findViewById(R.id.negativeButton);
+                tvTitle.setText(this.title);
+                tvMessage.setText(this.message);
+                if (TextUtils.isEmpty(this.message)) {
                     tvMessage.setVisibility(View.GONE);
-                } else if (TextUtils.isEmpty(title)) {
+                } else if (TextUtils.isEmpty(this.title)) {
                     tvTitle.setVisibility(View.GONE);
                 }
-                positiveButton.setText(positiveButtonText);
-                negativeButton.setText(negativeButtonText);
-                positiveButton.setOnClickListener(positiveClickListener);
-                negativeButton.setOnClickListener(negativeClickListener);
+                positiveButton.setText(this.positiveButtonText);
+                negativeButton.setText(this.negativeButtonText);
+                positiveButton.setOnClickListener(this.positiveClickListener);
+                negativeButton.setOnClickListener(this.negativeClickListener);
                 setCustomView(view);
                 break;
             case DEFAULT_DIALOG:
                 creatDefaultDialog();
                 break;
+            case CUSTOM_DIALOG1:
+            case CUSTOM_DIALOG2:
+            case EMPTY_VIEW:
             default:
                 break;
         }
-    }
-
-    /***
-     * 获取一个dialog
-     * @return
-     */
-    private AlertDialog getDialog(@StyleRes int themeResId) {
-        return dialog = new AlertDialog.Builder(context, themeResId).create();
     }
 
     /**
      * 创建默认的Dialog
      */
     private void creatDefaultDialog() {
-        //创建对话框
-        AlertDialog dialog = getDialog(themeResId);
         //设置对话框icon
-        dialog.setIcon(R.drawable.common_empty_failed);
+        setIcon(R.drawable.common_empty_failed);
         //设置对话框标题
-        dialog.setTitle(title);
+        setTitle(this.title);
         //设置文字显示内容
-        dialog.setMessage(message);
+        setMessage(this.message);
         //分别设置三个button
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, positiveButtonText, positiveButtonClickListener);
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, negativeButtonText, negativeButtonClickListener);
-        dialog.setButton(DialogInterface.BUTTON_NEUTRAL, neutralButtonText, neutralButtonClickListener);
+        setButton(DialogInterface.BUTTON_POSITIVE, this.positiveButtonText, this.positiveButtonClickListener);
+        setButton(DialogInterface.BUTTON_NEGATIVE, this.negativeButtonText, this.negativeButtonClickListener);
+        setButton(DialogInterface.BUTTON_NEUTRAL, this.neutralButtonText, this.neutralButtonClickListener);
+        //Dialog 在初始化时会生成新的 Window，先禁止 Dialog Window 获取焦点，
+        //等Dialog显示后对DialogWindow的DecorView设置setSystemUiVisibility，接着再获取焦点。这样表面上看起来就没有退出沉浸模式。
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         //显示对话框
-        dialog.show();
+        show();
+        if (this.afterShowListener != null) {
+            this.afterShowListener.onAfterShow(this);
+        }
+        //Clear the not focusable flag from the window
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
     }
 
     /**
-     * 创建自定义AlertDialog布局
+     * 设置自定义AlertDialog布局
      *
      * @param view
      * @return
      */
     private void setCustomView(View view) {
+        //Dialog 在初始化时会生成新的 Window，先禁止 Dialog Window 获取焦点，
+        //等Dialog显示后对DialogWindow的DecorView设置setSystemUiVisibility，接着再获取焦点。这样表面上看起来就没有退出沉浸模式。
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+        show();
+        if (this.afterShowListener != null) {
+            this.afterShowListener.onAfterShow(this);
+        }
+        //Clear the not focusable flag from the window
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         //添加布局
-        dialog.show();
-        dialog.setContentView(view);
+        setContentView(view);
     }
 
+    /**
+     * 设置自定义AlertDialog布局
+     *
+     * @param view
+     */
     private void setMView(View view) {
         //添加布局
-        dialog.setView(view);
-        dialog.show();
+        setView(view);
+        //Dialog 在初始化时会生成新的 Window，先禁止 Dialog Window 获取焦点，
+        //等Dialog显示后对DialogWindow的DecorView设置setSystemUiVisibility，接着再获取焦点。这样表面上看起来就没有退出沉浸模式。
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+        show();
+        if (this.afterShowListener != null) {
+            this.afterShowListener.onAfterShow(this);
+        }
+        //Clear the not focusable flag from the window
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
     }
-
 
     /**
      * 设置AlertDialog背景
@@ -277,10 +313,9 @@ public class CustomAlertDialog extends AlertDialog {
      * @return
      */
     private void setBackgroundDrawableResource(@DrawableRes int resId) {
-        Window window = dialog.getWindow();
+        Window window = getWindow();
         window.setBackgroundDrawableResource(resId);
     }
-
 
     /**
      * 设置AlertDialog高度
@@ -290,7 +325,7 @@ public class CustomAlertDialog extends AlertDialog {
      */
     private void setHeight(int height) {
         //获取对话框当前的参数值
-        Window window = dialog.getWindow();
+        Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.height = height;
         //设置生效
@@ -305,7 +340,7 @@ public class CustomAlertDialog extends AlertDialog {
      */
     private void setWidth(int width) {
         //获取对话框当前的参数值
-        Window window = dialog.getWindow();
+        Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = width;
         //设置生效
@@ -320,13 +355,10 @@ public class CustomAlertDialog extends AlertDialog {
      */
     private void postDelay(long delayMillis, final PostDelayListener postDelayListener) {
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dialog.dismiss();
-                if (postDelayListener != null) {
-                    postDelayListener.delay();
-                }
+        handler.postDelayed(() -> {
+            dismiss();
+            if (postDelayListener != null) {
+                postDelayListener.delay();
             }
         }, delayMillis);
     }
@@ -337,17 +369,16 @@ public class CustomAlertDialog extends AlertDialog {
     @Override
     public void dismiss() {
         super.dismiss();
-        if (dialog != null && dialog.isShowing()) {
-        	dialog.dismiss();
-            dialog = null;
+        if (isShowing()) {
+            dismiss();
         }
     }
 
 
     public static class Builder {
-        private Context context = null;
+        private Context context;
         private @StyleRes
-        int themeResId = 0;
+        int themeResId;
         private String title = "title";
         private String message = "message";
         private String positiveButtonText = "ok";
@@ -362,6 +393,7 @@ public class CustomAlertDialog extends AlertDialog {
         private int height = 0;
         private int width = 0;
         private long delayMillis = 0;
+        private AfterShowListener afterShowListener = null;
         private PostDelayListener postDelayListener = null;
         private OnClickListener positiveButtonClickListener = null;
         private OnClickListener negativeButtonClickListener = null;
@@ -378,10 +410,22 @@ public class CustomAlertDialog extends AlertDialog {
             this.themeResId = themeResId;
         }
 
+        /**
+         * 设置AlertDialog的Icon
+         *
+         * @param iconId
+         * @return
+         */
         public Builder setIcon(int iconId) {
             return this;
         }
 
+        /**
+         * 设置AlertDialog的title
+         *
+         * @param message
+         * @return
+         */
         public Builder setMessage(String message) {
             this.message = message;
             return this;
@@ -409,6 +453,12 @@ public class CustomAlertDialog extends AlertDialog {
             return this;
         }
 
+        /**
+         * 设置AlertDialog的title
+         *
+         * @param title
+         * @return
+         */
         public Builder setTitle(String title) {
             this.title = title;
             return this;
@@ -426,6 +476,12 @@ public class CustomAlertDialog extends AlertDialog {
             return this;
         }
 
+        /**
+         * 设置自定义布局
+         *
+         * @param v
+         * @return
+         */
         public Builder setView(View v) {
             viewStyle = CUSTOM_DIALOG2;
             this.view = v;
@@ -441,6 +497,13 @@ public class CustomAlertDialog extends AlertDialog {
             return setDefaultPromptView1(null, 0);
         }
 
+        /**
+         * 设置默认Dialog
+         *
+         * @param tipMessage
+         * @param tipResId
+         * @return
+         */
         public Builder setDefaultPromptView1(String tipMessage, @DrawableRes int tipResId) {
             viewStyle = DEFAULT_PROMPT1;
             this.message = tipMessage;
@@ -448,11 +511,25 @@ public class CustomAlertDialog extends AlertDialog {
             return this;
         }
 
+        /**
+         * 设置默认Dialog
+         *
+         * @return
+         */
         public Builder setDefaultPromptView2() {
             viewStyle = DEFAULT_PROMPT2;
             return this;
         }
 
+        /**
+         * 设置默认Dialog
+         *
+         * @param title
+         * @param message
+         * @param negativeButtonText
+         * @param positiveButtonText
+         * @return
+         */
         public Builder setDefaultPromptView2(String title, String message, String negativeButtonText, String positiveButtonText) {
             viewStyle = DEFAULT_PROMPT2;
             this.title = title;
@@ -462,6 +539,11 @@ public class CustomAlertDialog extends AlertDialog {
             return this;
         }
 
+        /**
+         * 设置默认Dialog
+         *
+         * @return
+         */
         public Builder creatDefaultDialog() {
             viewStyle = DEFAULT_DIALOG;
             return this;
@@ -501,6 +583,17 @@ public class CustomAlertDialog extends AlertDialog {
         }
 
         /**
+         * 设置AfterShowListener 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
+         *
+         * @param afterShowListener
+         * @return
+         */
+        public Builder setAfterShowListener(AfterShowListener afterShowListener) {
+            this.afterShowListener = afterShowListener;
+            return this;
+        }
+
+        /**
          * 设置延迟消失
          *
          * @param delayMillis
@@ -511,12 +604,18 @@ public class CustomAlertDialog extends AlertDialog {
             return this;
         }
 
+        /**
+         * 设置延迟消失
+         *
+         * @param delayMillis
+         * @param postDelayListener
+         * @return
+         */
         public Builder setDelay(long delayMillis, PostDelayListener postDelayListener) {
             this.delayMillis = delayMillis;
             this.postDelayListener = postDelayListener;
             return this;
         }
-
 
         /**
          * 设置AlertDialog的监听事件
@@ -548,7 +647,6 @@ public class CustomAlertDialog extends AlertDialog {
             this.negativeButtonClickListener = listener;
             return this;
         }
-
 
         /**
          * 自定义布局确定取消监听事件
@@ -584,6 +682,5 @@ public class CustomAlertDialog extends AlertDialog {
         public CustomAlertDialog build() {
             return new CustomAlertDialog(context, themeResId, this);
         }
-
     }
 }

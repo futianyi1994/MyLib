@@ -17,7 +17,11 @@ import com.bracks.futia.mylib.R;
  * @date : 2018/6/25  15:50
  * @author: futia
  * @email : futianyi1994@126.com
- * @description :  使用方法： DialogUtils.createLoadingDialog(getActivity(), "玩命加载中。。。",false).show();
+ * @description :
+ * <p>Example:
+ * <pre><code>
+ * DialogUtils.createLoadingDialog(getActivity(), "玩命加载中。。。",false).show();
+ * </code></pre>
  */
 public class DialogUtils {
 
@@ -86,7 +90,7 @@ public class DialogUtils {
      *
      * @param listener
      */
-    public static void showWithoutFocus(AfterShowListener listener) {
+    public static void afterShow(AfterShowListener listener) {
         if (listener != null) {
             //Dialog 在初始化时会生成新的 Window，先禁止 Dialog Window 获取焦点，
             //等Dialog显示后对DialogWindow的DecorView设置setSystemUiVisibility，接着再获取焦点。这样表面上看起来就没有退出沉浸模式。

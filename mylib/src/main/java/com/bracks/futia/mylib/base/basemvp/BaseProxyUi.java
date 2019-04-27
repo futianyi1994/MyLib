@@ -14,7 +14,6 @@ import com.bracks.futia.mylib.base.interf.BaseViewInterf;
 import com.bracks.futia.mylib.internationalization.Language;
 import com.bracks.futia.mylib.internationalization.MyContextWrapper;
 import com.bracks.futia.mylib.rx.RxAppActivity;
-import com.bracks.futia.mylib.utils.statusbar.StatusBarUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -43,10 +42,10 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
         super.onCreate(savedInstanceState);
         AppManager.getAppManager().addActivity(this);
         if (isTransparencyBar()) {
-            StatusBarUtils.transparencyBar(this);
+            com.blankj.utilcode.util.BarUtils.setStatusBarAlpha(this,0);
         }
         if (isLightBarMode()) {
-            StatusBarUtils.setLightStatusBar(this, true);
+            com.bracks.futia.mylib.utils.bar.BarUtils.setLightStatusBar(this, true);
         }
         if (savedInstanceState != null) {
             mProxy.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_SAVE_KEY));

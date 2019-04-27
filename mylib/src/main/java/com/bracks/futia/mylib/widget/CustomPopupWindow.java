@@ -23,6 +23,26 @@ import androidx.annotation.RequiresApi;
  * @date 2017-09-27 上午 10:06
  * Email:futianyi1994@126.com
  * Description: 封装一个通用的PopupWindow参考:http://blog.csdn.net/u013700502/article/details/71275093
+ * <p>Example:
+ * <pre><code>
+ * popup = new CustomPopupWindow
+ *                         .Builder(this)
+ *                         .setView(R.layout.pop_filter)
+ *                         .setFocusable(true)
+ *                         .setBackgroundDrawable(new BitmapDrawable())
+ *                         .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+ *                         .setViewOnclickListener((view, layoutResId) -> {
+ *
+ *                         })
+ *                         .create();
+ * popup.showAsDropDown(
+ *         tvSelect,
+ *         ConvertUtils.dp2px(10),
+ *         ConvertUtils.dp2px(10),
+ *         Gravity.CENTER,
+ *         () -> BarUtils.hideNavBar(popup.getContentView())
+ * );
+ * </code></pre>
  */
 public class CustomPopupWindow extends PopupWindow {
     private Context context;

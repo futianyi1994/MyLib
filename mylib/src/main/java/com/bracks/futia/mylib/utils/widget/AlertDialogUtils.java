@@ -84,7 +84,6 @@ public class AlertDialogUtils {
         public static final int MAX_PROGRESS = 100;
         public static final int PRO = 10;
         private int progress = 10;
-        //
         private ProgressDialog waitDialog;
 
         public ProgressHandler(ProgressDialog waitDialog) {

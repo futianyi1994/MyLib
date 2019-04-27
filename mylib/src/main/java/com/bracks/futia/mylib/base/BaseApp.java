@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.support.multidex.MultiDex;
 
 import com.bracks.futia.mylib.utils.CommonUtils;
 import com.bracks.futia.mylib.utils.log.TLog;
@@ -43,6 +44,12 @@ public class BaseApp extends Application {
 
     @SuppressLint("StaticFieldLeak")
     public static Context mContext;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {

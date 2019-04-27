@@ -2,10 +2,6 @@ package com.bracks.futia.mylib.base;
 
 import android.os.Bundle;
 
-import com.bracks.futia.mylib.base.basemvp.BaseFrag;
-import com.bracks.futia.mylib.base.basemvp.BasePresenter;
-import com.bracks.futia.mylib.base.basemvp.BaseView;
-
 /**
  * good programmer.
  *
@@ -13,9 +9,9 @@ import com.bracks.futia.mylib.base.basemvp.BaseView;
  * @author: futia
  * @email : futianyi1994@126.com
  * @description :当fragment结合viewpager使用的时候实现fragment懒加载
- * 根据需要继承BaseFrag、BaseProxyFrag或者BaseFragment
+ * 根据需要继承BaseFrag、BaseProxyFrag、BaseVmFrag、BaseVmProxyFrag、BaseFragment等
  */
-public abstract class BaseLazyFragment<V extends BaseView, P extends BasePresenter<V>> extends BaseFrag<V, P> {
+public abstract class BaseLazyFragment extends BaseFragment {
     private boolean isPrepared;
     private boolean isFirstVisible = true;
     private boolean isFirstInvisible = true;

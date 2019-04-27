@@ -14,7 +14,6 @@ import com.bracks.futia.mylib.base.interf.BaseViewInterf;
 import com.bracks.futia.mylib.internationalization.Language;
 import com.bracks.futia.mylib.internationalization.MyContextWrapper;
 import com.bracks.futia.mylib.rx.RxAppActivity;
-import com.bracks.futia.mylib.utils.statusbar.StatusBarUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -45,10 +44,10 @@ public abstract class BaseActivity extends RxAppActivity implements BaseViewInte
         mUnbinder = ButterKnife.bind(this);
         initInstanceState(savedInstanceState);
         if (isTransparencyBar()) {
-            StatusBarUtils.transparencyBar(this);
+            com.blankj.utilcode.util.BarUtils.setStatusBarAlpha(this, 0);
         }
         if (isLightBarMode()) {
-            StatusBarUtils.setLightStatusBar(this, true);
+            com.bracks.futia.mylib.utils.bar.BarUtils.setLightStatusBar(this, true);
         }
         initData();
         initView();
