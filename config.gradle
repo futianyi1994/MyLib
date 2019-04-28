@@ -15,7 +15,7 @@ ext {
             dagger2SdkVersion       : "2.17",
             lifecycSdkleVersion     : "1.1.1",
             roomSdkleVersion        : "1.1.1",
-            mylibVersion            : "1.1.4"
+            mylibVersion            : "1.1.5"
     ]
     dependencies = [
             "androidJUnitRunner"                   : "android.support.test.runner.AndroidJUnitRunner",
@@ -96,7 +96,7 @@ ext {
             "gson"                                 : 'com.google.code.gson:gson:2.8.5',
             "fastjson"                             : 'com.alibaba:fastjson:1.2.31',
             "guava"                                : 'com.google.guava:guava:27.1-android',
-            "utilcode"                             : 'com.blankj:utilcode:1.18.2',
+            "utilcode"                             : 'com.blankj:utilcode:1.23.7',
             "logger"                               : "com.orhanobut:logger:2.2.0",
             "timer"                                : "com.jakewharton.timber:timber:4.5.1",
             "multitype"                            : 'me.drakeet.multitype:multitype:3.4.0',

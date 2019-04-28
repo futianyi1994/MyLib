@@ -2,17 +2,11 @@ package com.bracks.futia.mylib.utils.bar;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.bracks.futia.mylib.utils.device.RomUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -32,31 +26,28 @@ public class BarUtils {
 
 
     /**
-     * 修改状态栏文字颜色，这里小米，魅族区别对待
+     * 修改状态栏文字颜色，这里小米，魅族区别对待：小米的MIUI和魅族的Flyme在Android 4.4之后各自提供了自家的修改方法，
+     * 其他品牌只能在Android 6.0及以后才能修改
      *
      * @param activity
      * @param dark
      */
     public static void setLightStatusBar(final Activity activity, final boolean dark) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            switch (RomUtils.getLightStatusBarAvailableRomType()) {
-                case RomUtils.MIUI:
-                    setMIUILightStatusBar(activity, dark);
-                    break;
-                case RomUtils.FLYME:
-                    setFlymeLightStatusBar(activity, dark);
-                    break;
-                case RomUtils.ANDROID_NATIVE:
-                    setAndroidNativeLightStatusBar(activity, dark);
-                    break;
-                default:
-                    break;
+        //小米的MIUI和魅族的Flyme在Android 4.4之后各自提供了自家的修改方法
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setAndroidNativeLightStatusBar(activity, dark);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (com.blankj.utilcode.util.RomUtils.isXiaomi()) {
+                setMIUILightStatusBar(activity, dark);
+            } else if (com.blankj.utilcode.util.RomUtils.isMeizu()) {
+                setFlymeLightStatusBar(activity, dark);
             }
         }
     }
 
     /**
      * MIUI系统设置状态栏亮色
+     * 开发版 7.7.13 及以后版本采用了系统API，此方法无效但不会报错，所以两个方式都要加上
      *
      * @param activity
      * @param dark
@@ -81,15 +72,6 @@ public class BarUtils {
                     extraFlagField.invoke(window, 0, darkModeFlag);
                 }
                 result = true;
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && RomUtils.isMiUIV7OrAbove()) {
-                    //开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错，所以两个方式都要加上
-                    if (dark) {
-                        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                    } else {
-                        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-                    }
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -153,56 +135,6 @@ public class BarUtils {
 
 
     /**
-     * 获取是否存在NavigationBar
-     * 特定情况下有效的，比如虚拟按键是固定的，不能隐藏的，该方法有效
-     *
-     * @param context
-     * @return
-     */
-    public static boolean checkDeviceHasNavigationBar(Context context) {
-        boolean hasNavigationBar = false;
-        Resources rs = context.getResources();
-        int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
-        if (id > 0) {
-            hasNavigationBar = rs.getBoolean(id);
-        }
-        try {
-            Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
-            Method m = systemPropertiesClass.getMethod("get", String.class);
-            String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
-            if ("1".equals(navBarOverride)) {
-                hasNavigationBar = false;
-            } else if ("0".equals(navBarOverride)) {
-                hasNavigationBar = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return hasNavigationBar;
-    }
-
-    /**
-     * 获取是否存在NavigationBar
-     * 通过获取不同状态的屏幕高度对比判断是否有NavigationBar
-     *
-     * @param windowManager
-     * @return
-     */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static boolean checkDeviceHasNavigationBar(WindowManager windowManager) {
-        Display d = windowManager.getDefaultDisplay();
-        DisplayMetrics realDisplayMetrics = new DisplayMetrics();
-        d.getRealMetrics(realDisplayMetrics);
-        int realHeight = realDisplayMetrics.heightPixels;
-        int realWidth = realDisplayMetrics.widthPixels;
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        d.getMetrics(displayMetrics);
-        int displayHeight = displayMetrics.heightPixels;
-        int displayWidth = displayMetrics.widthPixels;
-        return (realWidth - displayWidth) > 0 || (realHeight - displayHeight) > 0;
-    }
-
-    /**
      * 全屏并隐藏底部navigator
      *
      * @param activity
@@ -216,7 +148,7 @@ public class BarUtils {
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                | View.SYSTEM_UI_FLAG_IMMERSIVE;
 
         //This work only for android 4.4+
         if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {

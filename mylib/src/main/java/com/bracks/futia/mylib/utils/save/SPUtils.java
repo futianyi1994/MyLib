@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.blankj.utilcode.util.EncryptUtils;
 import com.bracks.futia.mylib.utils.CommonUtils;
-import com.bracks.futia.mylib.utils.safe.AESUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -40,7 +40,8 @@ import java.util.Map;
  */
 public class SPUtils {
     private static final String SP_NAME = "config";
-    private static final String AES_SP_KEY = "aes_sp_key";
+    private static final String AES_KEY = "aes_key";
+    private static final String AES_TRANSFORMATION = "aes";
 
     public static SharedPreferences getSp(Context mContext, String preferenceName) {
         return mContext.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
@@ -107,9 +108,19 @@ public class SPUtils {
     public static boolean putEncrypt(String key, Object value) {
         String target = "";
         if (value instanceof Boolean) {
-            target = AESUtils.encrypt(AES_SP_KEY, ((boolean) value ? "1" : "0"));
+            target = EncryptUtils.encryptAES2HexString(
+                    ((boolean) value ? "1" : "0").getBytes()
+                    , AES_KEY.getBytes()
+                    , AES_TRANSFORMATION,
+                    null
+            );
         } else {
-            target = AESUtils.encrypt(AES_SP_KEY, value.toString());
+            target = EncryptUtils.encryptAES2HexString(
+                    value.toString().getBytes()
+                    , AES_KEY.getBytes()
+                    , AES_TRANSFORMATION,
+                    null
+            );
         }
         return put(key, target);
     }
@@ -126,7 +137,12 @@ public class SPUtils {
         if (TextUtils.isEmpty(source)) {
             return defaultObject;
         }
-        source = AESUtils.decrypt(AES_SP_KEY, source);
+        byte[] bytes = EncryptUtils.decryptHexStringAES(
+                source,
+                AES_KEY.getBytes(),
+                AES_TRANSFORMATION,
+                null);
+        source = new String(bytes);
         if (defaultObject instanceof String) {
             return source;
         } else if (defaultObject instanceof Integer) {
