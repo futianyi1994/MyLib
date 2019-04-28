@@ -1,6 +1,7 @@
 package com.bracks.futia.mylib.base;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -44,7 +45,7 @@ public abstract class BaseActivity extends RxAppActivity implements BaseViewInte
         mUnbinder = ButterKnife.bind(this);
         initInstanceState(savedInstanceState);
         if (isTransparencyBar()) {
-            com.blankj.utilcode.util.BarUtils.setStatusBarAlpha(this, 0);
+            com.blankj.utilcode.util.BarUtils.setStatusBarColor(this, Color.alpha(0));
         }
         if (isLightBarMode()) {
             com.bracks.futia.mylib.utils.bar.BarUtils.setLightStatusBar(this, true);

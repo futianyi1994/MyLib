@@ -1,6 +1,7 @@
 package com.bracks.futia.mylib.base.basemvp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -42,7 +43,7 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
         super.onCreate(savedInstanceState);
         AppManager.getAppManager().addActivity(this);
         if (isTransparencyBar()) {
-            com.blankj.utilcode.util.BarUtils.setStatusBarAlpha(this,0);
+            com.blankj.utilcode.util.BarUtils.setStatusBarColor(this, Color.alpha(0));
         }
         if (isLightBarMode()) {
             com.bracks.futia.mylib.utils.bar.BarUtils.setLightStatusBar(this, true);
