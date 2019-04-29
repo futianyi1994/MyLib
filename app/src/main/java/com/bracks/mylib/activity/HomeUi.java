@@ -1,11 +1,14 @@
 package com.bracks.mylib.activity;
 
 import android.arch.lifecycle.ViewModel;
+import android.graphics.Color;
 import android.os.Build;
+import android.util.TypedValue;
 import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.futia.mylib.base.basemvp.BasePresenter;
 import com.bracks.futia.mylib.base.basemvp.CreatePresenter;
 import com.bracks.futia.mylib.base.basevm.BaseVmProxyUi;
@@ -55,11 +58,15 @@ public class HomeUi extends BaseVmProxyUi {
         BarUtils.hideNavBar(getWindow());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @OnClick(R.id.btnShowDialog)
     public void onViewClicked() {
         new CustomAlertDialog
                 .Builder(this)
-                .setMessage("nihao")
+                .setMessage("nihao", Color.RED, TypedValue.COMPLEX_UNIT_SP, 34)
+                .setTitle("hah", Color.RED, TypedValue.COMPLEX_UNIT_SP, 27)
+                .setPositiveButton("pos", Color.RED, TypedValue.COMPLEX_UNIT_SP, 34, v -> ToastUtils.showLong("pos"))
+                .setNegativeButton("nega", Color.RED, TypedValue.COMPLEX_UNIT_SP, 34, v -> ToastUtils.showLong("nega"))
                 .setDefaultPromptView2()
                 .setAfterShowListener(dialog -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()))
                 .build();
