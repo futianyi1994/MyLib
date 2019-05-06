@@ -17,6 +17,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'VERSION_DATE', "\"${releaseTime()}\""
+        }
+        debug {
+            buildConfigField 'String', 'VERSION_DATE', "\"${releaseTime()}\""
         }
     }
 
@@ -59,6 +63,11 @@ android {
         archives sourcesJar
         archives javadocJar
     }
+}
+
+//得到打包时间
+def static releaseTime() {
+    return new Date().format("yyyy-MM-dd")
 }
 
 
