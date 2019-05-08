@@ -87,7 +87,7 @@ public class HttpManager {
                         .cookieJar(cookieJar)
                         //.authenticator(new TokenAuth())
                         // https认证 如果要使用https且为自定义证书 可以去掉这两行注释，并自行配制证书。
-                        //.sslSocketFactory(SslContextFactory.getSSLSocketFactoryForTwoWay())
+                        //.sslSocketFactory(SslContextFactory.getSSLSocketFactoryForTwoWay(0,0))
                         //.hostnameVerifier(new SafeHostnameVerifier())
                         .cache(cache)
                         .addInterceptor(httpCacheInterceptor)

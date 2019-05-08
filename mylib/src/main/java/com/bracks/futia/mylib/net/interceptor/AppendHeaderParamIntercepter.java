@@ -1,5 +1,7 @@
 package com.bracks.futia.mylib.net.interceptor;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
 import okhttp3.Headers;
@@ -20,8 +22,9 @@ import okhttp3.Response;
  */
 public class AppendHeaderParamIntercepter implements Interceptor {
 
+    @NotNull
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request();
 
         Headers.Builder builder = request

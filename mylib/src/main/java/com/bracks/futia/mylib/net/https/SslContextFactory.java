@@ -1,7 +1,6 @@
 package com.bracks.futia.mylib.net.https;
 
 
-import com.bracks.futia.mylib.R;
 import com.bracks.futia.mylib.utils.CommonUtils;
 
 import java.io.IOException;
@@ -24,7 +23,6 @@ import javax.net.ssl.TrustManagerFactory;
  * @email : futianyi1994@126.com
  * @description :
  */
-
 public class SslContextFactory {
     /**
      * 使用协议
@@ -42,8 +40,6 @@ public class SslContextFactory {
      */
     public static SSLSocketFactory getSSLSocketFactoryForOneWay(InputStream... certificates) {
         try {
-            //12306证书流
-            //InputStream certificate12306 = Utils.getContext().getResources().openRawResource(R.raw.srca);
             CertificateFactory certificateFactory = CertificateFactory.getInstance(CLIENT_TRUST_MANAGER, CLIENT_TRUST_PROVIDER);
             KeyStore keyStore = KeyStore.getInstance(CLIENT_TRUST_KEYSTORE);
             keyStore.load(null);
@@ -51,7 +47,7 @@ public class SslContextFactory {
             for (InputStream certificate : certificates) {
                 String certificateAlias = Integer.toString(index++);
                 Certificate certificate1 = certificateFactory.generateCertificate(certificate);
-                keyStore.setCertificateEntry(certificateAlias, certificateFactory.generateCertificate(certificate));
+                keyStore.setCertificateEntry(certificateAlias, certificate1);
                 try {
                     if (certificate != null) {
                         certificate.close();
@@ -77,12 +73,13 @@ public class SslContextFactory {
     /**
      * 双向认证
      *
-     * @return SSLSocketFactory
+     * @param pkcs12
+     * @param bks
+     * @return
      */
-    public static SSLSocketFactory getSSLSocketFactoryForTwoWay() {
+    public static SSLSocketFactory getSSLSocketFactoryForTwoWay(int pkcs12, int bks) {
         try {
-            InputStream certificate = CommonUtils.getContext().getResources().openRawResource(R.raw.capk);
-            //CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509", "BC");
+            InputStream certificate = CommonUtils.getContext().getResources().openRawResource(pkcs12);
             KeyStore keyStore = KeyStore.getInstance(CLIENT_TRUST_KEY);
             keyStore.load(certificate, SELF_CERT_PWD.toCharArray());
             KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
@@ -98,7 +95,7 @@ public class SslContextFactory {
 
             //初始化keystore
             KeyStore clientKeyStore = KeyStore.getInstance(CLIENT_TRUST_KEYSTORE);
-            clientKeyStore.load(CommonUtils.getContext().getResources().openRawResource(R.raw.cabks), TRUST_CA_PWD.toCharArray());
+            clientKeyStore.load(CommonUtils.getContext().getResources().openRawResource(bks), TRUST_CA_PWD.toCharArray());
 
             SSLContext sslContext = SSLContext.getInstance(CLIENT_AGREEMENT);
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());

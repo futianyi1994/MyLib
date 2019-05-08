@@ -1,8 +1,6 @@
 package com.bracks.futia.mylib.net.https;
 
 
-import com.bracks.futia.mylib.Constants;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
@@ -17,12 +15,18 @@ import javax.net.ssl.SSLSession;
  */
 
 public class SafeHostnameVerifier implements HostnameVerifier {
+    private String hostname;
+
+    public SafeHostnameVerifier() {
+    }
+
+    public SafeHostnameVerifier(String hostname) {
+        this.hostname = hostname;
+    }
+
     @Override
     public boolean verify(String hostname, SSLSession session) {
         //校验hostname是否正确，如果正确则建立连接
-        if (Constants.IP.equals(hostname)) {
-            return true;
-        }
-        return false;
+        return hostname.equals(this.hostname);
     }
 }

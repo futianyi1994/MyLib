@@ -1,6 +1,7 @@
 package com.bracks.futia.mylib.base.basemvp;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,6 +52,7 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
             rootView = inflater.inflate(getLayoutId(), container, false);
             mUnbinder = ButterKnife.bind(this, rootView);
             rootView.setOnTouchListener(this);
+            initInstanceState(savedInstanceState);
             mProxy.onCreate((V) this);
             initView(rootView);
         } else {
@@ -120,5 +122,13 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
 
     @Override
     public void initData() {
+    }
+
+    /**
+     * 对savedInstanceState进行判断
+     *
+     * @param savedInstanceState
+     */
+    protected void initInstanceState(@Nullable Bundle savedInstanceState) {
     }
 }

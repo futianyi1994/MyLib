@@ -1,5 +1,7 @@
 package com.bracks.futia.mylib.net.interceptor;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.Set;
 
@@ -22,8 +24,9 @@ import okhttp3.Response;
  */
 public class AppendBodyParamIntercepter implements Interceptor {
 
+    @NotNull
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request();
 
         //拿到所有Query的Key

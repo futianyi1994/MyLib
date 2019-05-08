@@ -3,6 +3,8 @@ package com.bracks.futia.mylib.net.interceptor;
 
 import com.blankj.utilcode.util.NetworkUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -18,26 +20,27 @@ import okhttp3.Response;
  * @author: futia
  * @email : futianyi1994@126.com
  * @description : https://www.jianshu.com/p/e3d32c016c32
- *                http://chuansong.me/n/1185791251527
- *                https://www.jianshu.com/p/9c3b4ea108a7
+ * http://chuansong.me/n/1185791251527
+ * https://www.jianshu.com/p/9c3b4ea108a7
  */
 public class HttpCacheInterceptor implements Interceptor {
+    @NotNull
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NotNull Chain chain) throws IOException {
         int maxAge = 60 * 60;
         int maxStale = 60 * 60;
         CacheControl.Builder cacheBuilder = new CacheControl.Builder();
         //这个是控制缓存的最大生命时间
         cacheBuilder.maxAge(maxAge, TimeUnit.SECONDS);
         //这个是控制缓存的过时时间;max-stale和max-age同时设置的时候，缓存失效的时间按最长的算。缓存过期后就永远过期。
-        cacheBuilder.maxStale(maxStale,TimeUnit.SECONDS);
+        cacheBuilder.maxStale(maxStale, TimeUnit.SECONDS);
         CacheControl cacheControl = cacheBuilder.build();
         Request request = chain.request();
         if (NetworkUtils.isConnected()) {
             request = request.newBuilder()
                     .cacheControl(CacheControl.FORCE_NETWORK)
                     .build();
-        }else {
+        } else {
             request = request.newBuilder()
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();

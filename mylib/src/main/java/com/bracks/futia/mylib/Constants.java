@@ -16,24 +16,16 @@ public interface Constants {
     /**
      * 测试的图片地址
      */
-    String TEST_IMG_URL = "https://koudairoo-dev.oss-cn-hangzhou.aliyuncs.com/upload/RepnAxW7n2.jpg";
+    String TEST_IMG_URL = "https://media.w3.org/2010/05/sintel/poster.png";
+    /**
+     * 测试mp4地址
+     */
+    String TEST_MP4_URL = "https://media.w3.org/2010/05/sintel/trailer.mp4";
 
     /**
-     * true:测试地址；false:正式地址
+     * 测试的API_URL
      */
-    boolean IS_TEST = true;
-
-    String IP = "202.108.22.59";
-    String HOST = IS_TEST ? "http://www.wanandroid.com/" : "http://www.wanandroid.com/";
-    String API_URL = HOST;
-    String DOWN_UP_LOAD_HOST = API_URL;
-
-    String WEBSITE = IS_TEST ? "http://www.wanandroid.com/" : "http://www.wanandroid.com/";
-
-    /**
-     * 轮询请求接口的时间
-     */
-    long POST_DELAY = 10 * 60 * 1000L;
+    String API_URL = "http://www.wanandroid.com/";
 
     /**
      * 请求失败总共重试maxRetries次
@@ -51,11 +43,6 @@ public interface Constants {
     String HTTP_CACHE = "http_cache";
 
     /**
-     * SpName
-     */
-    String SP_FILE_NAME = "config";
-
-    /**
      * 本地文件目录名
      */
     String LOCAL_FILE_DIR = "Bracks";
@@ -68,4 +55,5 @@ public interface Constants {
     /******************************************************公用SpKey************************************************************/
 
     String COOKIE = "cookie";
+    String TOKEN = "token";
 }

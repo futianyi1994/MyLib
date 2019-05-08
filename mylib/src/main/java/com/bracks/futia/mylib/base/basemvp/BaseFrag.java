@@ -1,6 +1,7 @@
 package com.bracks.futia.mylib.base.basemvp;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -83,13 +84,10 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
     }
 
     /**
-     * 对savedInstanceState进行判断
+     * 创建Presenter
      *
-     * @param savedInstanceState
+     * @return
      */
-    protected void initInstanceState(Bundle savedInstanceState) {
-    }
-
     protected abstract P creatPresenter();
 
     /**
@@ -99,5 +97,13 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
      */
     public P getPresenter() {
         return presenter;
+    }
+
+    /**
+     * 对savedInstanceState进行判断
+     *
+     * @param savedInstanceState
+     */
+    protected void initInstanceState(@Nullable Bundle savedInstanceState) {
     }
 }

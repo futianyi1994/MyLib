@@ -1,9 +1,5 @@
 package com.bracks.futia.mylib.net.interceptor;
 
-/**
- * Created by Alan on 2017/6/27.
- */
-
 import com.blankj.utilcode.util.LogUtils;
 import com.bracks.futia.mylib.utils.CommonUtils;
 
@@ -20,7 +16,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * @description :
  */
 public class HttpLogInterceptor {
-
     /**
      * logging class
      */

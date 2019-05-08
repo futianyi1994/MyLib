@@ -26,6 +26,7 @@ public abstract class BaseVmUi<V extends BaseView, P extends BasePresenter<V>> e
 
     @Override
     public void initView() {
+        super.initView();
         initViewModelEvent();
     }
 
@@ -97,5 +98,4 @@ public abstract class BaseVmUi<V extends BaseView, P extends BasePresenter<V>> e
             }
         }
     }
-
 }

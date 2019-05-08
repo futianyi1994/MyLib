@@ -434,12 +434,12 @@ public class CustomAlertDialog extends AlertDialog {
         private Context context;
         private @StyleRes
         int themeResId;
-        private int iconId = R.drawable.common_empty_failed;
-        private String title = "title";
-        private String message = "message";
-        private String positiveButtonText = "ok";
-        private String negativeButtonText = "cancel";
-        private String neutralButtonText = "custom";
+        private int iconId = android.R.mipmap.sym_def_app_icon;
+        private String title;
+        private String message;
+        private String positiveButtonText;
+        private String negativeButtonText;
+        private String neutralButtonText;
         private int titleColor = 0x8A000000;
         private int messageColor = 0x8A000000;
         private int positiveButtonTextColor = 0x8A000000;
@@ -479,6 +479,11 @@ public class CustomAlertDialog extends AlertDialog {
         public Builder(Context context, int themeResId) {
             this.context = context;
             this.themeResId = themeResId;
+            this.title = context.getString(android.R.string.dialog_alert_title);
+            this.message = context.getString(android.R.string.unknownName);
+            this.positiveButtonText = context.getString(android.R.string.ok);
+            this.negativeButtonText = context.getString(android.R.string.cancel);
+            this.neutralButtonText = context.getString(android.R.string.unknownName);
         }
 
         /**

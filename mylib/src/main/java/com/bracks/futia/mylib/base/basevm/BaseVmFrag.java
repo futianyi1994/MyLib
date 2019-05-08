@@ -25,6 +25,7 @@ public abstract class BaseVmFrag<V extends BaseView, P extends BasePresenter<V>>
 
     private Dialog dialog;
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

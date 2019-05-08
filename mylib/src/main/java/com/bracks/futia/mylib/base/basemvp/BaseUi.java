@@ -84,6 +84,10 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 
+    @Override
+    public void initView() {
+    }
+
     /**
      * 设置背景颜色
      *
@@ -98,6 +102,14 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
      */
     protected void setBackgroundResource(@DrawableRes int resid) {
         this.getWindow().getDecorView().setBackgroundResource(resid);
+    }
+
+    /**
+     * 对savedInstanceState进行判断
+     *
+     * @param savedInstanceState
+     */
+    protected void initInstanceState(@Nullable Bundle savedInstanceState) {
     }
 
     /**
@@ -120,9 +132,11 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
         return false;
     }
 
-    protected void initInstanceState(Bundle savedInstanceState) {
-    }
-
+    /**
+     * 创建Presenter
+     *
+     * @return
+     */
     protected abstract P creatPresenter();
 
     /**

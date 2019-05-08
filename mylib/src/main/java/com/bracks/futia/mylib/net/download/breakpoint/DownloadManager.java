@@ -136,7 +136,7 @@ public class DownloadManager {
      * @param url
      */
     public void start(String url) {
-        start(Constants.DOWN_UP_LOAD_HOST, url);
+        start(Constants.API_URL, url);
     }
 
     /**

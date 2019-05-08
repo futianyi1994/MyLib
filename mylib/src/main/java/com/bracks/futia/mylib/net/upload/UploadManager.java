@@ -23,7 +23,7 @@ public class UploadManager {
 
 
     public static <T> T init(Class<T> cls, ProgressListener.ProgressCallback callback) {
-        return init(cls, Constants.DOWN_UP_LOAD_HOST, callback);
+        return init(cls, Constants.API_URL, callback);
     }
 
     public static <T> T init(Class<T> cls, String host, ProgressListener.ProgressCallback callback) {

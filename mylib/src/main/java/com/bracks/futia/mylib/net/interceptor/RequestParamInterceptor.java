@@ -2,6 +2,8 @@ package com.bracks.futia.mylib.net.interceptor;
 
 import com.blankj.utilcode.util.AppUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
 import okhttp3.HttpUrl;
@@ -22,11 +24,12 @@ public class RequestParamInterceptor implements Interceptor {
     private static final String PLATFORM = "platform";
     private static final String DEVICE_ID = "device-id";
     private static final String VERSION = "version";
-    public static final String COOKIE = "cookie";
+    private static final String COOKIE = "cookie";
 
 
+    @NotNull
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NotNull Chain chain) throws IOException {
 
         Request originalRequest = chain.request();
 

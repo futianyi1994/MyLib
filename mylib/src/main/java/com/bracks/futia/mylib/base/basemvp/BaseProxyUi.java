@@ -42,6 +42,13 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppManager.getAppManager().addActivity(this);
+        if (getLayoutId() != 0) {
+            setBackgroundColor(R.color.common_item_gray_bg);
+            setContentView(getLayoutId());
+        }
+        //通过注解绑定控件
+        mUnbinder = ButterKnife.bind(this);
+        initInstanceState(savedInstanceState);
         if (isTransparencyBar()) {
             com.blankj.utilcode.util.BarUtils.setStatusBarColor(this, Color.alpha(0));
         }
@@ -51,13 +58,6 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
         if (savedInstanceState != null) {
             mProxy.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_SAVE_KEY));
         }
-        if (getLayoutId() != 0) {
-            setBackgroundColor(R.color.common_item_gray_bg);
-            setContentView(getLayoutId());
-        }
-        //通过注解绑定控件
-        mUnbinder = ButterKnife.bind(this);
-
         mProxy.onCreate((V) this);
         initData();
         initView();
@@ -141,6 +141,14 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
      */
     protected void setBackgroundResource(@DrawableRes int resid) {
         this.getWindow().getDecorView().setBackgroundResource(resid);
+    }
+
+    /**
+     * 对savedInstanceState进行判断
+     *
+     * @param savedInstanceState
+     */
+    protected void initInstanceState(@Nullable Bundle savedInstanceState) {
     }
 
     /**

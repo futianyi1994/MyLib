@@ -80,20 +80,16 @@ public abstract class BaseVmProxyUi<V extends BaseView, P extends BasePresenter<
                                     case BaseActionEvent.DISMISS_LOADING_DIALOG:
                                         hideLoading();
                                         break;
-
                                     case BaseActionEvent.SHOW_TOAST:
                                         showToast(baseActionEvent.getMessage());
                                         break;
-
                                     case BaseActionEvent.FINISH:
                                         finish();
                                         break;
-
                                     case BaseActionEvent.FINISH_WITH_RESULT_OK:
                                         setResult(RESULT_OK);
                                         finish();
                                         break;
-
                                     default:
                                         break;
                                 }
@@ -102,5 +98,4 @@ public abstract class BaseVmProxyUi<V extends BaseView, P extends BasePresenter<
             }
         }
     }
-
 }
