@@ -2,7 +2,11 @@ package com.bracks.futia.mylib.widget;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -11,10 +15,12 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bracks.futia.mylib.R;
@@ -95,18 +101,26 @@ public class CustomAlertDialog extends AlertDialog {
     private View view;
     private @ViewStyle
     int viewStyle = EMPTY_VIEW;
+    private float bgRadius;
+    private int bgStrokeWidth;
+    private @ColorInt
+    int bgStrokeColor;
+    private @ColorInt
+    int bgColor;
     private int bgResId;
-    private int tipResId;
     private int height;
     private int width;
     private long delayMillis;
-    private AfterShowListener afterShowListener = null;
-    private PostDelayListener postDelayListener = null;
-    private OnClickListener positiveButtonClickListener = null;
-    private OnClickListener negativeButtonClickListener = null;
-    private OnClickListener neutralButtonClickListener = null;
-    private View.OnClickListener positiveClickListener = null;
-    private View.OnClickListener negativeClickListener = null;
+    private int tipResId;
+    private int tipWidth;
+    private int tipHeight;
+    private AfterShowListener afterShowListener;
+    private PostDelayListener postDelayListener;
+    private OnClickListener positiveButtonClickListener;
+    private OnClickListener negativeButtonClickListener;
+    private OnClickListener neutralButtonClickListener;
+    private View.OnClickListener positiveClickListener;
+    private View.OnClickListener negativeClickListener;
 
 
     public interface PostDelayListener {
@@ -143,6 +157,7 @@ public class CustomAlertDialog extends AlertDialog {
         this.iconId = builder.iconId;
         this.title = builder.title;
         this.message = builder.message;
+
         this.positiveButtonText = builder.positiveButtonText;
         this.negativeButtonText = builder.negativeButtonText;
         this.neutralButtonText = builder.neutralButtonText;
@@ -168,13 +183,24 @@ public class CustomAlertDialog extends AlertDialog {
         this.contentView = builder.contentView;
         this.view = builder.view;
         this.viewStyle = builder.viewStyle;
+
+        this.bgRadius = builder.bgRadius;
+        this.bgStrokeWidth = builder.bgStrokeWidth;
+        this.bgStrokeColor = builder.bgStrokeColor;
+        this.bgColor = builder.bgColor;
+
         this.bgResId = builder.bgResId;
-        this.tipResId = builder.tipResId;
         this.width = builder.width;
         this.height = builder.height;
         this.delayMillis = builder.delayMillis;
+
+        this.tipResId = builder.tipResId;
+        this.tipWidth = builder.tipWidth;
+        this.tipHeight = builder.tipHeight;
+
         this.afterShowListener = builder.afterShowListener;
         this.postDelayListener = builder.postDelayListener;
+
         this.positiveButtonClickListener = builder.positiveButtonClickListener;
         this.negativeButtonClickListener = builder.negativeButtonClickListener;
         this.neutralButtonClickListener = builder.neutralButtonClickListener;
@@ -206,7 +232,7 @@ public class CustomAlertDialog extends AlertDialog {
                 break;
         }
 
-        setDialogWindow();
+        setDialogWindow(this.viewStyle);
         if (this.delayMillis != 0) {
             postDelay(this.delayMillis, this.postDelayListener);
         }
@@ -218,32 +244,56 @@ public class CustomAlertDialog extends AlertDialog {
      * @param viewStyle
      */
     private void setDefaultDialogView(@ViewStyle int viewStyle) {
+        LinearLayout llRoot;
         View view;
         TextView tvTitle;
         TextView tvMessage;
         ImageView image;
+        GradientDrawable drawable;
         switch (viewStyle) {
             case DEFAULT_DIALOG:
                 creatDefaultDialog();
                 break;
             case DEFAULT_PROMPT1:
                 view = View.inflate(this.context, R.layout.custom_dialog_default_prompt, null);
-                tvMessage = view.findViewById(R.id.tv_message);
-                image = view.findViewById(R.id.iv_image);
+                llRoot = view.findViewById(R.id.llRoot);
+                tvMessage = view.findViewById(R.id.tvMessage);
+                image = view.findViewById(R.id.image);
+
+                drawable = new GradientDrawable();
+                drawable.setCornerRadius(this.bgRadius);
+                drawable.setStroke(this.bgStrokeWidth, this.bgStrokeColor);
+                drawable.setColor(this.bgColor);
+                llRoot.setBackground(drawable);
+
                 tvMessage.setText(this.message);
                 tvMessage.setTextColor(this.messageColor);
                 tvMessage.setTextSize(this.messageUnit, this.messageSize);
+
                 if (this.tipResId != 0) {
+                    ViewGroup.LayoutParams lp = image.getLayoutParams();
+                    lp.width = this.tipWidth;
+                    lp.height = this.tipHeight;
+                    image.setLayoutParams(lp);
                     image.setBackgroundResource(this.tipResId);
                 }
+
                 setCustomView(view);
                 break;
             case DEFAULT_PROMPT2:
                 view = View.inflate(this.context, R.layout.common_dialog_layout, null);
-                tvTitle = view.findViewById(R.id.title);
-                tvMessage = view.findViewById(R.id.message);
+                llRoot = view.findViewById(R.id.llRoot);
+                tvTitle = view.findViewById(R.id.tvTitle);
+                tvMessage = view.findViewById(R.id.tvMessage);
                 Button positiveButton = view.findViewById(R.id.positiveButton);
                 Button negativeButton = view.findViewById(R.id.negativeButton);
+
+                drawable = new GradientDrawable();
+                drawable.setCornerRadius(this.bgRadius);
+                drawable.setStroke(this.bgStrokeWidth, this.bgStrokeColor);
+                drawable.setColor(this.bgColor);
+                llRoot.setBackground(drawable);
+
                 tvTitle.setText(this.title);
                 tvTitle.setTextColor(this.titleColor);
                 tvTitle.setTextSize(this.titleUnit, this.titleSize);
@@ -255,6 +305,7 @@ public class CustomAlertDialog extends AlertDialog {
                 } else if (TextUtils.isEmpty(this.title)) {
                     tvTitle.setVisibility(View.GONE);
                 }
+
                 positiveButton.setText(this.positiveButtonText);
                 positiveButton.setTextColor(this.positiveButtonTextColor);
                 positiveButton.setTextSize(this.positiveButtonTextUnit, this.positiveButtonTextSize);
@@ -265,6 +316,7 @@ public class CustomAlertDialog extends AlertDialog {
 
                 positiveButton.setOnClickListener(this.positiveClickListener);
                 negativeButton.setOnClickListener(this.negativeClickListener);
+
                 setCustomView(view);
                 break;
             case CUSTOM_DIALOG1:
@@ -289,12 +341,6 @@ public class CustomAlertDialog extends AlertDialog {
         setButton(DialogInterface.BUTTON_POSITIVE, this.positiveButtonText, this.positiveButtonClickListener);
         setButton(DialogInterface.BUTTON_NEGATIVE, this.negativeButtonText, this.negativeButtonClickListener);
         setButton(DialogInterface.BUTTON_NEUTRAL, this.neutralButtonText, this.neutralButtonClickListener);
-        getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(this.positiveButtonTextColor);
-        getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(this.negativeButtonTextColor);
-        getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(this.neutralButtonTextColor);
-        getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(this.positiveButtonTextUnit, this.positiveButtonTextSize);
-        getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(this.negativeButtonTextUnit, this.negativeButtonTextSize);
-        getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(this.neutralButtonTextUnit, this.neutralButtonTextSize);
         //Dialog 在初始化时会生成新的 Window，先禁止 Dialog Window 获取焦点，
         //等Dialog显示后对DialogWindow的DecorView设置setSystemUiVisibility，接着再获取焦点。这样表面上看起来就没有退出沉浸模式。
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
@@ -305,6 +351,14 @@ public class CustomAlertDialog extends AlertDialog {
         }
         //Clear the not focusable flag from the window
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+
+        //在show()执行过之后，才能获取到Button
+        getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(this.positiveButtonTextColor);
+        getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(this.negativeButtonTextColor);
+        getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(this.neutralButtonTextColor);
+        getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(this.positiveButtonTextUnit, this.positiveButtonTextSize);
+        getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(this.negativeButtonTextUnit, this.negativeButtonTextSize);
+        getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(this.neutralButtonTextUnit, this.neutralButtonTextSize);
     }
 
     /**
@@ -348,17 +402,19 @@ public class CustomAlertDialog extends AlertDialog {
 
     /**
      * 设置DialogWindow的参数
+     *
+     * @param viewStyle
      */
-    private void setDialogWindow() {
+    private void setDialogWindow(@ViewStyle int viewStyle) {
+        if (viewStyle != DEFAULT_DIALOG) {
+            //将弹窗的背景设置为透明色，解决自定义布局的背景圆角无效问题。
+            getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
         if (this.bgResId != 0) {
             setBackgroundDrawableResource(this.bgResId);
         }
-        if (this.width != 0) {
-            setWidth(this.width);
-        }
-        if (this.height != 0) {
-            setHeight(this.height);
-        }
+        setWidth(this.width);
+        setHeight(this.height);
     }
 
     /**
@@ -423,9 +479,8 @@ public class CustomAlertDialog extends AlertDialog {
      */
     @Override
     public void dismiss() {
-        super.dismiss();
         if (isShowing()) {
-            dismiss();
+            super.dismiss();
         }
     }
 
@@ -459,11 +514,19 @@ public class CustomAlertDialog extends AlertDialog {
         private View view = null;
         private @ViewStyle
         int viewStyle = EMPTY_VIEW;
+        private float bgRadius = 10;
+        private int bgStrokeWidth = 1;
+        private @ColorInt
+        int bgStrokeColor = 0xFFFFFFFF;
+        private @ColorInt
+        int bgColor = 0xFFFFFFFF;
         private int bgResId = 0;
-        private int tipResId = 0;
-        private int height = 0;
-        private int width = 0;
+        private int height = -2;
+        private int width = -2;
         private long delayMillis = 0;
+        private int tipResId = 0;
+        private int tipWidth = -2;
+        private int tipHeight = -2;
         private AfterShowListener afterShowListener = null;
         private PostDelayListener postDelayListener = null;
         private OnClickListener positiveButtonClickListener = null;
@@ -504,7 +567,7 @@ public class CustomAlertDialog extends AlertDialog {
          * @return
          */
         public Builder setTitle(int title) {
-            this.title = (String) context.getText(title);
+            this.title = (String) this.context.getText(title);
             return this;
         }
 
@@ -554,7 +617,7 @@ public class CustomAlertDialog extends AlertDialog {
          * @return
          */
         public Builder setMessage(int message) {
-            this.message = (String) context.getText(message);
+            this.message = (String) this.context.getText(message);
             return this;
         }
 
@@ -748,7 +811,7 @@ public class CustomAlertDialog extends AlertDialog {
          * @return
          */
         public Builder setContentView(View v) {
-            viewStyle = CUSTOM_DIALOG1;
+            this.viewStyle = CUSTOM_DIALOG1;
             this.contentView = v;
             return this;
         }
@@ -760,7 +823,7 @@ public class CustomAlertDialog extends AlertDialog {
          * @return
          */
         public Builder setView(View v) {
-            viewStyle = CUSTOM_DIALOG2;
+            this.viewStyle = CUSTOM_DIALOG2;
             this.view = v;
             return this;
         }
@@ -771,45 +834,60 @@ public class CustomAlertDialog extends AlertDialog {
          * @return
          */
         public Builder creatDefaultDialog() {
-            viewStyle = DEFAULT_DIALOG;
+            this.viewStyle = DEFAULT_DIALOG;
             return this;
         }
 
         /**
-         * 设置默认的提示框（只有一条提示信息和提示图片）
+         * 设置默认的提示框（只有提示信息文字和图标）
          *
          * @return
          */
         public Builder setDefaultPromptView1() {
-            return setDefaultPromptView1(null, 0);
+            return setDefaultPromptView1(this.message, this.tipResId);
         }
 
         /**
-         * 设置默认Dialog
+         * 设置默认的提示框（只有提示信息文字和图标）
          *
          * @param tipMessage
          * @param tipResId
          * @return
          */
         public Builder setDefaultPromptView1(String tipMessage, @DrawableRes int tipResId) {
-            viewStyle = DEFAULT_PROMPT1;
+            return setDefaultPromptView1(tipMessage, tipResId, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+
+        /**
+         * 设置默认的提示框（只有提示信息文字和图标）
+         *
+         * @param tipMessage
+         * @param tipResId
+         * @param tipWidth
+         * @param tipHeight
+         * @return
+         */
+        public Builder setDefaultPromptView1(String tipMessage, @DrawableRes int tipResId, int tipWidth, int tipHeight) {
+            this.viewStyle = DEFAULT_PROMPT1;
             this.message = tipMessage;
             this.tipResId = tipResId;
+            this.tipWidth = tipWidth;
+            this.tipHeight = tipHeight;
             return this;
         }
 
         /**
-         * 设置默认Dialog
+         * 设置默认Dialog（有标题，信息，确定和取消按钮）
          *
          * @return
          */
         public Builder setDefaultPromptView2() {
-            viewStyle = DEFAULT_PROMPT2;
+            this.viewStyle = DEFAULT_PROMPT2;
             return this;
         }
 
         /**
-         * 设置默认Dialog
+         * 设置默认Dialog（有标题，信息，确定和取消按钮）
          *
          * @param title
          * @param message
@@ -818,11 +896,55 @@ public class CustomAlertDialog extends AlertDialog {
          * @return
          */
         public Builder setDefaultPromptView2(String title, String message, String negativeButtonText, String positiveButtonText) {
-            viewStyle = DEFAULT_PROMPT2;
+            this.viewStyle = DEFAULT_PROMPT2;
             this.title = title;
             this.message = message;
             this.negativeButtonText = negativeButtonText;
             this.positiveButtonText = positiveButtonText;
+            return this;
+        }
+
+        /**
+         * 设置AlertDialog背景圆角度数
+         *
+         * @param bgRadius
+         * @return
+         */
+        public Builder setBgRadius(float bgRadius) {
+            this.bgRadius = bgRadius;
+            return this;
+        }
+
+        /**
+         * 设置AlertDialog背景边框宽度
+         *
+         * @param bgStrokeWidth
+         * @return
+         */
+        public Builder setBgStrokeWidth(int bgStrokeWidth) {
+            this.bgStrokeWidth = bgStrokeWidth;
+            return this;
+        }
+
+        /**
+         * 设置AlertDialog背景边框宽度颜色
+         *
+         * @param bgStrokeColor
+         * @return
+         */
+        public Builder setBgStrokeColor(@ColorInt int bgStrokeColor) {
+            this.bgStrokeColor = bgStrokeColor;
+            return this;
+        }
+
+        /**
+         * 设置AlertDialog背景颜色
+         *
+         * @param bgColor
+         * @return
+         */
+        public Builder setBgColor(@ColorInt int bgColor) {
+            this.bgColor = bgColor;
             return this;
         }
 
@@ -902,7 +1024,7 @@ public class CustomAlertDialog extends AlertDialog {
          * @return
          */
         public Builder setPositiveButton(int positiveButtonText, OnClickListener listener) {
-            this.positiveButtonText = (String) context.getText(positiveButtonText);
+            this.positiveButtonText = (String) this.context.getText(positiveButtonText);
             this.positiveButtonClickListener = listener;
             return this;
         }
@@ -923,7 +1045,7 @@ public class CustomAlertDialog extends AlertDialog {
         }
 
         public Builder setNegativeButton(int negativeButtonText, OnClickListener listener) {
-            this.negativeButtonText = (String) context.getText(negativeButtonText);
+            this.negativeButtonText = (String) this.context.getText(negativeButtonText);
             this.negativeButtonClickListener = listener;
             return this;
         }
@@ -944,7 +1066,7 @@ public class CustomAlertDialog extends AlertDialog {
         }
 
         public Builder setNeutralButton(int neutralButtonText, OnClickListener listener) {
-            this.neutralButtonText = (String) context.getText(neutralButtonText);
+            this.neutralButtonText = (String) this.context.getText(neutralButtonText);
             this.neutralButtonClickListener = listener;
             return this;
         }
@@ -972,7 +1094,7 @@ public class CustomAlertDialog extends AlertDialog {
          * @return
          */
         public Builder setPositiveButton(int positiveButtonText, View.OnClickListener listener) {
-            this.positiveButtonText = (String) context.getText(positiveButtonText);
+            this.positiveButtonText = (String) this.context.getText(positiveButtonText);
             this.positiveClickListener = listener;
             return this;
         }
@@ -993,7 +1115,7 @@ public class CustomAlertDialog extends AlertDialog {
         }
 
         public Builder setNegativeButton(int negativeButtonText, View.OnClickListener listener) {
-            this.negativeButtonText = (String) context.getText(negativeButtonText);
+            this.negativeButtonText = (String) this.context.getText(negativeButtonText);
             this.negativeClickListener = listener;
             return this;
         }
@@ -1014,7 +1136,7 @@ public class CustomAlertDialog extends AlertDialog {
         }
 
         public CustomAlertDialog build() {
-            return new CustomAlertDialog(context, themeResId, this);
+            return new CustomAlertDialog(this.context, this.themeResId, this);
         }
     }
 }

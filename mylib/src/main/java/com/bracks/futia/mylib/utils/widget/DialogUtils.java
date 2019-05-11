@@ -2,6 +2,8 @@ package com.bracks.futia.mylib.utils.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,13 +44,42 @@ public class DialogUtils {
      * @return
      */
     public static Dialog createLoadingDialog(Context context, String msg, boolean isCancelable) {
+        return createLoadingDialog(context, msg, 10, 1, 0xFFFFFFFF, 0xFFFFFFFF, isCancelable);
+    }
+
+    /**
+     * 得到简单自定义的progressDialog（图片加文字）
+     *
+     * @param context
+     * @param msg
+     * @param bgRadius
+     * @param strokeWidth
+     * @param strokeColor
+     * @param bgColor
+     * @param isCancelable
+     * @return
+     */
+    public static Dialog createLoadingDialog(Context context,
+                                             String msg,
+                                             float bgRadius,
+                                             int strokeWidth,
+                                             @ColorInt int strokeColor,
+                                             @ColorInt int bgColor,
+                                             boolean isCancelable) {
         LayoutInflater inflater = LayoutInflater.from(context);
         //得到加载view
         View v = inflater.inflate(R.layout.custom_dialog_loading, null);
         //加载布局
-        LinearLayout layout = (LinearLayout) v.findViewById(R.id.dialog_view);
+        LinearLayout layout = v.findViewById(R.id.llRoot);
         //提示文字
-        TextView tipTextView = (TextView) v.findViewById(R.id.tipTextView);
+        TextView tipTextView = v.findViewById(R.id.tipTextView);
+
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setCornerRadius(bgRadius);
+        drawable.setStroke(strokeWidth, strokeColor);
+        drawable.setColor(bgColor);
+        layout.setBackground(drawable);
+
         //xml中的ImageView
         //ImageView spaceshipImage = (ImageView) v.findViewById(R.id.img);
         //加载动画

@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
@@ -461,14 +460,8 @@ public class CustomPopupWindow extends PopupWindow {
         }
 
         private void setWidthAndHeight(int width, int height) {
-            if (width == 0 || height == 0) {
-                //如果没设置宽高，默认是WRAP_CONTENT
-                popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-            } else {
-                popupWindow.setWidth(width);
-                popupWindow.setHeight(height);
-            }
+            popupWindow.setWidth(width);
+            popupWindow.setHeight(height);
         }
 
         private void setSoftInputMode(int softInputMode) {
@@ -523,7 +516,7 @@ public class CustomPopupWindow extends PopupWindow {
             /**
              * 宽高
              */
-            private int mWidth, mHeight;
+            private int mWidth = -2, mHeight = -2;
             /**
              * 是否有背景和动画
              */
