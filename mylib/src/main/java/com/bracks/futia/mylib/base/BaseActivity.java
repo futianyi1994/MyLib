@@ -66,7 +66,7 @@ public abstract class BaseActivity extends RxAppActivity implements BaseViewInte
      */
     @Override
     protected void attachBaseContext(Context newBase) {
-        String language = Language.getInstance(newBase).language();
+        String language = Language.getInstance().language();
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 

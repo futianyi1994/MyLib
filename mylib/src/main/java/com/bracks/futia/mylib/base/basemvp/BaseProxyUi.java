@@ -76,7 +76,7 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
      */
     @Override
     protected void attachBaseContext(Context newBase) {
-        String language = Language.getInstance(newBase).language();
+        String language = Language.getInstance().language();
         super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 
