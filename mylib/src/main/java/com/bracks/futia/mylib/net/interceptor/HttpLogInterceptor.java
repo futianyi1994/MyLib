@@ -1,7 +1,7 @@
 package com.bracks.futia.mylib.net.interceptor;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.bracks.futia.mylib.utils.CommonUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +30,7 @@ public class HttpLogInterceptor {
     public static HttpLoggingInterceptor get() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new OkHttpLogger());
 
-        if (CommonUtils.isDebug()) {
+        if (AppUtils.isAppDebug()) {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         }
 

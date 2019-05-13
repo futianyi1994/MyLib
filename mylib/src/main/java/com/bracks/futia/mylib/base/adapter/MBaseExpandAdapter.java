@@ -3,9 +3,6 @@ package com.bracks.futia.mylib.base.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Toast;
-
-import com.bracks.futia.mylib.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +13,7 @@ import java.util.List;
  * Email:futianyi1994@126.com
  * Description:
  */
-
-public abstract class MBaseExpandAdapter<G,C> extends BaseExpandableListAdapter {
+public abstract class MBaseExpandAdapter<G, C> extends BaseExpandableListAdapter {
     public static final int BODY_LAYOUT = 0;
     public static final int FOOT_LAYOUT = 1;
     private List<G> groupDatas = null;
@@ -43,6 +39,7 @@ public abstract class MBaseExpandAdapter<G,C> extends BaseExpandableListAdapter 
     public int getGroupCount() {
         return groupDatas.size();
     }
+
     @Override
     public G getGroup(int i) {
         return groupDatas.get(i);
@@ -55,12 +52,12 @@ public abstract class MBaseExpandAdapter<G,C> extends BaseExpandableListAdapter 
 
     @Override
     public int getChildrenCount(int i) {
-        return childDatas == null ? 0 : childDatas.size() ;
+        return childDatas == null ? 0 : childDatas.size();
     }
 
     @Override
     public C getChild(int i, int i1) {
-        return childDatas == null ? null:getChildData().get(i1);
+        return childDatas == null ? null : getChildData().get(i1);
     }
 
     @Override
@@ -79,27 +76,11 @@ public abstract class MBaseExpandAdapter<G,C> extends BaseExpandableListAdapter 
     }
 
     /**
-     * 通用土司
-     * @param msg
-     */
-    protected void showToast(String msg){
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-    }
-    /**
-     * 通用 网络异常toast
-     *
-     * @param statusCode
-     */
-    public void toastNetError(int statusCode) {
-        Toast.makeText(context, context.getString(R.string.error_connect) + statusCode, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
      * 添加一个集合
+     *
      * @param dd
      */
-    public void addAll(List<G> dd)
-    {
+    public void addAll(List<G> dd) {
         groupDatas.clear();
         groupDatas.addAll(dd);
         notifyDataSetChanged();
@@ -108,33 +89,33 @@ public abstract class MBaseExpandAdapter<G,C> extends BaseExpandableListAdapter 
     /**
      * 清空数据源
      */
-    public void clear()
-    {
+    public void clear() {
         groupDatas.clear();
         notifyDataSetChanged();
     }
 
     /**
      * 添加子集合
+     *
      * @param childData
      */
-    public void addChildData(List<C> childData){
+    public void addChildData(List<C> childData) {
         this.childDatas = childData;
     }
 
     /**
      * 得到子集合
+     *
      * @return
      */
-    public List<C> getChildData(){
+    public List<C> getChildData() {
         return childDatas;
     }
 
     /**
      * 获父集合
      */
-    public List<G> getGroupData()
-    {
+    public List<G> getGroupData() {
         return groupDatas;
     }
 }

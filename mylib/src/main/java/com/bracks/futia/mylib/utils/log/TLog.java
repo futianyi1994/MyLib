@@ -2,7 +2,7 @@ package com.bracks.futia.mylib.utils.log;
 
 import android.util.Log;
 
-import com.bracks.futia.mylib.utils.CommonUtils;
+import com.blankj.utilcode.util.AppUtils;
 
 /**
  * Created on 2017-12-22  下午 01:34
@@ -12,7 +12,7 @@ import com.bracks.futia.mylib.utils.CommonUtils;
  */
 public class TLog {
     private static final String LOG_TAG = "Tlog";
-    private static boolean DEBUG = CommonUtils.isDebug();
+    private static boolean DEBUG = AppUtils.isAppDebug();
 
     public TLog() {
     }

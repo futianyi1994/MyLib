@@ -1,9 +1,7 @@
 package com.bracks.futia.mylib.base.basevm;
 
-import android.widget.Toast;
-
+import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.futia.mylib.net.https.HttpCallback;
-import com.bracks.futia.mylib.utils.CommonUtils;
 
 import io.reactivex.observers.DisposableObserver;
 
@@ -36,7 +34,7 @@ public class BaseSubscriber<T> extends DisposableObserver<T> {
     public void onError(Throwable e) {
         e.printStackTrace();
         if (baseViewModel == null) {
-            Toast.makeText(CommonUtils.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            ToastUtils.showLong(e.getMessage());
         } else {
             baseViewModel.showToast(e.getMessage());
         }

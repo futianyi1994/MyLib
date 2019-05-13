@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
+import android.os.Handler;
 import android.os.Looper;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ProcessUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bracks.futia.mylib.utils.log.TLog;
 
@@ -29,8 +31,6 @@ public class CommonUtils {
     @SuppressLint("StaticFieldLeak")
     private static Context mContext;
 
-    private static boolean debug;
-
 
     private CommonUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -45,7 +45,6 @@ public class CommonUtils {
         Utils.init(context);
         //LoggerHelper.getInstance().init(false);
         mContext = context.getApplicationContext();
-        debug = context.getApplicationInfo() != null && (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         return appOneInit();
     }
 
@@ -59,15 +58,6 @@ public class CommonUtils {
             return mContext;
         }
         throw new NullPointerException("u should init first");
-    }
-
-    /**
-     * 是否debug模式
-     *
-     * @return
-     */
-    public static boolean isDebug() {
-        return debug;
     }
 
     /**
@@ -162,5 +152,32 @@ public class CommonUtils {
         }
         lastClickTime = currentTime;
         return true;
+    }
+
+    /**
+     * 双击退出函数
+     */
+    private Boolean isExit = false;
+
+    public void exitBy2Click(Context context) {
+        exitBy2Click(context, "再按一次退出程序");
+    }
+
+    public void exitBy2Click(Context context, String exitText) {
+        if (!isExit) {
+            isExit = true;
+            // 准备退出
+            ToastUtils.showLong(exitText);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // 取消退出 .如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+                    isExit = false;
+                }
+            }, 2000);
+        } else {
+            AppUtils.exitApp();
+        }
     }
 }

@@ -805,6 +805,21 @@ public class CustomAlertDialog extends AlertDialog {
         }
 
         /**
+         * 设置全局字体（title、message、按钮）
+         *
+         * @param color
+         * @param unit
+         * @param size
+         * @return
+         */
+        public Builder setGlobalFont(int color, int unit, float size) {
+            titleColor = messageColor = positiveButtonTextColor = negativeButtonTextColor = neutralButtonTextColor = color;
+            titleUnit = messageUnit = positiveButtonTextUnit = negativeButtonTextUnit = neutralButtonTextUnit = unit;
+            titleSize = messageSize = positiveButtonTextSize = negativeButtonTextSize = neutralButtonTextSize = size;
+            return this;
+        }
+
+        /**
          * 设置自定义布局
          *
          * @param v

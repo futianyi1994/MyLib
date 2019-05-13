@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bracks.futia.mylib.R;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -25,8 +23,6 @@ import java.util.List;
  * @email : futianyi1994@126.com
  * @description :
  */
-
-
 public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseRecyclerViewAdapter.BaseViewHolder> {
     public static final int HEAD_TYPE = 0;
     public static final int BODY_TYPE = 1;
@@ -197,24 +193,6 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     private void onItemLongClickListener(View itemView, int position, T t) {
 
-    }
-
-    /**
-     * 通用土司
-     *
-     * @param msg
-     */
-    protected void showToast(String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * 通用 网络异常toast
-     *
-     * @param statusCode
-     */
-    protected void toastNetError(int statusCode) {
-        Toast.makeText(context, context.getString(R.string.error_connect) + statusCode, Toast.LENGTH_SHORT).show();
     }
 
     /**

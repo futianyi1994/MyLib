@@ -17,8 +17,6 @@ import me.yokeyword.fragmentation.SupportFragment;
  * @email : futianyi1994@126.com
  * @description :
  */
-
-
 public class BaseFragmentPagerAdapter<T extends SupportFragment> extends FragmentPagerAdapter {
     private List<T> fragments = new ArrayList<>();
     private List<String> tabList = new ArrayList<>();

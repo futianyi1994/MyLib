@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 
 import com.blankj.utilcode.util.KeyboardUtils;
-import com.bracks.futia.mylib.AppManager;
 import com.bracks.futia.mylib.R;
 import com.bracks.futia.mylib.base.interf.BaseViewInterf;
 import com.bracks.futia.mylib.internationalization.Language;
@@ -36,7 +35,6 @@ public abstract class BaseActivity extends RxAppActivity implements BaseViewInte
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppManager.getAppManager().addActivity(this);
         if (getLayoutId() != 0) {
             setBackgroundColor(R.color.common_item_gray_bg);
             setContentView(getLayoutId());

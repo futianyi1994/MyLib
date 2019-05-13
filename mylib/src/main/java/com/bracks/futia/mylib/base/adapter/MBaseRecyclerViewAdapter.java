@@ -13,9 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by fjz on 05/12/2016.
+ * good programmer.
+ *
+ * @date : 2019-05-13 下午 03:52
+ * @author: futia
+ * @email : futianyi1994@126.com
+ * @description :
  */
-
 public abstract class MBaseRecyclerViewAdapter<ENTITY> extends RecyclerView.Adapter {
 
     private static final String TAG = "RecyclerViewAdapter";

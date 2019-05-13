@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -102,10 +101,6 @@ public class CustomPopupWindow extends PopupWindow {
 
     public LayoutInflater getInflater() {
         return inflater;
-    }
-
-    protected void showToast(String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     /**
