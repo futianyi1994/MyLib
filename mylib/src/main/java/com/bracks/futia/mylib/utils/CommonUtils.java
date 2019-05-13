@@ -157,13 +157,13 @@ public class CommonUtils {
     /**
      * 双击退出函数
      */
-    private Boolean isExit = false;
+    private static Boolean isExit = false;
 
-    public void exitBy2Click(Context context) {
-        exitBy2Click(context, "再按一次退出程序");
+    public static void exitBy2Click() {
+        exitBy2Click("再按一次退出程序");
     }
 
-    public void exitBy2Click(Context context, String exitText) {
+    public static void exitBy2Click(String exitText) {
         if (!isExit) {
             isExit = true;
             // 准备退出

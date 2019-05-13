@@ -76,11 +76,11 @@ public class BaseViewModel extends ViewModel implements IViewModelAction {
         return actionLiveData;
     }
 
-    void setLifecycleOwner(LifecycleOwner lifecycleOwner) {
+    public void setLifecycleOwner(LifecycleOwner lifecycleOwner) {
         this.lifecycleOwner = lifecycleOwner;
     }
 
-    <E> void setLifecycleProvider(LifecycleProvider<E> lifecycleProvider) {
+    public <E> void setLifecycleProvider(LifecycleProvider<E> lifecycleProvider) {
         if (lifecycleProvider instanceof RxAppActivity) {
             lifecycleActProvider = ((RxAppActivity) lifecycleProvider);
         } else if (lifecycleProvider instanceof RxAppFragment) {
@@ -88,5 +88,17 @@ public class BaseViewModel extends ViewModel implements IViewModelAction {
         } else {
             throw new ApiException(0, "Base Activity not implements LifecycleProvider");
         }
+    }
+
+    public LifecycleOwner getLifecycleOwner() {
+        return lifecycleOwner;
+    }
+
+    public LifecycleProvider<ActivityEvent> getLifecycleActProvider() {
+        return lifecycleActProvider;
+    }
+
+    public LifecycleProvider<FragmentEvent> getLifecycleFragProvider() {
+        return lifecycleFragProvider;
     }
 }

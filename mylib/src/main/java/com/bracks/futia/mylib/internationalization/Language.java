@@ -9,32 +9,29 @@ import android.content.Context;
  * Email:futianyi1994@126.com
  * Description:公共的语言
  */
-
 public class Language {
     private static volatile Language singleton = null;
 
     /**
      * 单利构造器私有化
      */
-    private Language(Context context) {
-        this.context = context;
+    private Language() {
     }
 
     /**
      * 对外唯一实例的接口
      */
-    public static final Language getInstance(Context context) {
+    public static final Language getInstance() {
         if (singleton == null) {
             synchronized (Language.class) {
                 if (singleton == null) {
-                    singleton = new Language(context);
+                    singleton = new Language();
                 }
             }
         }
         return singleton;
     }
 
-    private Context context;
     public String Language = "zh";
 
     public String language() {
@@ -61,10 +58,7 @@ public class Language {
      */
     public boolean isZhCN(Context context) {
         String lang = context.getResources().getConfiguration().locale.getCountry();
-        if (lang.equalsIgnoreCase("CN")) {
-            return true;
-        }
-        return false;
+        return "CN".equalsIgnoreCase(lang);
     }
 
 }
