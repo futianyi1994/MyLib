@@ -15,7 +15,7 @@ ext {
             dagger2SdkVersion       : "2.17",
             lifecycSdkleVersion     : "1.1.1",
             roomSdkleVersion        : "1.1.1",
-            mylibVersion            : "1.2.4"
+            mylibVersion            : "1.2.5"
     ]
     dependencies = [
             "androidJUnitRunner"                   : "android.support.test.runner.AndroidJUnitRunner",
@@ -92,6 +92,8 @@ ext {
             "tencent-bugly-nativecrashreport"      : 'com.tencent.bugly:nativecrashreport:latest.release',
             "tinker-android-lib"                   : 'com.tencent.tinker:tinker-android-lib:1.9.9',
             "tinker-android-anno"                  : 'com.tencent.tinker:tinker-android-anno:1.9.8',
+            "leakcanary-android"                   : 'com.squareup.leakcanary:leakcanary-android:1.6.3',
+            "leakcanary-android-no-op"             : 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3',
 
             "gson"                                 : 'com.google.code.gson:gson:2.8.5',
             "fastjson"                             : 'com.alibaba:fastjson:1.2.31',

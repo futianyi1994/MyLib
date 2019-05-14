@@ -2,9 +2,8 @@ package com.bracks.mylib.activity;
 
 import android.arch.lifecycle.ViewModel;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.widget.Button;
-
-import androidx.annotation.RequiresApi;
 
 import com.bracks.futia.mylib.base.basemvp.BasePresenter;
 import com.bracks.futia.mylib.base.basemvp.CreatePresenter;

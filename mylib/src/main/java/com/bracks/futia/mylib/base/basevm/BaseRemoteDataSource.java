@@ -28,9 +28,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 public abstract class BaseRemoteDataSource implements BaseDataSource {
 
-    private CompositeDisposable compositeDisposable;
+    protected CompositeDisposable compositeDisposable;
 
-    private BaseViewModel baseViewModel;
+    protected BaseViewModel baseViewModel;
 
     public BaseRemoteDataSource(BaseViewModel baseViewModel) {
         this.compositeDisposable = new CompositeDisposable();
@@ -137,11 +137,7 @@ public abstract class BaseRemoteDataSource implements BaseDataSource {
         compositeDisposable.add(disposable);
     }
 
-    public CompositeDisposable getCompositeDisposable() {
-        return compositeDisposable;
-    }
-
-    public void dispose() {
+    protected void dispose() {
         if (!compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
         }

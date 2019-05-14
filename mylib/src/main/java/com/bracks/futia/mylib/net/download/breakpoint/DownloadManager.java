@@ -8,7 +8,6 @@ import com.bracks.futia.mylib.net.interceptor.DownloadInterceptor;
 import com.bracks.futia.mylib.rx.RxRetryWithObservFunc;
 import com.bracks.futia.mylib.utils.json.JsonUtil;
 import com.bracks.futia.mylib.utils.log.TLog;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
 import java.util.Locale;
@@ -23,6 +22,7 @@ import io.reactivex.internal.functions.Functions;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**

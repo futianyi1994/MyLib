@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode 124
-        versionName "1.2.4"
+        versionCode 125
+        versionName "1.2.5"
         testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
     }
     buildTypes {
@@ -77,20 +77,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation rootProject.ext.dependencies["junit"]
-    api rootProject.ext.dependencies["constraint-layout"]
     api rootProject.ext.dependencies["support-v4"]
     api rootProject.ext.dependencies["appcompat-v7"]
     api rootProject.ext.dependencies["recyclerview-v7"]
     api rootProject.ext.dependencies["design"]
-    api rootProject.ext.dependencies["percent"]
 
     //Rxjava2
     api rootProject.ext.dependencies["rxandroid2"]
     api rootProject.ext.dependencies["rxjava2"]
-
-    //Rxbinding
-    api rootProject.ext.dependencies["rxbinding"]
-    //api rootProject.ext.dependencies["rxbinding-material"]
 
     //Rxlifecycle
     api rootProject.ext.dependencies["rxlifecycle2"]
@@ -101,7 +95,8 @@ dependencies {
     api rootProject.ext.dependencies["retrofit2-converter-gson"]
     api rootProject.ext.dependencies["retrofit2-converter-scalars"]
     api rootProject.ext.dependencies["retrofit2-adapter-rxjava2"]
-    api rootProject.ext.dependencies["retrofit2-adapter-rxjava2-jakewharton"]
+    //已经启用，改用官方Retrofit支持Rxjava的支持库
+    //api rootProject.ext.dependencies["retrofit2-adapter-rxjava2-jakewharton"]
 
     //Okhttp-interceptor
     api rootProject.ext.dependencies["okhttp3-logging-interceptor"]
@@ -145,6 +140,9 @@ dependencies {
 
     /***********************************以下根据需求添加**************************************/
 
+    compileOnly rootProject.ext.dependencies["percent"]
+    compileOnly rootProject.ext.dependencies["constraint-layout"]
+
     //Dragger2
     //compileOnly rootProject.ext.dependencies["dagger"]
     //compileOnly rootProject.ext.dependencies["dagger-android"]
@@ -161,6 +159,10 @@ dependencies {
     //需要在App的build.gradle中添加，这里添加无效
     //annotationProcessor rootProject.ext.dependencies["room-compiler"]
 
+    //Rxbinding
+    compileOnly rootProject.ext.dependencies["rxbinding"]
+    //compileOnly rootProject.ext.dependencies["rxbinding-material"]
+
     //Glide
     compileOnly rootProject.ext.dependencies["glide"]
     compileOnly rootProject.ext.dependencies["glide-transformations"]
@@ -170,6 +172,10 @@ dependencies {
     compileOnly rootProject.ext.dependencies["smartrefreshlayout"]
     //没有使用特殊Header，可以不加这行
     //compileOnly rootProject.ext.dependencies["smartrefreshheader"]
+
+    //Leakcanary
+    debugCompileOnly rootProject.ext.dependencies["leakcanary-android-no-op"]
+    releaseCompileOnly rootProject.ext.dependencies["leakcanary-android"]
 
     //Bottom-navigation-bar
     compileOnly rootProject.ext.dependencies["bottom-navigation-bar"]
