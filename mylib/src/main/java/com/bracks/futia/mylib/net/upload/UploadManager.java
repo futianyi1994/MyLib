@@ -27,6 +27,10 @@ public class UploadManager {
     }
 
     public static <T> T init(Class<T> cls, String host, ProgressListener.ProgressCallback callback) {
+        return init(cls, host, new OkHttpClient.Builder(), callback);
+    }
+
+    public static <T> T init(Class<T> cls, String host, OkHttpClient.Builder builder, ProgressListener.ProgressCallback callback) {
         if (retrofit == null) {
             synchronized (UploadManager.class) {
                 retrofit = new Retrofit
@@ -34,7 +38,7 @@ public class UploadManager {
                         .baseUrl(host)
                         .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                        .client(UploadHelper.addUploadListener(new OkHttpClient.Builder(), callback))
+                        .client(UploadHelper.addUploadListener(builder, callback))
                         .build();
             }
         }

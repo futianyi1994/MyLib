@@ -80,7 +80,6 @@ public class DownloadHelper {
 
         //添加拦截器，自定义ResponseBody，添加下载进度
         builder
-                //.addInterceptor(HttpLogInterceptor.get())
                 .addInterceptor(new DownloadInterceptor(progressListener))
         ;
         return builder.build();

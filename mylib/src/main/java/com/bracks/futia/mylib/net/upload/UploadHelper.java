@@ -3,7 +3,6 @@ package com.bracks.futia.mylib.net.upload;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.futia.mylib.net.https.ProgressBean;
 import com.bracks.futia.mylib.net.https.ProgressListener;
-import com.bracks.futia.mylib.net.interceptor.HttpLogInterceptor;
 import com.bracks.futia.mylib.utils.log.TLog;
 
 import java.util.Locale;
@@ -80,7 +79,6 @@ public class UploadHelper {
 
         //增加拦截器，自定义ResponseBody，添加上传进度
         builder
-                .addInterceptor(HttpLogInterceptor.get())
                 .addInterceptor(chain -> {
                     Request original = chain.request();
                     Request request = original

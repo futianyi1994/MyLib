@@ -1,16 +1,8 @@
 package com.bracks.futia.mylib.net.https;
 
 import com.bracks.futia.mylib.Constants;
-import com.bracks.futia.mylib.net.interceptor.AppendBodyParamIntercepter;
-import com.bracks.futia.mylib.net.interceptor.AppendHeaderParamIntercepter;
-import com.bracks.futia.mylib.net.interceptor.AppendUrlParamIntercepter;
 import com.bracks.futia.mylib.net.interceptor.HttpCacheInterceptor;
-import com.bracks.futia.mylib.net.interceptor.HttpHeaderInterceptor;
-import com.bracks.futia.mylib.net.interceptor.HttpLogInterceptor;
-import com.bracks.futia.mylib.net.interceptor.PostAndGetFieldIntercepter;
-import com.bracks.futia.mylib.net.interceptor.ReceivedCookiesInterceptor;
-import com.bracks.futia.mylib.net.interceptor.RequestParamInterceptor;
-import com.bracks.futia.mylib.net.interceptor.ResponseParamInterceptor;
+import com.bracks.futia.mylib.net.interceptor.LogInterceptor;
 import com.bracks.futia.mylib.utils.CommonUtils;
 import com.bracks.futia.mylib.utils.json.JsonUtil;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
@@ -28,7 +20,6 @@ import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -60,16 +51,20 @@ public class HttpManager {
 
     public static OkHttpClient.Builder getOkHttpClientBuilder() {
 
-        HttpLoggingInterceptor loggingInterceptor = HttpLogInterceptor.get();
+        LogInterceptor logInterceptor = new LogInterceptor();
         HttpCacheInterceptor httpCacheInterceptor = new HttpCacheInterceptor();
-        HttpHeaderInterceptor headerInterceptor = new HttpHeaderInterceptor();
-        RequestParamInterceptor requestParamInterceptor = new RequestParamInterceptor();
-        ResponseParamInterceptor responseParamInterceptor = new ResponseParamInterceptor();
-        PostAndGetFieldIntercepter postAndGetFieldIntercepter = new PostAndGetFieldIntercepter();
-        ReceivedCookiesInterceptor receivedCookiesInterceptor = new ReceivedCookiesInterceptor();
-        AppendUrlParamIntercepter appendUrlParamIntercepter = new AppendUrlParamIntercepter();
-        AppendBodyParamIntercepter appendBodyParamIntercepter = new AppendBodyParamIntercepter();
-        AppendHeaderParamIntercepter appendHeaderParamIntercepter = new AppendHeaderParamIntercepter();
+        //HttpLoggingInterceptor loggingInterceptor = HttpLogInterceptor.get();
+        //PostAndGetFieldIntercepter postAndGetFieldIntercepter = new PostAndGetFieldIntercepter();
+
+        //RequestParamInterceptor requestParamInterceptor = new RequestParamInterceptor();
+        //HttpHeaderInterceptor headerInterceptor = new HttpHeaderInterceptor();
+        //AppendUrlParamIntercepter appendUrlParamIntercepter = new AppendUrlParamIntercepter();
+        //AppendBodyParamIntercepter appendBodyParamIntercepter = new AppendBodyParamIntercepter();
+        //AppendHeaderParamIntercepter appendHeaderParamIntercepter = new AppendHeaderParamIntercepter();
+
+        //ResponseParamInterceptor responseParamInterceptor = new ResponseParamInterceptor();
+        //ReceivedCookiesInterceptor receivedCookiesInterceptor = new ReceivedCookiesInterceptor();
+
 
         File cacheFile = new File(CommonUtils.getContext().getExternalCacheDir(), Constants.HTTP_CACHE);
         int cacheSize = 100 * 1024 * 1024;
@@ -92,16 +87,16 @@ public class HttpManager {
                         .cache(cache)
                         .addInterceptor(httpCacheInterceptor)
                         .addNetworkInterceptor(httpCacheInterceptor)
-                        //.addInterceptor(headerInterceptor)
-                        //.addInterceptor(requestParamInterceptor)
-                        //.addInterceptor(responseParamInterceptor);
                         //.addInterceptor(postAndGetFieldIntercepter)
-                        //.addInterceptor(receivedCookiesInterceptor)
+                        //.addInterceptor(requestParamInterceptor)
+                        //.addInterceptor(headerInterceptor)
                         //.addInterceptor(appendUrlParamIntercepter)
                         //.addInterceptor(appendBodyParamIntercepter)
                         //.addInterceptor(appendHeaderParamIntercepter)
+                        //.addInterceptor(responseParamInterceptor);
+                        //.addInterceptor(receivedCookiesInterceptor)
                         //日志拦截器放最后（可以打印更多更准确信息）
-                        .addInterceptor(loggingInterceptor)
+                        .addInterceptor(logInterceptor)
                 ;
             }
         }
