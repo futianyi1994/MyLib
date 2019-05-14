@@ -1,10 +1,11 @@
 package com.bracks.futia.mylib.net.interceptor;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -35,9 +36,9 @@ public class LogInterceptor implements Interceptor {
         this.priority = priority;
     }
 
-    @NonNull
+    @NotNull
     @Override
-    public Response intercept(@NonNull Chain chain) throws IOException {
+    public Response intercept(@NotNull Chain chain) throws IOException {
 
         Request request = chain.request();
         if (this.priority == 0) {
