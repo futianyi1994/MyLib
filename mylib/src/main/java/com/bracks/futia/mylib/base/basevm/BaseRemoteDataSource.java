@@ -130,14 +130,14 @@ public abstract class BaseRemoteDataSource implements BaseDataSource {
         }
     }
 
-    protected void addDisposable(Disposable disposable) {
+    public void addDisposable(Disposable disposable) {
         if (compositeDisposable.isDisposed()) {
             compositeDisposable = new CompositeDisposable();
         }
         compositeDisposable.add(disposable);
     }
 
-    protected void dispose() {
+    public void dispose() {
         if (!compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
         }

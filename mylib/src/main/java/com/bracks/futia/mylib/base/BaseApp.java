@@ -29,16 +29,19 @@ public class BaseApp extends Application {
      */
     public final static int APP_STATUS_NORMAL = 1;
     /**
+     * <p>Example:
+     * <pre><code>
      * 记录App的启动状态
-     *  //非正常启动流程，直接重新初始化应用界面(缺点：第一次一定会重启)
-     *  if (BaseApp.APP_STATUS != BaseApp.APP_STATUS_NORMAL) {
-     *      //App正常的启动，设置App的启动状态为正常启动
-     *      BaseApp.APP_STATUS = BaseApp.APP_STATUS_NORMAL;
-     *      BaseApp.reInitApp(HomeActivity.class);
-     *      return;
-     *  } else {
-     *      //正常启动流程
-     *  }
+     * //非正常启动流程，直接重新初始化应用界面(缺点：第一次一定会重启)
+     * if (BaseApp.APP_STATUS != BaseApp.APP_STATUS_NORMAL) {
+     *     //App正常的启动，设置App的启动状态为正常启动
+     *     BaseApp.APP_STATUS = BaseApp.APP_STATUS_NORMAL;
+     *     BaseApp.reInitApp(HomeActivity.class);
+     *     return;
+     * } else {
+     *     //正常启动流程
+     * }
+     * </code></pre>
      */
     public static int APP_STATUS = APP_STATUS_KILLED;
 
@@ -60,6 +63,8 @@ public class BaseApp extends Application {
 
     /**
      * 重新初始化应用界面，清空当前Activity棧，并启动首页
+     *
+     * @param cls
      */
     public static void reInitApp(Class<?> cls) {
         Intent intent = new Intent(mContext, cls);

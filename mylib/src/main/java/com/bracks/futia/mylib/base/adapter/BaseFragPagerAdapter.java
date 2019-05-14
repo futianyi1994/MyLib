@@ -4,10 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * good programmer.
@@ -17,11 +14,11 @@ import me.yokeyword.fragmentation.SupportFragment;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class BaseFragmentPagerAdapter<T extends SupportFragment> extends FragmentPagerAdapter {
-    private List<T> fragments = new ArrayList<>();
-    private List<String> tabList = new ArrayList<>();
+public class BaseFragPagerAdapter<T extends Fragment> extends FragmentPagerAdapter {
+    private List<T> fragments;
+    private List<String> tabList;
 
-    public BaseFragmentPagerAdapter(FragmentManager fm, List<T> fragments, List<String> tabList) {
+    public BaseFragPagerAdapter(FragmentManager fm, List<T> fragments, List<String> tabList) {
         super(fm);
         this.fragments = fragments;
         this.tabList = tabList;

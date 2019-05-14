@@ -53,6 +53,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         notifyDataSetChanged();
         return this;
     }
+
     /**
      * 得到数据
      *
@@ -85,9 +86,9 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //LayoutInflater inflater = LayoutInflater.from(context);
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(inflaterItemLayout(viewType), parent, false);
-        return new BaseViewHolder(itemView,viewType);
+        return new BaseViewHolder(itemView, viewType);
     }
 
     /**
@@ -240,7 +241,8 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         public void setText(int resId, String str) {
             getTextView(resId).setText(str);
         }
-        public void setImage(int resId,String url){
+
+        public void setImage(int resId, String url) {
             Glide.with(context).load(url).into((ImageView) getView(resId));
         }
 

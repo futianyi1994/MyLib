@@ -2,12 +2,12 @@ package com.bracks.futia.mylib.base.model;
 
 
 /**
- * 实体类
- * zbw
+ * good programmer.
+ *
+ * @date : 2019-05-14 下午 01:54
+ * @author: futia
+ * @email : futianyi1994@126.com
+ * @description :
  */
-@SuppressWarnings("serial")
 public abstract class Entity extends Base {
-
-    //
-
 }

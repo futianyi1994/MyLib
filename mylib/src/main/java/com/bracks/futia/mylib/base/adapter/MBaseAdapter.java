@@ -1,5 +1,6 @@
 package com.bracks.futia.mylib.base.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
@@ -11,9 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Data : 2017/9/4  11:32
- * @Author: 天一
- * @Description:
+ * good programmer.
+ *
+ * @date : 2017/9/4 11:32
+ * @author: futia
+ * @email : futianyi1994@126.com
+ * @description :
  */
 public abstract class MBaseAdapter<T> extends BaseAdapter {
     private List<T> datas;
@@ -23,6 +27,7 @@ public abstract class MBaseAdapter<T> extends BaseAdapter {
     /**
      * 存放已被选中的CheckBox
      */
+    @SuppressLint("UseSparseArrays")
     private Map<Integer, Boolean> map = new HashMap<>();
 
     public Context getContext() {

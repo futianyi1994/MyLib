@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Good programmer.
- * Created by futia on 2017-11-17 下午 04:02.
- * Email:futianyi1994@126.com
- * Description:
+ * good programmer.
+ *
+ * @date : 2017-11-17 下午 04:02
+ * @author: futia
+ * @email : futianyi1994@126.com
+ * @description :
  */
 public abstract class MBaseExpandAdapter<G, C> extends BaseExpandableListAdapter {
     public static final int BODY_LAYOUT = 0;
