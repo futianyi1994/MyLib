@@ -1,6 +1,6 @@
 package com.bracks.futia.mylib.net.interceptor;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
@@ -22,9 +22,9 @@ import okhttp3.Response;
  */
 public class AppendHeaderParamIntercepter implements Interceptor {
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
 
         Headers.Builder builder = request
@@ -37,7 +37,8 @@ public class AppendHeaderParamIntercepter implements Interceptor {
                 .add("token", "i am token")
                 .build();
 
-        Request newRequest = request.newBuilder()
+        Request newRequest = request
+                .newBuilder()
                 .headers(newBuilder)
                 .build();
 

@@ -113,7 +113,7 @@ public class CommonUtils {
     /**
      * 判断当前线程是否在主线程
      *
-     * @return
+     * @return true:主线程
      */
     public static boolean isMainThread() {
         //return Thread.currentThread() == Looper.getMainLooper().getThread();
@@ -124,16 +124,13 @@ public class CommonUtils {
      * 检查集合
      *
      * @param list
-     * @return
+     * @return true
      */
     public static boolean checkList(List list) {
         if (list == null) {
             return false;
         }
-        if (list.size() <= 0) {
-            return false;
-        }
-        return true;
+        return list.size() > 0;
     }
 
     /**
@@ -169,12 +166,9 @@ public class CommonUtils {
             // 准备退出
             ToastUtils.showLong(exitText);
             Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // 取消退出 .如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
-                    isExit = false;
-                }
+            handler.postDelayed(() -> {
+                // 取消退出 .如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+                isExit = false;
             }, 2000);
         } else {
             AppUtils.exitApp();

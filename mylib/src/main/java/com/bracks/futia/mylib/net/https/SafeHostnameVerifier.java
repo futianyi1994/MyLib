@@ -13,7 +13,6 @@ import javax.net.ssl.SSLSession;
  * @email : futianyi1994@126.com
  * @description :
  */
-
 public class SafeHostnameVerifier implements HostnameVerifier {
     private String hostname;
 

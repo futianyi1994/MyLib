@@ -1,22 +1,11 @@
 package com.bracks.futia.mylib.rx;
 
 
-import org.reactivestreams.Publisher;
-
-import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
 import io.reactivex.CompletableTransformer;
-import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeSource;
 import io.reactivex.MaybeTransformer;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.SingleTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -62,14 +51,9 @@ public class RxSchedulersCompat {
      * @return
      */
     public static <T> ObservableTransformer<T, T> applyObservSchedulers(@NonNull final Scheduler scheduler) {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(Observable<T> upstream) {
-                return upstream
-                        .subscribeOn(scheduler)
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
+        return upstream -> upstream
+                .subscribeOn(scheduler)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -82,14 +66,9 @@ public class RxSchedulersCompat {
      * @return
      */
     public static <T> FlowableTransformer<T, T> applyFlowableSchedulers(@NonNull final Scheduler scheduler) {
-        return new FlowableTransformer<T, T>() {
-            @Override
-            public Publisher<T> apply(@NonNull Flowable<T> upstream) {
-                return upstream
-                        .subscribeOn(scheduler)
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
+        return upstream -> upstream
+                .subscribeOn(scheduler)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -101,14 +80,9 @@ public class RxSchedulersCompat {
      * @return
      */
     public static CompletableTransformer applyCompletableSchedulers(@NonNull final Scheduler scheduler) {
-        return new CompletableTransformer() {
-            @Override
-            public CompletableSource apply(Completable upstream) {
-                return upstream
-                        .subscribeOn(scheduler)
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
+        return upstream -> upstream
+                .subscribeOn(scheduler)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -120,14 +94,9 @@ public class RxSchedulersCompat {
      * @return
      */
     public static <T> SingleTransformer<T, T> applySingleSchedulers(@NonNull final Scheduler scheduler) {
-        return new SingleTransformer<T, T>() {
-            @Override
-            public SingleSource<T> apply(Single<T> upstream) {
-                return upstream
-                        .subscribeOn(scheduler)
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
+        return upstream -> upstream
+                .subscribeOn(scheduler)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -139,13 +108,8 @@ public class RxSchedulersCompat {
      * @return
      */
     public static <T> MaybeTransformer<T, T> applyMaybeSchedulers(@NonNull final Scheduler scheduler) {
-        return new MaybeTransformer<T, T>() {
-            @Override
-            public MaybeSource<T> apply(Maybe<T> upstream) {
-                return upstream
-                        .subscribeOn(scheduler)
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
+        return upstream -> upstream
+                .subscribeOn(scheduler)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

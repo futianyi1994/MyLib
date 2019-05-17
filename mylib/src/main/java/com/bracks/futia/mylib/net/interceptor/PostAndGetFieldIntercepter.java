@@ -1,6 +1,6 @@
 package com.bracks.futia.mylib.net.interceptor;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
@@ -20,9 +20,9 @@ import okhttp3.Response;
 public class PostAndGetFieldIntercepter implements Interceptor {
     public static final String TAG = PostAndGetFieldIntercepter.class.getSimpleName();
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         //得到原始的请求对象
         Request request = chain.request();
         //得到用户所使用的请求方式

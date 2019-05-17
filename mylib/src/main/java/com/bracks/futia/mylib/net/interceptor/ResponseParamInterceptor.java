@@ -1,9 +1,9 @@
 package com.bracks.futia.mylib.net.interceptor;
 
+import android.support.annotation.NonNull;
+
 import com.bracks.futia.mylib.base.model.Result;
 import com.bracks.futia.mylib.utils.json.JsonUtil;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -27,9 +27,9 @@ import okio.BufferedSource;
 public class ResponseParamInterceptor implements Interceptor {
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
 
         // try the request

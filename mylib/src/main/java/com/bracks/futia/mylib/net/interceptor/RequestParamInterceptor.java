@@ -1,8 +1,8 @@
 package com.bracks.futia.mylib.net.interceptor;
 
-import com.blankj.utilcode.util.AppUtils;
+import android.support.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
+import com.blankj.utilcode.util.AppUtils;
 
 import java.io.IOException;
 
@@ -27,15 +27,16 @@ public class RequestParamInterceptor implements Interceptor {
     private static final String COOKIE = "cookie";
 
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
 
         Request originalRequest = chain.request();
 
         String strUrl = originalRequest.url().toString();
 
-        HttpUrl.Builder authorizedUrlBuilder = originalRequest.url()
+        HttpUrl.Builder authorizedUrlBuilder = originalRequest
+                .url()
                 .newBuilder()
                 .scheme(originalRequest.url().scheme())
                 .host(originalRequest.url().host());
@@ -54,7 +55,8 @@ public class RequestParamInterceptor implements Interceptor {
         } else {
             newUrl = originalUrl.concat("&version=" + AppUtils.getAppVersionName() + "&client_Id=" + client_Id);
         }
-        Request.Builder newRequestBuilder = originalRequest.newBuilder()
+        Request.Builder newRequestBuilder = originalRequest
+                .newBuilder()
                 .url(newUrl)
                 .method(originalRequest.method(), originalRequest.body())
                 .addHeader(COOKIE, cookie)

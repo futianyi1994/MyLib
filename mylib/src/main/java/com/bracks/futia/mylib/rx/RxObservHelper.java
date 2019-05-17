@@ -13,8 +13,6 @@ import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.internal.disposables.DisposableHelper;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,26 +26,20 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class RxObservHelper {
 
-    public static boolean isShowLoading(String page){
-        if ("1".equals(page)){
-            return true;
-        }else {
-            return false;
-        }
+    public static boolean isShowLoading(String page) {
+        return "1".equals(page);
     }
-    public static boolean isShowLoading(int page){
-        if (page == 1){
-            return true;
-        }else {
-            return false;
-        }
+
+    public static boolean isShowLoading(int page) {
+        return page == 1;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static boolean isDestroy(RxAppActivity activity){
+    public static boolean isDestroy(RxAppActivity activity) {
         return activity == null || activity.isDestroyed() || activity.isFinishing();
     }
-    public static boolean isDestroy(RxAppFragment fragment){
+
+    public static boolean isDestroy(RxAppFragment fragment) {
         return fragment.isDetached();
     }
 
@@ -59,7 +51,7 @@ public class RxObservHelper {
     public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppActivity activity,
                                                                    final boolean isShowLoading,
                                                                    final DialogInterface.OnDismissListener listener) {
-        return applyProgressBar(activity, isShowLoading, listener,true);
+        return applyProgressBar(activity, isShowLoading, listener, true);
     }
 
     public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppActivity activity,
@@ -74,30 +66,24 @@ public class RxObservHelper {
             public ObservableSource<T> apply(Observable<T> upstream) {
                 return upstream
                         .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(Disposable disposable) throws Exception {
-                                if (isShowLoading) {
-                                    dialog = DialogUtils.createLoadingDialog(activity, "加载中", dialogCancelable);
-                                    dialog.show();
-                                    if (listener != null){
-                                        dialog.setOnDismissListener(listener);
-                                    }
+                        .doOnSubscribe(disposable -> {
+                            if (isShowLoading) {
+                                dialog = DialogUtils.createLoadingDialog(activity, "加载中", dialogCancelable);
+                                dialog.show();
+                                if (listener != null) {
+                                    dialog.setOnDismissListener(listener);
                                 }
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .doOnTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                if (isShowLoading) {
-                                    DialogUtils.dismissDialog(dialog);
-                                }
+                        .doOnTerminate(() -> {
+                            if (isShowLoading) {
+                                DialogUtils.dismissDialog(dialog);
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .compose(activity.<T>bindToLifecycle());
+                        .compose(activity.bindToLifecycle());
             }
         };
     }
@@ -106,10 +92,11 @@ public class RxObservHelper {
                                                                    final boolean isShowLoading) {
         return applyProgressBar(activity, isShowLoading, null);
     }
+
     public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppFragment activity,
                                                                    final boolean isShowLoading,
                                                                    final DialogInterface.OnDismissListener listener) {
-        return applyProgressBar(activity, isShowLoading, listener,true);
+        return applyProgressBar(activity, isShowLoading, listener, true);
     }
 
     public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppFragment activity,
@@ -124,35 +111,29 @@ public class RxObservHelper {
             public ObservableSource<T> apply(Observable<T> upstream) {
                 return upstream
                         .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(Disposable disposable) throws Exception {
-                                if (isShowLoading) {
-                                    dialog = DialogUtils.createLoadingDialog(activity.getContext(), "加载中", dialogCancelable);
-                                    dialog.show();
-                                    if (listener != null){
-                                        dialog.setOnDismissListener(listener);
-                                    }
+                        .doOnSubscribe(disposable -> {
+                            if (isShowLoading) {
+                                dialog = DialogUtils.createLoadingDialog(activity.getContext(), "加载中", dialogCancelable);
+                                dialog.show();
+                                if (listener != null) {
+                                    dialog.setOnDismissListener(listener);
                                 }
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .doOnTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                if (isShowLoading) {
-                                    DialogUtils.dismissDialog(dialog);
-                                }
+                        .doOnTerminate(() -> {
+                            if (isShowLoading) {
+                                DialogUtils.dismissDialog(dialog);
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .compose(activity.<T>bindToLifecycle());
+                        .compose(activity.bindToLifecycle());
             }
         };
     }
 
-    public static void cancelRequest(Disposable disposable){
+    public static void cancelRequest(Disposable disposable) {
         if (disposable != null && !disposable.isDisposed()) {
             Disposable s = disposable;
             disposable = DisposableHelper.DISPOSED;

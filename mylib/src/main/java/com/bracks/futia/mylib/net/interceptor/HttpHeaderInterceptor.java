@@ -1,6 +1,6 @@
 package com.bracks.futia.mylib.net.interceptor;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
@@ -17,13 +17,15 @@ import okhttp3.Response;
  * @description :
  */
 public class HttpHeaderInterceptor implements Interceptor {
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         //配置请求头
         String accessToken = "token";
         String tokenType = "tokenType";
-        Request request = chain.request().newBuilder()
+        Request request = chain
+                .request()
+                .newBuilder()
                 .header("app_key", "appId")
                 .header("Authorization", tokenType + " " + accessToken)
                 .header("Content-Type", "application/json")

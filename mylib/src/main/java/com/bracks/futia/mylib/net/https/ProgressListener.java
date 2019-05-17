@@ -23,7 +23,7 @@ public interface ProgressListener {
         /**
          * 回调到主线程
          *
-         * @param progressBean
+         * @param progressBean 进度条实体
          */
         void onUpload(ProgressBean progressBean);
     }

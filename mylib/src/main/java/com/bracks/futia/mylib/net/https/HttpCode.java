@@ -9,7 +9,6 @@ package com.bracks.futia.mylib.net.https;
  * @description :
  */
 public class HttpCode {
-
     /**
      * 请求成功
      */

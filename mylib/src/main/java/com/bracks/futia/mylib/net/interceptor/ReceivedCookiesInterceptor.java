@@ -1,10 +1,10 @@
 package com.bracks.futia.mylib.net.interceptor;
 
 
+import android.support.annotation.NonNull;
+
 import com.bracks.futia.mylib.Constants;
 import com.bracks.futia.mylib.utils.save.SPUtils;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,9 +22,9 @@ import okhttp3.Response;
  */
 public class ReceivedCookiesInterceptor implements Interceptor {
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Response originalResponse = chain.proceed(chain.request());
         if (!originalResponse.headers("Set-Cookie").isEmpty()) {
             List<String> cookies = originalResponse.headers("Set-Cookie");

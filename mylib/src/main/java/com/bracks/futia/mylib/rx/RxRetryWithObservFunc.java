@@ -39,20 +39,17 @@ public class RxRetryWithObservFunc implements Function<Observable<Throwable>, Ob
     }
 
     @Override
-    public ObservableSource<?> apply(Observable<Throwable> throwableObservable) throws Exception {
+    public ObservableSource<?> apply(Observable<Throwable> throwableObservable) {
         return throwableObservable
-                .flatMap(new Function<Throwable, ObservableSource<?>>() {
-                    @Override
-                    public ObservableSource<?> apply(Throwable throwable) throws Exception {
-                        if (++retryCount <= maxRetries) {
-                            //When this Observable calls onNext, the original Observable will be retried (i.e. re-subscribed).
-                            TLog.e(TAG, "get error, it will try after " + retryDelayMillis + " millisecond, retry count " + retryCount);
-                            //return Observable.just(retryCount).delay(retryDelayMillis, TimeUnit.MILLISECONDS);
-                            return Observable.timer(retryDelayMillis, unit);
-                        }
-                        //Max retries hit. Just pass the error along.
-                        return Observable.error(throwable);
+                .flatMap((Function<Throwable, ObservableSource<?>>) throwable -> {
+                    if (++retryCount <= maxRetries) {
+                        //When this Observable calls onNext, the original Observable will be retried (i.e. re-subscribed).
+                        TLog.e(TAG, "get error, it will try after " + retryDelayMillis + " millisecond, retry count " + retryCount);
+                        //return Observable.just(retryCount).delay(retryDelayMillis, TimeUnit.MILLISECONDS);
+                        return Observable.timer(retryDelayMillis, unit);
                     }
+                    //Max retries hit. Just pass the error along.
+                    return Observable.error(throwable);
                 });
     }
 }

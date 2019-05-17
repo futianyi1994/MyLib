@@ -4,10 +4,12 @@ import android.content.Context;
 
 
 /**
- * Good programmer.
- * Created by futia on 2017-11-07 下午 03:45.
- * Email:futianyi1994@126.com
- * Description:公共的语言
+ * good programmer.
+ *
+ * @date : 2019-05-17 上午 10:41
+ * @author: futia
+ * @email : futianyi1994@126.com
+ * @description :
  */
 public class Language {
     private static volatile Language singleton = null;
@@ -21,7 +23,7 @@ public class Language {
     /**
      * 对外唯一实例的接口
      */
-    public static final Language getInstance() {
+    public static Language getInstance() {
         if (singleton == null) {
             synchronized (Language.class) {
                 if (singleton == null) {
@@ -32,12 +34,15 @@ public class Language {
         return singleton;
     }
 
-    public String Language = "zh";
+    private String language = "zh";
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     public String language() {
-        //Language.Language 为对应的资源格式后缀，比如"zh"
-
-        return Language;
+        //Language.language 为对应的资源格式后缀，比如"zh"
+        return language;
     }
 
     /**

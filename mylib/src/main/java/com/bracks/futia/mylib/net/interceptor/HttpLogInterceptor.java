@@ -1,9 +1,9 @@
 package com.bracks.futia.mylib.net.interceptor;
 
+import android.support.annotation.NonNull;
+
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
-
-import org.jetbrains.annotations.NotNull;
 
 import okhttp3.logging.HttpLoggingInterceptor;
 
@@ -21,7 +21,7 @@ public class HttpLogInterceptor {
      */
     static class OkHttpLogger implements HttpLoggingInterceptor.Logger {
         @Override
-        public void log(@NotNull String message) {
+        public void log(@NonNull String message) {
             LogUtils.iTag("oklog", message);
             //Logger.i("oklog: %s", message);
         }

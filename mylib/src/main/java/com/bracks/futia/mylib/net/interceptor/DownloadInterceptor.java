@@ -1,9 +1,9 @@
 package com.bracks.futia.mylib.net.interceptor;
 
+import android.support.annotation.NonNull;
+
 import com.bracks.futia.mylib.net.download.ProgressResponseBody;
 import com.bracks.futia.mylib.net.https.ProgressListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -26,12 +26,13 @@ public class DownloadInterceptor implements Interceptor {
         this.listener = listener;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Response originalResponse = chain.proceed(chain.request());
 
-        return originalResponse.newBuilder()
+        return originalResponse
+                .newBuilder()
                 .body(new ProgressResponseBody(originalResponse.body(), listener))
                 .build();
     }

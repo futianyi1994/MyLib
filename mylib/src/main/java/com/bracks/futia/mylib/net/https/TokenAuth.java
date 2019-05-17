@@ -1,5 +1,7 @@
 package com.bracks.futia.mylib.net.https;
 
+import android.support.annotation.NonNull;
+
 import com.bracks.futia.mylib.Constants;
 import com.bracks.futia.mylib.utils.save.SPUtils;
 
@@ -27,7 +29,7 @@ public abstract class TokenAuth implements Authenticator {
     }
 
     @Override
-    public Request authenticate(Route route, Response response) throws IOException {
+    public Request authenticate(Route route, @NonNull Response response) throws IOException {
 
         Request oriRequest = response.request();
 

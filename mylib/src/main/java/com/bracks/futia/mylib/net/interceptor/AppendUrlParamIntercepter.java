@@ -1,6 +1,6 @@
 package com.bracks.futia.mylib.net.interceptor;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
@@ -19,9 +19,9 @@ import okhttp3.Response;
  * @description : Get请求自动追加参数
  */
 public class AppendUrlParamIntercepter implements Interceptor {
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         //偷天换日
         Request oldRequest = chain.request();
 

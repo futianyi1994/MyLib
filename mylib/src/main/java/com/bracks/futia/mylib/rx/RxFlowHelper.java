@@ -14,8 +14,6 @@ import org.reactivestreams.Subscription;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -29,19 +27,11 @@ import io.reactivex.schedulers.Schedulers;
 public class RxFlowHelper {
 
     public static boolean isShowLoading(String page) {
-        if ("1".equals(page)) {
-            return true;
-        } else {
-            return false;
-        }
+        return "1".equals(page);
     }
 
     public static boolean isShowLoading(int page) {
-        if (page == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return page == 1;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -75,30 +65,24 @@ public class RxFlowHelper {
             public Publisher<T> apply(Flowable<T> upstream) {
                 return upstream
                         .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(new Consumer<Subscription>() {
-                            @Override
-                            public void accept(Subscription subscription) throws Exception {
-                                if (isShowLoading) {
-                                    dialog = DialogUtils.createLoadingDialog(activity, "加载中", dialogCancelable);
-                                    dialog.show();
-                                    if (listener != null) {
-                                        dialog.setOnDismissListener(listener);
-                                    }
+                        .doOnSubscribe(subscription -> {
+                            if (isShowLoading) {
+                                dialog = DialogUtils.createLoadingDialog(activity, "加载中", dialogCancelable);
+                                dialog.show();
+                                if (listener != null) {
+                                    dialog.setOnDismissListener(listener);
                                 }
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .doOnTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                if (isShowLoading) {
-                                    DialogUtils.dismissDialog(dialog);
-                                }
+                        .doOnTerminate(() -> {
+                            if (isShowLoading) {
+                                DialogUtils.dismissDialog(dialog);
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .compose(activity.<T>bindToLifecycle());
+                        .compose(activity.bindToLifecycle());
             }
         };
     }
@@ -125,30 +109,24 @@ public class RxFlowHelper {
             public Publisher<T> apply(Flowable<T> upstream) {
                 return upstream
                         .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(new Consumer<Subscription>() {
-                            @Override
-                            public void accept(Subscription subscription) throws Exception {
-                                if (isShowLoading) {
-                                    dialog = DialogUtils.createLoadingDialog(activity.getContext(), "加载中", dialogCancelable);
-                                    dialog.show();
-                                    if (listener != null) {
-                                        dialog.setOnDismissListener(listener);
-                                    }
+                        .doOnSubscribe(subscription -> {
+                            if (isShowLoading) {
+                                dialog = DialogUtils.createLoadingDialog(activity.getContext(), "加载中", dialogCancelable);
+                                dialog.show();
+                                if (listener != null) {
+                                    dialog.setOnDismissListener(listener);
                                 }
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .doOnTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                if (isShowLoading) {
-                                    DialogUtils.dismissDialog(dialog);
-                                }
+                        .doOnTerminate(() -> {
+                            if (isShowLoading) {
+                                DialogUtils.dismissDialog(dialog);
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .compose(activity.<T>bindToLifecycle());
+                        .compose(activity.bindToLifecycle());
             }
         };
     }

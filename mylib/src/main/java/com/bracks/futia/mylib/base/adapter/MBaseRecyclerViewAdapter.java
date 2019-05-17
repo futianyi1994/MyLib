@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bracks.futia.mylib.utils.log.TLog;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +18,11 @@ import java.util.List;
  * @email : futianyi1994@126.com
  * @description :
  */
-public abstract class MBaseRecyclerViewAdapter<ENTITY> extends RecyclerView.Adapter {
-
-    private static final String TAG = "RecyclerViewAdapter";
+public abstract class MBaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
     /**
      * 数据源
      */
-    private List<ENTITY> data = new ArrayList<>();
+    private List<T> data = new ArrayList<>();
 
     /**
      * 获取Item布局资源文件ID
@@ -37,29 +33,31 @@ public abstract class MBaseRecyclerViewAdapter<ENTITY> extends RecyclerView.Adap
     @LayoutRes
     public abstract int getItemLayoutResId(int viewType);
 
+    /**
+     * 获得ViewHolder
+     *
+     * @param itemView itemView
+     * @return
+     */
     public abstract RecyclerView.ViewHolder getViewHolder(@NonNull View itemView);
 
-    public final void setData(@NonNull List<ENTITY> data) {
+    public final void setData(@NonNull List<T> data) {
         this.data.clear();
-
-        if (data != null) {
-            this.data.addAll(data);
-        } else {
-            TLog.e(TAG, "data is null or empty");
-        }
+        this.data.addAll(data);
         notifyDataSetChanged();
     }
 
-    public final ENTITY getItem(int position) {
+    public final T getItem(int position) {
         return data == null || data.isEmpty() ? null : data.get(position);
     }
 
-    public List<ENTITY> getData() {
+    public List<T> getData() {
         return data;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final int layoutResId = getItemLayoutResId(viewType);
         if (layoutResId < 0) {
             throw new IllegalArgumentException("Layout file does not exist!");
@@ -76,5 +74,4 @@ public abstract class MBaseRecyclerViewAdapter<ENTITY> extends RecyclerView.Adap
     public int getItemCount() {
         return data == null || data.isEmpty() ? 0 : data.size();
     }
-
 }
