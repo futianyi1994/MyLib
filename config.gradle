@@ -15,11 +15,11 @@ ext {
             dagger2SdkVersion       : "2.17",
             lifecycSdkleVersion     : "1.1.1",
             roomSdkleVersion        : "1.1.1",
-            mylibVersion            : "1.2.8"
+            mylibVersion            : "1.2.9"
     ]
     dependencies = [
             "androidJUnitRunner"                   : "android.support.test.runner.AndroidJUnitRunner",
-            "constraint-layout"                    : "com.android.support.constraint:constraint-layout:1.0.2",
+            "constraint-layout"                    : "com.android.support.constraint:constraint-layout:1.1.3",
             "appcompat-v7"                         : "com.android.support:appcompat-v7:${android["androidSupportSdkVersion"]}",
             "cardview-v7"                          : "com.android.support:cardview-v7:${android["androidSupportSdkVersion"]}",
             "recyclerview-v7"                      : "com.android.support:recyclerview-v7:${android["androidSupportSdkVersion"]}",

@@ -67,8 +67,9 @@ public class CustomAlertDialog extends AlertDialog {
      */
     public static final int CUSTOM_DIALOG1 = 3;
     public static final int CUSTOM_DIALOG2 = 4;
+    public static final int CUSTOM_DIALOG3 = 5;
 
-    @IntDef({EMPTY_VIEW, DEFAULT_DIALOG, DEFAULT_PROMPT1, DEFAULT_PROMPT2, CUSTOM_DIALOG1, CUSTOM_DIALOG2})
+    @IntDef({EMPTY_VIEW, DEFAULT_DIALOG, DEFAULT_PROMPT1, DEFAULT_PROMPT2, CUSTOM_DIALOG1, CUSTOM_DIALOG2, CUSTOM_DIALOG3})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ViewStyle {
         int style() default DEFAULT_PROMPT1;
@@ -99,6 +100,7 @@ public class CustomAlertDialog extends AlertDialog {
     private float neutralButtonTextSize;
     private View contentView;
     private View view;
+    private int layoutResId;
     private @ViewStyle
     int viewStyle = EMPTY_VIEW;
     private float bgRadius;
@@ -114,6 +116,7 @@ public class CustomAlertDialog extends AlertDialog {
     private int tipResId;
     private int tipWidth;
     private int tipHeight;
+    private ViewInterface viewCallback;
     private AfterShowListener afterShowListener;
     private PostDelayListener postDelayListener;
     private OnClickListener positiveButtonClickListener;
@@ -135,6 +138,16 @@ public class CustomAlertDialog extends AlertDialog {
          * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
          */
         void onAfterShow(CustomAlertDialog dialog);
+    }
+
+    public interface ViewInterface {
+        /**
+         * popwindow内的子视图
+         *
+         * @param view
+         * @param layoutResId
+         */
+        void getChildView(View view, int layoutResId);
     }
 
     private CustomAlertDialog(@NonNull Context context) {
@@ -182,6 +195,7 @@ public class CustomAlertDialog extends AlertDialog {
 
         this.contentView = builder.contentView;
         this.view = builder.view;
+        this.layoutResId = builder.layoutResId;
         this.viewStyle = builder.viewStyle;
 
         this.bgRadius = builder.bgRadius;
@@ -198,6 +212,7 @@ public class CustomAlertDialog extends AlertDialog {
         this.tipWidth = builder.tipWidth;
         this.tipHeight = builder.tipHeight;
 
+        this.viewCallback = builder.viewCallback;
         this.afterShowListener = builder.afterShowListener;
         this.postDelayListener = builder.postDelayListener;
 
@@ -227,6 +242,9 @@ public class CustomAlertDialog extends AlertDialog {
                 break;
             case CUSTOM_DIALOG2:
                 setMView(this.view);
+                break;
+            case CUSTOM_DIALOG3:
+                setCustomView(this.layoutResId);
                 break;
             default:
                 break;
@@ -321,6 +339,7 @@ public class CustomAlertDialog extends AlertDialog {
                 break;
             case CUSTOM_DIALOG1:
             case CUSTOM_DIALOG2:
+            case CUSTOM_DIALOG3:
             case EMPTY_VIEW:
             default:
                 break;
@@ -399,6 +418,21 @@ public class CustomAlertDialog extends AlertDialog {
         //Clear the not focusable flag from the window
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
     }
+
+    /**
+     * 设置自定义AlertDialog布局
+     *
+     * @param layoutResId
+     */
+    private void setCustomView(int layoutResId) {
+        //添加布局
+        View contentView = View.inflate(this.context, layoutResId, null);
+        setCustomView(contentView);
+        if (this.viewCallback != null && this.layoutResId != 0) {
+            this.viewCallback.getChildView(contentView, this.layoutResId);
+        }
+    }
+
 
     /**
      * 设置DialogWindow的参数
@@ -512,6 +546,7 @@ public class CustomAlertDialog extends AlertDialog {
         private float neutralButtonTextSize = 14f;
         private View contentView = null;
         private View view = null;
+        private int layoutResId = 0;
         private @ViewStyle
         int viewStyle = EMPTY_VIEW;
         private float bgRadius = 10;
@@ -527,6 +562,7 @@ public class CustomAlertDialog extends AlertDialog {
         private int tipResId = 0;
         private int tipWidth = -2;
         private int tipHeight = -2;
+        private ViewInterface viewCallback = null;
         private AfterShowListener afterShowListener = null;
         private PostDelayListener postDelayListener = null;
         private OnClickListener positiveButtonClickListener = null;
@@ -844,6 +880,26 @@ public class CustomAlertDialog extends AlertDialog {
         }
 
         /**
+         * @param layoutResId 设置AlertDialog布局ID
+         * @return Builder
+         */
+        public Builder setContentView(int layoutResId) {
+            return setContentView(layoutResId, null);
+        }
+
+        /**
+         * @param layoutResId  设置AlertDialog布局ID
+         * @param viewCallback AlertDialog布局回调
+         * @return Builder
+         */
+        public Builder setContentView(int layoutResId, ViewInterface viewCallback) {
+            this.viewStyle = CUSTOM_DIALOG3;
+            this.layoutResId = layoutResId;
+            this.viewCallback = viewCallback;
+            return this;
+        }
+
+        /**
          * 设置默认Dialog
          *
          * @return
@@ -993,6 +1049,17 @@ public class CustomAlertDialog extends AlertDialog {
          */
         public Builder setWidth(int width) {
             this.width = width;
+            return this;
+        }
+
+        /**
+         * 设置子View
+         *
+         * @param viewCallback ViewInterface
+         * @return Builder
+         */
+        public Builder setViewCallback(ViewInterface viewCallback) {
+            this.viewCallback = viewCallback;
             return this;
         }
 

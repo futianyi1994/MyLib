@@ -59,7 +59,6 @@ public class HomeUi extends BaseVmProxyUi {
     public void onViewClicked() {
         new CustomAlertDialog
                 .Builder(this)
-                .creatDefaultDialog()
                 .setDefaultPromptView2()
                 .setAfterShowListener(dialog -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()))
                 .build()

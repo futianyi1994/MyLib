@@ -241,7 +241,7 @@ public class CustomPopupWindow extends PopupWindow {
 
     public static class Builder {
         private PopupController.PopupParams params;
-        private ViewInterface listener;
+        private ViewInterface viewCallback;
         private CustomPopupWindow popupWindow;
 
         public Builder(Context context) {
@@ -249,12 +249,22 @@ public class CustomPopupWindow extends PopupWindow {
         }
 
         /**
-         * @param layoutResId 设置PopupWindow 布局ID
+         * @param layoutResId 设置PopupWindow布局ID
          * @return Builder
          */
         public Builder setView(int layoutResId) {
+            return setView(layoutResId, null);
+        }
+
+        /**
+         * @param layoutResId  设置PopupWindow布局ID
+         * @param viewCallback PopupWindow布局回调
+         * @return Builder
+         */
+        public Builder setView(int layoutResId, ViewInterface viewCallback) {
             params.mView = null;
             params.layoutResId = layoutResId;
+            this.viewCallback = viewCallback;
             return this;
         }
 
@@ -271,16 +281,16 @@ public class CustomPopupWindow extends PopupWindow {
         /**
          * 设置子View
          *
-         * @param listener ViewInterface
+         * @param viewCallback PopupWindow布局回调
          * @return Builder
          */
-        public Builder setViewOnclickListener(ViewInterface listener) {
-            this.listener = listener;
+        public Builder setViewOnclickListener(ViewInterface viewCallback) {
+            this.viewCallback = viewCallback;
             return this;
         }
 
         /**
-         * 设置宽度和高度 如果不设置 默认是wrap_content
+         * 设置宽度和高度，如果不设置，默认是wrap_content
          *
          * @param width 宽
          * @return Builder
@@ -409,8 +419,8 @@ public class CustomPopupWindow extends PopupWindow {
         public CustomPopupWindow create() {
             popupWindow = new CustomPopupWindow(params.mContext);
             params.apply(popupWindow.controller);
-            if (listener != null && params.layoutResId != 0) {
-                listener.getChildView(popupWindow.controller.mPopupView, params.layoutResId);
+            if (viewCallback != null && params.layoutResId != 0) {
+                viewCallback.getChildView(popupWindow.controller.mPopupView, params.layoutResId);
             }
             int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
             int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
