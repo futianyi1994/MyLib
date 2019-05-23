@@ -135,12 +135,6 @@
 ##################################################以下为三方#########################################################
 
 
-#MyLib开始
-#-keep class com.bracks.futia.mylib.** { *; }
-#-keepclassmembers class com.bracks.futia.mylib.** { *; }
-#-dontwarn com.bracks.futia.mylib.**
-#MyLib结束
-
 #AndroidUtilCode 开始
 -keep class com.blankj.utilcode.** { *; }
 -keepclassmembers class com.blankj.utilcode.** { *; }
@@ -149,7 +143,7 @@
 
 #Okhttp开始
 -dontwarn com.squareup.okhttp3.**
--keep class com.squareup.okhttp3.** { *;}
+-keep class com.squareup.okhttp3.** { *; }
 -dontwarn okio.**
 #Okhttp结束
 
@@ -178,15 +172,15 @@
 #RxJava RxAndroid结束
 
 #Rxandroid-1.2.1开始
--keepclassmembers class rx.android.**{*;}
+-keepclassmembers class rx.android.**{ *; }
 #Rxandroid-1.2.1结束
 
 #Gson开始
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
--keep class org.xz_sale.entity.**{*;}
--keep class com.google.gson.** {*;}
--keep class com.google.**{*;}
+-keep class org.xz_sale.entity.**{ *; }
+-keep class com.google.gson.** { *; }
+-keep class com.google.**{ *; }
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
@@ -212,9 +206,6 @@
 ##################################################以下为 APP#########################################################
 
 
-#不要混淆内部类
-#-keepclassmembers class com.bracks.futia.mylib.base.adapter.BaseBindingAdapter$* { *; }
-
 #不要混淆BasePresenter所有子类
 -keep public class * extends com.bracks.futia.mylib.base.basemvp.BasePresenter
 
@@ -235,6 +226,18 @@
     <fields>;
     <methods>;
 }
+
+#MyLib开始
+#-keep class com.bracks.futia.mylib.** { *; }
+#-keepclassmembers class com.bracks.futia.mylib.** { *; }
+#-dontwarn com.bracks.futia.mylib.**
+#MyLib结束
+
+#声明第三方jar包,不用管第三方jar包中的.so文件(如果有)
+#-libraryjars libs/xutils.jar
+
+#不要混淆内部类
+#-keepclassmembers class com.bracks.futia.mylib.base.adapter.BaseBindingAdapter$* { *; }
 
 #不要混淆实体类
 #-keep class com.amyrobotics.medicalmission.model.** { *; }
