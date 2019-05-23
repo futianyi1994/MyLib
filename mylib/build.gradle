@@ -9,17 +9,25 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode 129
-        versionName "1.2.9"
+        versionCode 130
+        versionName "1.3.0"
         testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //aar包混淆需要使用以下两句
+            //minifyEnabled true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //是否混淆完全由app模块来决定：.pro文件会包含在aar文件中，这些pro配置会在混淆的时候被使用
+            consumerProguardFile 'proguard-rules.pro'
             buildConfigField 'String', 'VERSION_DATE', "\"${releaseTime()}\""
         }
         debug {
+            //aar包混淆需要使用以下两句
+            //minifyEnabled true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //是否混淆完全由app模块来决定：.pro文件会包含在aar文件中，这些pro配置会在混淆的时候被使用
+            consumerProguardFile 'proguard-rules.pro'
             buildConfigField 'String', 'VERSION_DATE', "\"${releaseTime()}\""
         }
     }
