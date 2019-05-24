@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bracks.futia.mylib.base.interf.BaseFragmentInterf;
+import com.bracks.futia.mylib.base.interf.BaseFragInterf;
 import com.bracks.futia.mylib.rx.RxAppFragment;
 
 import butterknife.ButterKnife;
@@ -21,7 +21,7 @@ import butterknife.Unbinder;
  * @email : futianyi1994@126.com
  * @description :
  */
-public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> extends RxAppFragment implements BaseFragmentInterf, View.OnTouchListener, BaseView {
+public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> extends RxAppFragment implements BaseFragInterf, View.OnTouchListener, BaseView {
 
     protected Unbinder mUnbinder;
     private P presenter;
@@ -41,7 +41,7 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
         if (presenter == null) {
             throw new NullPointerException("presenter 不能为空!");
         }
-        initData();
+        initData(savedInstanceState);
     }
 
     @Override
@@ -50,9 +50,8 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
             rootView = inflater.inflate(getLayoutId(), container, false);
             mUnbinder = ButterKnife.bind(this, rootView);
             rootView.setOnTouchListener(this);
-            initInstanceState(savedInstanceState);
             presenter.onAttchView((V) this);
-            initView(rootView);
+            initView(rootView, savedInstanceState);
         } else {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (parent != null) {
@@ -80,7 +79,7 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
     }
 
     @Override
-    public void initData() {
+    public void initData(@Nullable Bundle savedInstanceState) {
     }
 
     /**
@@ -97,13 +96,5 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
      */
     public P getPresenter() {
         return presenter;
-    }
-
-    /**
-     * 对savedInstanceState进行判断
-     *
-     * @param savedInstanceState
-     */
-    protected void initInstanceState(@Nullable Bundle savedInstanceState) {
     }
 }

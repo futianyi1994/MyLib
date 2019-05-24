@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
+import com.bracks.futia.mylib.utils.bar.BarUtils;
 import com.bracks.futia.mylib.utils.widget.DialogUtils;
 
 import io.reactivex.Observable;
@@ -69,7 +70,11 @@ public class RxObservHelper {
                         .doOnSubscribe(disposable -> {
                             if (isShowLoading) {
                                 dialog = DialogUtils.createLoadingDialog(activity, "加载中", dialogCancelable);
-                                dialog.show();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                    DialogUtils.afterShow(() -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()));
+                                } else {
+                                    dialog.show();
+                                }
                                 if (listener != null) {
                                     dialog.setOnDismissListener(listener);
                                 }
@@ -114,7 +119,11 @@ public class RxObservHelper {
                         .doOnSubscribe(disposable -> {
                             if (isShowLoading) {
                                 dialog = DialogUtils.createLoadingDialog(activity.getContext(), "加载中", dialogCancelable);
-                                dialog.show();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                    DialogUtils.afterShow(() -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()));
+                                } else {
+                                    dialog.show();
+                                }
                                 if (listener != null) {
                                     dialog.setOnDismissListener(listener);
                                 }

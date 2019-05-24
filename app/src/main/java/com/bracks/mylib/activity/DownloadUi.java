@@ -1,5 +1,7 @@
 package com.bracks.mylib.activity;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -37,7 +39,7 @@ public class DownloadUi extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(@Nullable Bundle savedInstanceState) {
         downloadManager = DownloadManager.getInstance();
         downloadManager.setProgressListener(new ProgressListener() {
             @Override
@@ -50,9 +52,7 @@ public class DownloadUi extends BaseActivity {
     }
 
     @Override
-    public void initView() {
-
-
+    public void initView(@Nullable Bundle savedInstanceState) {
     }
 
     @OnClick({R.id.btnStartDownload, R.id.btnContinueDownload})

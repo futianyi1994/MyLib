@@ -2,12 +2,14 @@ package com.bracks.futia.mylib.base.basevm;
 
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModel;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.bracks.futia.mylib.base.basemvp.BaseFrag;
 import com.bracks.futia.mylib.base.basemvp.BasePresenter;
 import com.bracks.futia.mylib.base.basemvp.BaseView;
+import com.bracks.futia.mylib.utils.bar.BarUtils;
 import com.bracks.futia.mylib.utils.widget.DialogUtils;
 
 import java.util.ArrayList;
@@ -35,7 +37,11 @@ public abstract class BaseVmFrag<V extends BaseView, P extends BasePresenter<V>>
     @Override
     public void showLoading(String msg, boolean isCancelable) {
         dialog = DialogUtils.createLoadingDialog(getContext(), msg, isCancelable);
-        dialog.show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            DialogUtils.afterShow(() -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()));
+        } else {
+            dialog.show();
+        }
     }
 
     @Override

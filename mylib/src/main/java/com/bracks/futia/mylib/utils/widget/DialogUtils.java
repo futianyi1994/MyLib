@@ -98,12 +98,36 @@ public class DialogUtils {
          * <item name="android:windowContentOverlay">@null</item>
          * </style>
          */
-        loadingDialog = new Dialog(context, R.style.loading_dialog);
+        if (loadingDialog == null) {
+            loadingDialog = new Dialog(context, R.style.loading_dialog);
+        }
         // 不可以用“返回键”取消
         loadingDialog.setCancelable(isCancelable);
         // 设置布局
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        //防止内存泄漏
+        loadingDialog.setOnDismissListener(dialog -> destroy());
         return loadingDialog;
+    }
+
+    /**
+     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
+     *
+     * @param listener
+     */
+    public static void afterShow(AfterShowListener listener) {
+        if (loadingDialog == null) {
+            throw new NullPointerException("请先创建Dialog");
+        }
+        if (listener != null) {
+            //Dialog 在初始化时会生成新的 Window，先禁止 Dialog Window 获取焦点，
+            //等Dialog显示后对DialogWindow的DecorView设置setSystemUiVisibility，接着再获取焦点。这样表面上看起来就没有退出沉浸模式。
+            loadingDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+            loadingDialog.show();
+            listener.onAfterShow();
+            //Clear the not focusable flag from the window
+            loadingDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+        }
     }
 
     public static void dismissDialog(Dialog dialog) {
@@ -116,20 +140,12 @@ public class DialogUtils {
         }
     }
 
-    /**
-     * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
-     *
-     * @param listener
-     */
-    public static void afterShow(AfterShowListener listener) {
-        if (listener != null) {
-            //Dialog 在初始化时会生成新的 Window，先禁止 Dialog Window 获取焦点，
-            //等Dialog显示后对DialogWindow的DecorView设置setSystemUiVisibility，接着再获取焦点。这样表面上看起来就没有退出沉浸模式。
-            loadingDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-            loadingDialog.show();
-            listener.onAfterShow();
-            //Clear the not focusable flag from the window
-            loadingDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+    public static void destroy() {
+        if (loadingDialog != null) {
+            if (loadingDialog.isShowing()) {
+                loadingDialog.dismiss();
+            }
+            loadingDialog = null;
         }
     }
 

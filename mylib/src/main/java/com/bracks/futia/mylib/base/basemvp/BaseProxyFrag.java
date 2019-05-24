@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bracks.futia.mylib.base.interf.BaseFragmentInterf;
+import com.bracks.futia.mylib.base.interf.BaseFragInterf;
 import com.bracks.futia.mylib.rx.RxAppFragment;
 
 import butterknife.ButterKnife;
@@ -21,7 +21,7 @@ import butterknife.Unbinder;
  * @email : futianyi1994@126.com
  * @description :使用代理模式来代理Presenter的创建、销毁、绑定、解绑以及Presenter的状态保存,其实就是管理Presenter的生命周期
  */
-public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<V>> extends RxAppFragment implements BaseFragmentInterf, PresenterProxy, BaseView, View.OnTouchListener {
+public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<V>> extends RxAppFragment implements BaseFragInterf, PresenterProxy, BaseView, View.OnTouchListener {
 
     protected Unbinder mUnbinder;
 
@@ -43,7 +43,7 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
         if (savedInstanceState != null) {
             mProxy.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_SAVE_KEY));
         }
-        initData();
+        initData(savedInstanceState);
     }
 
     @Override
@@ -52,9 +52,8 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
             rootView = inflater.inflate(getLayoutId(), container, false);
             mUnbinder = ButterKnife.bind(this, rootView);
             rootView.setOnTouchListener(this);
-            initInstanceState(savedInstanceState);
             mProxy.onCreate((V) this);
-            initView(rootView);
+            initView(rootView, savedInstanceState);
         } else {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (parent != null) {
@@ -121,14 +120,6 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
     }
 
     @Override
-    public void initData() {
-    }
-
-    /**
-     * 对savedInstanceState进行判断
-     *
-     * @param savedInstanceState
-     */
-    protected void initInstanceState(@Nullable Bundle savedInstanceState) {
+    public void initData(@Nullable Bundle savedInstanceState) {
     }
 }

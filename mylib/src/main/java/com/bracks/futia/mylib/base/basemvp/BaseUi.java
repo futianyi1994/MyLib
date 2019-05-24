@@ -10,7 +10,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.bracks.futia.mylib.R;
-import com.bracks.futia.mylib.base.interf.BaseViewInterf;
+import com.bracks.futia.mylib.base.interf.BaseUiInterf;
 import com.bracks.futia.mylib.internationalization.Language;
 import com.bracks.futia.mylib.internationalization.MyContextWrapper;
 import com.bracks.futia.mylib.rx.RxAppActivity;
@@ -26,7 +26,7 @@ import butterknife.Unbinder;
  * @email : futianyi1994@126.com
  * @description :
  */
-public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> extends RxAppActivity implements BaseViewInterf, BaseView {
+public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> extends RxAppActivity implements BaseUiInterf, BaseView {
 
     protected Unbinder mUnbinder;
     private P presenter;
@@ -41,7 +41,6 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
         }
         //通过注解绑定控件
         mUnbinder = ButterKnife.bind(this);
-        initInstanceState(savedInstanceState);
         if (isTransparencyBar()) {
             com.blankj.utilcode.util.BarUtils.setStatusBarColor(this, Color.alpha(0));
         }
@@ -57,8 +56,8 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
             throw new NullPointerException("presenter 不能为空!");
         }
         presenter.onAttchView((V) this);
-        initData();
-        initView();
+        initData(savedInstanceState);
+        initView(savedInstanceState);
     }
 
     @Override
@@ -83,7 +82,7 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
     }
 
     @Override
-    public void initView() {
+    public void initView(@Nullable Bundle savedInstanceState) {
     }
 
     /**
@@ -100,14 +99,6 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
      */
     protected void setBackgroundResource(@DrawableRes int resid) {
         this.getWindow().getDecorView().setBackgroundResource(resid);
-    }
-
-    /**
-     * 对savedInstanceState进行判断
-     *
-     * @param savedInstanceState
-     */
-    protected void initInstanceState(@Nullable Bundle savedInstanceState) {
     }
 
     /**

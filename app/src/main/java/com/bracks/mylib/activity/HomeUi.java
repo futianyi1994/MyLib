@@ -2,6 +2,8 @@ package com.bracks.mylib.activity;
 
 import android.arch.lifecycle.ViewModel;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.widget.Button;
 
@@ -50,7 +52,7 @@ public class HomeUi extends BaseVmProxyUi {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void initData() {
+    public void initData(@Nullable Bundle savedInstanceState) {
         BarUtils.hideNavBar(getWindow());
     }
 

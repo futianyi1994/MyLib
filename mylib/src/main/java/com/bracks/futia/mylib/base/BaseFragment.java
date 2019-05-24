@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bracks.futia.mylib.base.interf.BaseFragmentInterf;
+import com.bracks.futia.mylib.base.interf.BaseFragInterf;
 import com.bracks.futia.mylib.rx.RxAppFragment;
 
 import butterknife.ButterKnife;
@@ -20,7 +20,7 @@ import butterknife.Unbinder;
  * @email : futianyi1994@126.com
  * @description :fragment基类
  */
-public abstract class BaseFragment extends RxAppFragment implements BaseFragmentInterf, View.OnTouchListener {
+public abstract class BaseFragment extends RxAppFragment implements BaseFragInterf, View.OnTouchListener {
 
     protected Unbinder mUnbinder;
     /**
@@ -32,7 +32,7 @@ public abstract class BaseFragment extends RxAppFragment implements BaseFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
+        initData(savedInstanceState);
     }
 
     @Override
@@ -41,8 +41,7 @@ public abstract class BaseFragment extends RxAppFragment implements BaseFragment
             rootView = inflater.inflate(getLayoutId(), container, false);
             mUnbinder = ButterKnife.bind(this, rootView);
             rootView.setOnTouchListener(this);
-            initInstanceState(savedInstanceState);
-            initView(rootView);
+            initView(rootView, savedInstanceState);
         } else {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (parent != null) {
@@ -64,13 +63,5 @@ public abstract class BaseFragment extends RxAppFragment implements BaseFragment
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return true;
-    }
-
-    /**
-     * 对savedInstanceState进行判断
-     *
-     * @param savedInstanceState
-     */
-    protected void initInstanceState(Bundle savedInstanceState) {
     }
 }

@@ -1,5 +1,7 @@
 package com.bracks.futia.mylib.base.interf;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 
@@ -11,10 +13,10 @@ import android.view.View;
  * @email : futianyi1994@126.com
  * @description :基类fragment实现接口
  */
-public interface BaseFragmentInterf {
+public interface BaseFragInterf {
     int getLayoutId();
 
-    void initData();
+    void initData(@Nullable Bundle savedInstanceState);
 
-    void initView(View view);
+    void initView(View view, @Nullable Bundle savedInstanceState);
 }

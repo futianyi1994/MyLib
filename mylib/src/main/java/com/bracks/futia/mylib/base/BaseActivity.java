@@ -10,7 +10,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.bracks.futia.mylib.R;
-import com.bracks.futia.mylib.base.interf.BaseViewInterf;
+import com.bracks.futia.mylib.base.interf.BaseUiInterf;
 import com.bracks.futia.mylib.internationalization.Language;
 import com.bracks.futia.mylib.internationalization.MyContextWrapper;
 import com.bracks.futia.mylib.rx.RxAppActivity;
@@ -27,7 +27,7 @@ import butterknife.Unbinder;
  * @email : futianyi1994@126.com
  * @description :
  */
-public abstract class BaseActivity extends RxAppActivity implements BaseViewInterf {
+public abstract class BaseActivity extends RxAppActivity implements BaseUiInterf {
 
     protected Unbinder mUnbinder;
 
@@ -41,15 +41,14 @@ public abstract class BaseActivity extends RxAppActivity implements BaseViewInte
         }
         // 通过注解绑定控件
         mUnbinder = ButterKnife.bind(this);
-        initInstanceState(savedInstanceState);
         if (isTransparencyBar()) {
             com.blankj.utilcode.util.BarUtils.setStatusBarColor(this, Color.alpha(0));
         }
         if (isLightBarMode()) {
             com.bracks.futia.mylib.utils.bar.BarUtils.setLightStatusBar(this, true);
         }
-        initData();
-        initView();
+        initData(savedInstanceState);
+        initView(savedInstanceState);
     }
 
     @Override
@@ -104,13 +103,5 @@ public abstract class BaseActivity extends RxAppActivity implements BaseViewInte
      */
     protected boolean isLightBarMode() {
         return false;
-    }
-
-    /**
-     * 对savedInstanceState进行判断
-     *
-     * @param savedInstanceState
-     */
-    protected void initInstanceState(Bundle savedInstanceState) {
     }
 }
