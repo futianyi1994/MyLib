@@ -30,7 +30,7 @@ public class DownloadUi extends BaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_download;
     }
 
     @Override

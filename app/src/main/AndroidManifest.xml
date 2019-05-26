@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".activity.HomeUi">
+        <activity android:name=".activity.LoginUi">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +26,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.DownloadUi" />
+        <activity android:name=".activity.HomeUi" />
+        <activity android:name=".activity.ArticleUi" />
+        <activity android:name=".activity.HistoryUi" />
     </application>
 
 </manifest>

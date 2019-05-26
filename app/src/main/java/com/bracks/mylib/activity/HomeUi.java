@@ -1,21 +1,23 @@
 package com.bracks.mylib.activity;
 
 import android.arch.lifecycle.ViewModel;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.widget.Button;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.widget.FrameLayout;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.futia.mylib.base.basemvp.BasePresenter;
+import com.bracks.futia.mylib.base.basemvp.BaseView;
 import com.bracks.futia.mylib.base.basemvp.CreatePresenter;
 import com.bracks.futia.mylib.base.basevm.BaseVmProxyUi;
-import com.bracks.futia.mylib.utils.bar.BarUtils;
-import com.bracks.futia.mylib.widget.CustomAlertDialog;
 import com.bracks.mylib.R;
+import com.bracks.mylib.fragment.PublicFrag;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * good programmer.
@@ -26,9 +28,65 @@ import butterknife.OnClick;
  * @description :
  */
 @CreatePresenter(BasePresenter.class)
-public class HomeUi extends BaseVmProxyUi {
-    @BindView(R.id.btnShowDialog)
-    Button btnShowDialog;
+public class HomeUi extends BaseVmProxyUi<BaseView, BasePresenter<BaseView>> {
+    @BindView(R.id.container)
+    FrameLayout container;
+    @BindView(R.id.bottomNavigationBar)
+    BottomNavigationBar bottomNavigationBar;
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_home;
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+        switchFragment(PublicFrag.newInstance(), false);
+        bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED)
+                .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
+                .setActiveColor(R.color.common_main_color)
+                .setInActiveColor(R.color.common_hint_color)
+                .setBarBackgroundColor(R.color.white)
+                .addItem(new BottomNavigationItem(R.mipmap.home_check, "首页").setInactiveIconResource(R.mipmap.home))
+                .addItem(new BottomNavigationItem(R.mipmap.pub_check, "公众号").setInactiveIconResource(R.mipmap.pub))
+                .addItem(new BottomNavigationItem(R.mipmap.pub_check, "公众号").setInactiveIconResource(R.mipmap.pub))
+                .addItem(new BottomNavigationItem(R.mipmap.pub_check, "公众号").setInactiveIconResource(R.mipmap.pub))
+                .addItem(new BottomNavigationItem(R.mipmap.my_check, "我的").setInactiveIconResource(R.mipmap.my))
+                .setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(int position) {
+                        switch (position) {
+                            case 0:
+                                switchFragment(PublicFrag.newInstance(), false);
+                                break;
+                            case 1:
+                                switchFragment(new PublicFrag(), false);
+                                break;
+                            case 2:
+                                switchFragment(new PublicFrag(), false);
+                                break;
+                            case 3:
+                                switchFragment(new PublicFrag(), false);
+                                break;
+                            case 4:
+                                switchFragment(new PublicFrag(), false);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(int position) {
+                    }
+
+                    @Override
+                    public void onTabReselected(int position) {
+
+                    }
+                })
+                .initialise();
+    }
 
     @Override
     protected ViewModel initViewModel() {
@@ -37,33 +95,14 @@ public class HomeUi extends BaseVmProxyUi {
 
     @Override
     public void showToast(String msg) {
-
+        ToastUtils.showLong(msg);
     }
 
-    @Override
-    protected boolean isTransparencyBar() {
-        return false;
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_home;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
-        BarUtils.hideNavBar(getWindow());
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @OnClick(R.id.btnShowDialog)
-    public void onViewClicked() {
-        new CustomAlertDialog
-                .Builder(this)
-                .setDefaultPromptView2()
-                .setAfterShowListener(dialog -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()))
-                .build()
-                .setCanceledOnTouchOutside(false);
+    private void switchFragment(Fragment fragment, boolean backStack) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (backStack) {
+            fragmentTransaction.addToBackStack(null);
+        }
+        fragmentTransaction.replace(R.id.container, fragment).commit();
     }
 }

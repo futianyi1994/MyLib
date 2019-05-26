@@ -20,8 +20,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'VERSION_DATE', "\"${releaseTime()}\""
+        }
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'VERSION_DATE', "\"${releaseTime()}\""
         }
     }
 
@@ -52,6 +58,17 @@ dependencies {
     testImplementation rootProject.ext.dependencies["junit"]
     androidTestImplementation rootProject.ext.dependencies["runner"]
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]
-    implementation project(':mylib')
+    //implementation project(':mylib')
+    implementation rootProject.ext.dependencies["mylib"]
+    //Smartrefreshlayout
+    implementation rootProject.ext.dependencies["smartrefreshlayout"]
+    //Bottom-navigation-bar
+    implementation rootProject.ext.dependencies["bottom-navigation-bar"]
+    //Rxbinding
+    implementation rootProject.ext.dependencies["rxbinding"]
+    //Room
+    implementation rootProject.ext.dependencies["room"]
+    annotationProcessor rootProject.ext.dependencies["room-compiler"]
+    //Butterknife
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
 }
