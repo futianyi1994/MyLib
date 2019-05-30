@@ -9,7 +9,6 @@ import android.webkit.WebView;
 import com.bracks.futia.mylib.base.basemvp.BasePresenter;
 import com.bracks.futia.mylib.base.basemvp.BaseView;
 import com.bracks.futia.mylib.base.basemvp.CreatePresenter;
-import com.bracks.futia.mylib.base.basevm.BaseVmProxyUi;
 import com.bracks.mylib.R;
 
 import butterknife.BindView;
@@ -23,7 +22,7 @@ import butterknife.BindView;
  * @description :
  */
 @CreatePresenter(BasePresenter.class)
-public class ArticleUi extends BaseVmProxyUi<BaseView, BasePresenter<BaseView>> {
+public class ArticleUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
 
     public static final String EXTRA_LINK = "link";
 

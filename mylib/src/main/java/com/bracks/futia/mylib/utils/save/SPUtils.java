@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -178,15 +179,32 @@ public class SPUtils {
      * @return
      */
     public static <T> List<T> getList(String key) {
-        List<T> datalist = new ArrayList<T>();
         String strJson = getString(key, null);
-        if (null == strJson) {
-            return datalist;
-        }
-        datalist = new Gson()
-                .fromJson(strJson, new TypeToken<List<T>>() {
-                }.getType());
-        return datalist;
+        return strJson == null
+                ?
+                new ArrayList<>()
+                :
+                new Gson()
+                        .fromJson(strJson, new TypeToken<List<T>>() {
+                        }.getType());
+    }
+
+    /**
+     * 获取List
+     * 需要传入Class[].class解决泛型类型擦除问题
+     *
+     * @param key
+     * @param classOfT
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> getList(String key, Class<T[]> classOfT) {
+        String strJson = getString(key, null);
+        return strJson == null
+                ?
+                new ArrayList<>()
+                :
+                Arrays.asList(new Gson().fromJson(strJson, classOfT));
     }
 
     /**

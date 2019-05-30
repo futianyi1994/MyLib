@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode 131
-        versionName "1.3.1"
+        versionCode 132
+        versionName "1.3.2"
         testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
     }
     buildTypes {
@@ -136,8 +136,6 @@ dependencies {
     api rootProject.ext.dependencies["multidex"]
     //Utilcode
     api rootProject.ext.dependencies["utilcode"]
-    //RxPermissions
-    api rootProject.ext.dependencies["rxpermissions"]
     //Retrofit-url-manager
     api rootProject.ext.dependencies["retrofit-url-manager"]
     //PersistentCookieJar for OkHttp 3
@@ -182,6 +180,10 @@ dependencies {
     debugCompileOnly rootProject.ext.dependencies["leakcanary-android-no-op"]
     releaseCompileOnly rootProject.ext.dependencies["leakcanary-android"]
 
+    //Rxrelay2
+    compileOnly rootProject.ext.dependencies["rxrelay2"]
+    //RxPermissions
+    compileOnly rootProject.ext.dependencies["rxpermissions"]
     //Okhttp-interceptor
     compileOnly rootProject.ext.dependencies["okhttp3-logging-interceptor"]
     //Bottom-navigation-bar

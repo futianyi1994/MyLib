@@ -29,6 +29,10 @@ public class RxRetryWithFlowFunc implements Function<Flowable<Throwable>, Publis
         this(Constants.MAX_RETRIES, Constants.RETRY_DELAY_MILLIS);
     }
 
+    public RxRetryWithFlowFunc(int maxRetries) {
+        this(maxRetries, Constants.RETRY_DELAY_MILLIS, TimeUnit.MILLISECONDS);
+    }
+
     public RxRetryWithFlowFunc(int maxRetries, long retryDelayMillis) {
         this(maxRetries, retryDelayMillis, TimeUnit.MILLISECONDS);
     }
@@ -45,7 +49,7 @@ public class RxRetryWithFlowFunc implements Function<Flowable<Throwable>, Publis
                 .flatMap((Function<Throwable, Publisher<?>>) throwable -> {
                     if (++retryCount <= maxRetries) {
                         //When this Observable calls onNext, the original Observable will be retried (i.e. re-subscribed).
-                        TLog.e(TAG, "get error, it will try after " + retryDelayMillis + " millisecond, retry count " + retryCount);
+                        TLog.e(TAG, throwable.getMessage() + ": it will try after " + retryDelayMillis + " millisecond, retry count " + retryCount);
                         //return Flowable.just(retryCount).delay(retryDelayMillis, TimeUnit.MILLISECONDS);
                         return Flowable.timer(retryDelayMillis, unit);
                     }

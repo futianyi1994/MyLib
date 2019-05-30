@@ -28,6 +28,10 @@ public class RxRetryWithObservFunc implements Function<Observable<Throwable>, Ob
         this(Constants.MAX_RETRIES, Constants.RETRY_DELAY_MILLIS);
     }
 
+    public RxRetryWithObservFunc(int maxRetries) {
+        this(maxRetries, Constants.RETRY_DELAY_MILLIS, TimeUnit.MILLISECONDS);
+    }
+
     public RxRetryWithObservFunc(int maxRetries, long retryDelayMillis) {
         this(maxRetries, retryDelayMillis, TimeUnit.MILLISECONDS);
     }
@@ -44,7 +48,7 @@ public class RxRetryWithObservFunc implements Function<Observable<Throwable>, Ob
                 .flatMap((Function<Throwable, ObservableSource<?>>) throwable -> {
                     if (++retryCount <= maxRetries) {
                         //When this Observable calls onNext, the original Observable will be retried (i.e. re-subscribed).
-                        TLog.e(TAG, "get error, it will try after " + retryDelayMillis + " millisecond, retry count " + retryCount);
+                        TLog.e(TAG, throwable.getMessage() + ": it will try after " + retryDelayMillis + " millisecond, retry count " + retryCount);
                         //return Observable.just(retryCount).delay(retryDelayMillis, TimeUnit.MILLISECONDS);
                         return Observable.timer(retryDelayMillis, unit);
                     }

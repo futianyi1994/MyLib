@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 
 import com.bracks.futia.mylib.base.basemvp.CreatePresenter;
-import com.bracks.futia.mylib.base.basevm.BaseVmProxyUi;
 import com.bracks.mylib.R;
 import com.bracks.mylib.adapter.HistoryAdapter;
 import com.bracks.mylib.model.bean.History;
@@ -36,7 +35,7 @@ import static com.bracks.futia.mylib.utils.CommonUtils.getContext;
  * @description :
  */
 @CreatePresenter(HistoryP.class)
-public class HistoryUi extends BaseVmProxyUi<HistoryV, HistoryP> implements HistoryV {
+public class HistoryUi extends BaseUi<HistoryV, HistoryP> implements HistoryV {
     public static final String EXTRA_ID = "id";
     public static final String EXTRA_PAGE = "page";
 

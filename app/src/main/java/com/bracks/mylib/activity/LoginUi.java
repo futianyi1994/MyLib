@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.futia.mylib.base.basemvp.CreatePresenter;
-import com.bracks.futia.mylib.base.basevm.BaseVmProxyUi;
 import com.bracks.mylib.R;
 import com.bracks.mylib.presenter.LoginP;
 import com.bracks.mylib.viewiterf.LoginV;
@@ -28,7 +27,7 @@ import butterknife.OnClick;
  * @description :
  */
 @CreatePresenter(LoginP.class)
-public class LoginUi extends BaseVmProxyUi<LoginV, LoginP> implements LoginV {
+public class LoginUi extends BaseUi<LoginV, LoginP> implements LoginV {
 
     @BindView(R.id.etUserName)
     EditText etUserName;

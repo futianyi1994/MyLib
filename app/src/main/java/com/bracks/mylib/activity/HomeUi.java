@@ -13,7 +13,6 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.futia.mylib.base.basemvp.BasePresenter;
 import com.bracks.futia.mylib.base.basemvp.BaseView;
 import com.bracks.futia.mylib.base.basemvp.CreatePresenter;
-import com.bracks.futia.mylib.base.basevm.BaseVmProxyUi;
 import com.bracks.mylib.R;
 import com.bracks.mylib.fragment.PublicFrag;
 
@@ -28,7 +27,7 @@ import butterknife.BindView;
  * @description :
  */
 @CreatePresenter(BasePresenter.class)
-public class HomeUi extends BaseVmProxyUi<BaseView, BasePresenter<BaseView>> {
+public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     @BindView(R.id.container)
     FrameLayout container;
     @BindView(R.id.bottomNavigationBar)

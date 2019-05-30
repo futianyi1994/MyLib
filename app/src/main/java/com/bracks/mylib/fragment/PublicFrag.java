@@ -2,6 +2,7 @@ package com.bracks.mylib.fragment;
 
 import android.app.Dialog;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -14,6 +15,7 @@ import android.view.View;
 
 import com.bracks.futia.mylib.base.basemvp.BaseProxyFrag;
 import com.bracks.futia.mylib.base.basemvp.CreatePresenter;
+import com.bracks.futia.mylib.utils.bar.BarUtils;
 import com.bracks.futia.mylib.utils.widget.DialogUtils;
 import com.bracks.mylib.R;
 import com.bracks.mylib.adapter.PublicAdapter;
@@ -75,7 +77,11 @@ public class PublicFrag extends BaseProxyFrag<PublicFragV, PublicFragP> implemen
     @Override
     public void showLoading(String msg, boolean isCancelable) {
         dialog = DialogUtils.createLoadingDialog(getActivity(), msg, isCancelable);
-        dialog.show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            DialogUtils.afterShow(() -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()));
+        } else {
+            dialog.show();
+        }
     }
 
     @Override
