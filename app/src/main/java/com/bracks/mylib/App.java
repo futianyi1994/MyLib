@@ -14,7 +14,6 @@ import com.bracks.futia.mylib.base.BaseApp;
 public class App extends BaseApp {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    protected void onCreate(boolean isAppCreate) {
     }
 }

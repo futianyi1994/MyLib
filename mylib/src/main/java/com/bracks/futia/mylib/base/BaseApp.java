@@ -1,10 +1,7 @@
 package com.bracks.futia.mylib.base;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.bracks.futia.mylib.utils.CommonUtils;
 import com.bracks.futia.mylib.utils.log.TLog;
@@ -18,7 +15,7 @@ import com.bracks.futia.mylib.utils.log.TLog;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class BaseApp extends Application {
+public abstract class BaseApp extends MultiDexApplication {
     public static final String TAG = "BaseApp";
     /**
      * 表示应用是被杀死后在启动的
@@ -45,21 +42,18 @@ public class BaseApp extends Application {
      */
     public static int APP_STATUS = APP_STATUS_KILLED;
 
-    @SuppressLint("StaticFieldLeak")
-    public static Context mContext;
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = this;
-        CommonUtils.init(mContext);
+        onCreate(CommonUtils.init(this));
     }
+
+    /**
+     * 判断是否App进程启动
+     *
+     * @param isAppCreate true: App进程启动；false：service进程启动等
+     */
+    protected abstract void onCreate(boolean isAppCreate);
 
     /**
      * 重新初始化应用界面，清空当前Activity棧，并启动首页
@@ -67,9 +61,9 @@ public class BaseApp extends Application {
      * @param cls
      */
     public static void reInitApp(Class<?> cls) {
-        Intent intent = new Intent(mContext, cls);
+        Intent intent = new Intent(CommonUtils.getContext(), cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        CommonUtils.getContext().startActivity(intent);
         TLog.i(TAG, "reInitApp");
     }
 

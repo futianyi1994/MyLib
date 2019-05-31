@@ -2,6 +2,9 @@ package com.bracks.futia.mylib.internationalization;
 
 import android.content.Context;
 
+import com.bracks.futia.mylib.Constants;
+import com.bracks.futia.mylib.utils.save.SPUtils;
+
 
 /**
  * good programmer.
@@ -9,7 +12,7 @@ import android.content.Context;
  * @date : 2019-05-17 上午 10:41
  * @author: futia
  * @email : futianyi1994@126.com
- * @description :
+ * @description :设置语言后需要重启页面生效
  */
 public class Language {
     private static volatile Language singleton = null;
@@ -34,15 +37,12 @@ public class Language {
         return singleton;
     }
 
-    private String language = "zh";
-
     public void setLanguage(String language) {
-        this.language = language;
+        SPUtils.put(Constants.LANGUAGE, language);
     }
 
     public String language() {
-        //Language.language 为对应的资源格式后缀，比如"zh"
-        return language;
+        return SPUtils.getString(Constants.LANGUAGE, "zh");
     }
 
     /**

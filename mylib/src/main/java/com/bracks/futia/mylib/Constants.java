@@ -56,4 +56,5 @@ public interface Constants {
 
     String COOKIE = "cookie";
     String TOKEN = "token";
+    String LANGUAGE = "language";
 }

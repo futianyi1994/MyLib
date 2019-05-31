@@ -43,9 +43,8 @@ public class CommonUtils {
      */
     public static boolean init(Context context) {
         Utils.init(context);
-        //LoggerHelper.getInstance().init(false);
         mContext = context.getApplicationContext();
-        return appOneInit();
+        return isAppCreate();
     }
 
     /**
@@ -67,7 +66,7 @@ public class CommonUtils {
      * @Author: futia
      * @Description:
      */
-    public static boolean appOneInit() {
+    public static boolean isAppCreate() {
         String processAppName = ProcessUtils.getCurrentProcessName();
         TLog.i(TAG, "processAppName:  " + processAppName);
         //默认的app会在以包名为默认的process name下运行，如果查到的process name不是APP的process name就return掉

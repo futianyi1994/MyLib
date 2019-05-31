@@ -174,6 +174,7 @@ public class SPUtils {
 
     /**
      * 获取List
+     * 存在泛型类型擦除问题
      *
      * @param key
      * @return
@@ -204,7 +205,7 @@ public class SPUtils {
                 ?
                 new ArrayList<>()
                 :
-                Arrays.asList(new Gson().fromJson(strJson, classOfT));
+                new ArrayList<>(Arrays.asList(new Gson().fromJson(strJson, classOfT)));
     }
 
     /**
