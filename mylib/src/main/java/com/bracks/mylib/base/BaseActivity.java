@@ -44,15 +44,13 @@ public abstract class BaseActivity extends RxAppActivity implements BaseUiInterf
         if (isLightBarMode()) {
             com.bracks.mylib.utils.bar.BarUtils.setLightStatusBar(this, true);
         }
-        initData(savedInstanceState);
-        initView(savedInstanceState);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        KeyboardUtils.hideSoftInput(this);
         mUnbinder.unbind();
+        KeyboardUtils.hideSoftInput(this);
     }
 
     /**

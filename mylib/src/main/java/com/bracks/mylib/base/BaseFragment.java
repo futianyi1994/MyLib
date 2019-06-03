@@ -26,14 +26,8 @@ public abstract class BaseFragment extends RxAppFragment implements BaseFragInte
     /**
      * 布局
      */
-    private View rootView;
+    protected View rootView;
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initData(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -3,15 +3,12 @@ package com.bracks.mylib.base.basemvp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bracks.mylib.base.interf.BaseFragInterf;
-import com.bracks.mylib.rx.RxAppFragment;
+import com.bracks.mylib.base.BaseFragment;
 
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * good programmer.
@@ -21,9 +18,7 @@ import butterknife.Unbinder;
  * @email : futianyi1994@126.com
  * @description :使用代理模式来代理Presenter的创建、销毁、绑定、解绑以及Presenter的状态保存,其实就是管理Presenter的生命周期
  */
-public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<V>> extends RxAppFragment implements BaseFragInterf, PresenterProxy, BaseView, View.OnTouchListener {
-
-    protected Unbinder mUnbinder;
+public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<V>> extends BaseFragment implements PresenterProxy, BaseView {
 
     private static final String PRESENTER_SAVE_KEY = "presenter_save_key";
 
@@ -31,10 +26,6 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
      * 创建被代理对象,传入默认Presenter的工厂
      */
     private PresenterProxyImpl<V, P> mProxy = new PresenterProxyImpl<>(getClass());
-    /**
-     * 布局
-     */
-    private View rootView;
 
 
     @Override
@@ -66,8 +57,11 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mUnbinder.unbind();
         mProxy.onDestroy();
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
     }
 
     /**
@@ -109,17 +103,5 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
     @Override
     public P getPresenter() {
         return mProxy.getPresenter();
-    }
-
-    /**
-     * 防止点击时间透传到上一个fragment,在onCreateView()中给rootView设置onTouchListener
-     */
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return true;
-    }
-
-    @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
     }
 }
