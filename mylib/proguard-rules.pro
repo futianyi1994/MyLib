@@ -207,37 +207,37 @@
 
 
 #不要混淆BasePresenter所有子类
--keep public class * extends com.bracks.futia.mylib.base.basemvp.BasePresenter
+-keep public class * extends com.bracks.mylib.base.basemvp.BasePresenter
 
 #不要混淆Base所有子类的属性与方法
--keepclasseswithmembers class * extends com.bracks.futia.mylib.base.model.Base{
+-keepclasseswithmembers class * extends com.bracks.mylib.base.model.Base{
     <fields>;
     <methods>;
 }
 
 #不要混淆Entity所有子类的属性与方法
--keepclasseswithmembers class * extends com.bracks.futia.mylib.base.model.Entity{
+-keepclasseswithmembers class * extends com.bracks.mylib.base.model.Entity{
     <fields>;
     <methods>;
 }
 
 #不要混淆Result所有子类的属性与方法
--keepclasseswithmembers class * extends com.bracks.futia.mylib.base.model.Result{
+-keepclasseswithmembers class * extends com.bracks.mylib.base.model.Result{
     <fields>;
     <methods>;
 }
 
 #MyLib开始
-#-keep class com.bracks.futia.mylib.** { *; }
-#-keepclassmembers class com.bracks.futia.mylib.** { *; }
-#-dontwarn com.bracks.futia.mylib.**
+#-keep class com.bracks.mylib.** { *; }
+#-keepclassmembers class com.bracks.mylib.** { *; }
+#-dontwarn com.bracks.mylib.**
 #MyLib结束
 
 #声明第三方jar包,不用管第三方jar包中的.so文件(如果有)
 #-libraryjars libs/xutils.jar
 
 #不要混淆内部类
-#-keepclassmembers class com.bracks.futia.mylib.base.adapter.BaseBindingAdapter$* { *; }
+#-keepclassmembers class com.bracks.mylib.base.adapter.BaseBindingAdapter$* { *; }
 
 #不要混淆实体类
 #-keep class com.amyrobotics.medicalmission.model.** { *; }

@@ -1,4 +1,4 @@
-package com.bracks.mylib;
+package com.bracks.wanandroid;
 
 import org.junit.Test;
 

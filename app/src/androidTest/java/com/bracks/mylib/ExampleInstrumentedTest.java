@@ -1,4 +1,4 @@
-package com.bracks.mylib;
+package com.bracks.wanandroid;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.bracks.mylib", appContext.getPackageName());
+        assertEquals("com.bracks.wanandroid", appContext.getPackageName());
     }
 }

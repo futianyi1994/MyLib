@@ -1,6 +1,6 @@
 ext {
     android = [
-            applicationId           : "com.bracks.mylib",
+            applicationId           : "com.bracks.wanandroid",
             compileSdkVersion       : 28,
             buildToolsVersion       : "28.0.3",
             minSdkVersion           : 16,

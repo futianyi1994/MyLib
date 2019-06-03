@@ -21,4 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 #不要混淆实体类
--keep class com.bracks.mylib.model.bean.** { *; }
+-keep class com.bracks.wanandroid.model.bean.** { *; }
