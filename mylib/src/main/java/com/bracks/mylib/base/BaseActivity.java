@@ -1,6 +1,5 @@
 package com.bracks.mylib.base;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
@@ -11,8 +10,6 @@ import android.support.v4.content.ContextCompat;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.bracks.mylib.R;
 import com.bracks.mylib.base.interf.BaseUiInterf;
-import com.bracks.mylib.internationalization.Language;
-import com.bracks.mylib.internationalization.MyContextWrapper;
 import com.bracks.mylib.rx.RxAppActivity;
 
 import butterknife.ButterKnife;
@@ -56,17 +53,6 @@ public abstract class BaseActivity extends RxAppActivity implements BaseUiInterf
         super.onDestroy();
         KeyboardUtils.hideSoftInput(this);
         mUnbinder.unbind();
-    }
-
-    /**
-     * attachBaseContext的实现App实现国际化
-     *
-     * @param newBase
-     */
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        String language = Language.getInstance().language();
-        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
     }
 
     /**
