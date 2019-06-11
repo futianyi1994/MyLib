@@ -1,7 +1,7 @@
 package com.bracks.wanandroid.net;
 
 import com.bracks.mylib.net.https.HttpManager;
-import com.bracks.mylib.Contants;
+import com.bracks.wanandroid.Contants;
 
 /**
  * good programmer.

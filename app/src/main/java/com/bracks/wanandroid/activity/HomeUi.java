@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
@@ -90,11 +89,6 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     @Override
     protected ViewModel initViewModel() {
         return null;
-    }
-
-    @Override
-    public void showToast(String msg) {
-        ToastUtils.showLong(msg);
     }
 
     private void switchFragment(Fragment fragment, boolean backStack) {

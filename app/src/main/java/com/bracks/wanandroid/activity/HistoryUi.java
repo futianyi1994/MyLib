@@ -59,11 +59,6 @@ public class HistoryUi extends BaseUi<HistoryV, HistoryP> implements HistoryV {
     }
 
     @Override
-    public void showToast(String msg) {
-
-    }
-
-    @Override
     public int getLayoutId() {
         return R.layout.activity_history;
     }

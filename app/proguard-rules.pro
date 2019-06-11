@@ -22,3 +22,6 @@
 
 #不要混淆实体类
 -keep class com.bracks.wanandroid.model.bean.** { *; }
+
+#声明第三方jar包,不用管第三方jar包中的.so文件(如果有)
+-libraryjars libs/tbs_sdk_v4.3.0.1072_43646.jar

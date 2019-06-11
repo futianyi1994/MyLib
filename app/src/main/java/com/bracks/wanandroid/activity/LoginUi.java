@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.presenter.LoginP;
@@ -42,11 +41,6 @@ public class LoginUi extends BaseUi<LoginV, LoginP> implements LoginV {
     @Override
     protected ViewModel initViewModel() {
         return getPresenter().getViewModel(this);
-    }
-
-    @Override
-    public void showToast(String msg) {
-        ToastUtils.showLong(msg);
     }
 
     @Override

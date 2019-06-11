@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basevm.BaseVmProxyUi;
@@ -34,5 +35,10 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
         } else {
             super.onBackPressedSupport();
         }
+    }
+
+    @Override
+    public void showToast(String msg) {
+        ToastUtils.showLong(msg);
     }
 }
