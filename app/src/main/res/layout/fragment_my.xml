@@ -4,5 +4,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_public"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="一生之约"
+            android:textColor="@color/white"
+            android:textSize="26sp" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_margin="20dp" />
+
+    </FrameLayout>
+
+    <include layout="@layout/merge_recyclerview" />
 
 </LinearLayout>

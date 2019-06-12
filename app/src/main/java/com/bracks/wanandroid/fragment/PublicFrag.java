@@ -41,7 +41,7 @@ public class PublicFrag extends BaseProxyFrag<PublicFragContract.View, PublicFra
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView)
-    RecyclerView recycleView;
+    RecyclerView recyclerView;
 
     private Dialog dialog;
 
@@ -59,20 +59,22 @@ public class PublicFrag extends BaseProxyFrag<PublicFragContract.View, PublicFra
 
     @Override
     public void initView(View view, @Nullable Bundle savedInstanceState) {
+        getPresenter().fetch(this);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         collapsingToolbar.setTitle("公众号");
         collapsingToolbar.setExpandedTitleColor(Color.WHITE);
         collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
         refreshLayout.setEnableOverScrollDrag(true);
-        getPresenter().fetch(this);
+        refreshLayout.setOnRefreshListener(refreshLayout -> getPresenter().fetch(PublicFrag.this));
     }
 
     @Override
     public void showDatas(List<PublicList.DataBean> data) {
-        PublicAdapter mAdapter = new PublicAdapter();
-        recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter.setData(data);
-        recycleView.setAdapter(mAdapter);
+        PublicAdapter adapter = new PublicAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.setData(data);
+        recyclerView.setAdapter(adapter);
+        refreshLayout.finishRefresh();
     }
 
     @Override

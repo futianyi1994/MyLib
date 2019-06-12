@@ -80,7 +80,8 @@ public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements Sp
 
     @Override
     public void jumpToMain() {
-        ActivityUtils.startActivity(new Intent(this, LoginUi.class), android.R.anim.fade_in, android.R.anim.fade_out);
+        ActivityUtils.startActivity(new Intent(this, HomeUi.class), android.R.anim.fade_in, android.R.anim.fade_out);
+        finish();
     }
 
     private void cancelAnimation() {
