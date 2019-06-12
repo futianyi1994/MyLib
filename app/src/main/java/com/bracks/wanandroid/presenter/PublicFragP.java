@@ -4,9 +4,9 @@ package com.bracks.wanandroid.presenter;
 import com.bracks.mylib.base.basemvp.BaseModel;
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.net.https.HttpCallback;
+import com.bracks.wanandroid.contract.PublicFragContract;
 import com.bracks.wanandroid.model.PublicFragM;
 import com.bracks.wanandroid.model.bean.PublicList;
-import com.bracks.wanandroid.viewiterf.PublicFragV;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.util.List;
@@ -20,12 +20,10 @@ import java.util.List;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class PublicFragP extends BasePresenter<PublicFragV> {
+public class PublicFragP extends BasePresenter<PublicFragContract.View> implements PublicFragContract.Presenter {
     private BaseModel<List<PublicList.DataBean>> iCourseModel = new PublicFragM();
 
-    /**
-     * 执行数据
-     */
+    @Override
     public <E> void fetch(LifecycleProvider<E> lifecycleProvider) {
         if (getView() != null) {
             getView().showLoading("加载中", true);

@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
+import com.bracks.wanandroid.contract.LoginContract;
 import com.bracks.wanandroid.presenter.LoginP;
-import com.bracks.wanandroid.viewiterf.LoginV;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,7 +26,7 @@ import butterknife.OnClick;
  * @description :
  */
 @CreatePresenter(LoginP.class)
-public class LoginUi extends BaseUi<LoginV, LoginP> implements LoginV {
+public class LoginUi extends BaseUi<LoginContract.View, LoginP> implements LoginContract.View {
 
     @BindView(R.id.etUserName)
     EditText etUserName;

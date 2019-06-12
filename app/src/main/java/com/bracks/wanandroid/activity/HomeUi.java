@@ -13,6 +13,7 @@ import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
+import com.bracks.wanandroid.fragment.MyFrag;
 import com.bracks.wanandroid.fragment.PublicFrag;
 
 import butterknife.BindView;
@@ -67,7 +68,7 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
                                 switchFragment(new PublicFrag(), false);
                                 break;
                             case 4:
-                                switchFragment(new PublicFrag(), false);
+                                switchFragment(MyFrag.newInstance(), false);
                                 break;
                             default:
                                 break;

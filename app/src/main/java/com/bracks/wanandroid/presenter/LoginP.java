@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
-import com.bracks.wanandroid.viewiterf.LoginV;
+import com.bracks.wanandroid.contract.LoginContract;
 import com.bracks.wanandroid.viewmodel.LoginViewModel;
 
 /**
@@ -16,13 +16,11 @@ import com.bracks.wanandroid.viewmodel.LoginViewModel;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class LoginP extends BasePresenter<LoginV> {
+public class LoginP extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
 
     private LoginViewModel viewModel;
 
-    /**
-     * 执行数据
-     */
+    @Override
     public LoginViewModel getViewModel(FragmentActivity activity) {
         if (getView() != null) {
             if (viewModel == null) {
@@ -39,6 +37,7 @@ public class LoginP extends BasePresenter<LoginV> {
         return viewModel;
     }
 
+    @Override
     public void login(String userName, String psw) {
         if (getView() != null) {
             viewModel.login(userName, psw);

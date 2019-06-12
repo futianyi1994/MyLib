@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
  * @email : futianyi1994@126.com
  * @description : 所有Presenter的基类，并不强制实现这些方法，有需要在重写
  */
-public class BasePresenter<V extends BaseView> {
+public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> {
     public static final String TAG = "BasePresenter";
 
     /**
@@ -36,10 +36,12 @@ public class BasePresenter<V extends BaseView> {
         this.lifecycleProvider = lifecycleProvider;
     }
 
+    @Override
     public <E> LifecycleProvider<E> getLifecycleProvider() {
         return lifecycleProvider;
     }
 
+    @Override
     public <E> void setLifecycleProvider(LifecycleProvider<E> lifecycleProvider) {
         this.lifecycleProvider = lifecycleProvider;
     }
@@ -49,6 +51,7 @@ public class BasePresenter<V extends BaseView> {
      *
      * @param savedState 被意外销毁后重建后的Bundle
      */
+    @Override
     public void onCreatePersenter(@Nullable Bundle savedState) {
         TLog.i(TAG, "P onCreatePersenter");
     }
@@ -57,6 +60,7 @@ public class BasePresenter<V extends BaseView> {
     /**
      * Presenter被销毁时调用
      */
+    @Override
     public void onDestroyPersenter() {
         TLog.i(TAG, "P onDestroyPersenter");
     }
@@ -67,6 +71,7 @@ public class BasePresenter<V extends BaseView> {
      *
      * @param outState
      */
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         TLog.i(TAG, "P onSaveInstanceState");
     }
@@ -76,6 +81,7 @@ public class BasePresenter<V extends BaseView> {
      *
      * @param view
      */
+    @Override
     public void onAttchView(V view) {
         mViewRef = new WeakReference<>(view);
     }
@@ -83,6 +89,7 @@ public class BasePresenter<V extends BaseView> {
     /**
      * 进行解绑
      */
+    @Override
     public void onDetachView() {
         mViewRef.clear();
     }
@@ -92,6 +99,7 @@ public class BasePresenter<V extends BaseView> {
      *
      * @return
      */
+    @Override
     public V getView() {
         return mViewRef == null ? null : mViewRef.get();
     }

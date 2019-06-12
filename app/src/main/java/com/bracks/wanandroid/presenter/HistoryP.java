@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentActivity;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
+import com.bracks.wanandroid.contract.HistoryContract;
 import com.bracks.wanandroid.model.bean.History;
-import com.bracks.wanandroid.viewiterf.HistoryV;
 import com.bracks.wanandroid.viewmodel.HistoryViewModel;
 
 import java.util.List;
@@ -20,10 +20,11 @@ import java.util.List;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class HistoryP extends BasePresenter<HistoryV> {
+public class HistoryP extends BasePresenter<HistoryContract.View> implements HistoryContract.Presenter {
     private HistoryViewModel viewModel;
     private int mPage;
 
+    @Override
     public HistoryViewModel fetch(FragmentActivity activity, int id, int page, String search) {
         mPage = page;
         if (getView() != null) {

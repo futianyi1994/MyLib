@@ -2,16 +2,21 @@ package com.bracks.wanandroid.activity;
 
 import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
-import com.bracks.wanandroid.utils.ToolbarUtils;
 import com.bracks.wanandroid.widget.webview.X5WebView;
+import com.bracks.wanandroid.widget.webview.X5WebViewClient;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.tencent.smtt.sdk.WebView;
 
 import butterknife.BindView;
 
@@ -26,10 +31,16 @@ import butterknife.BindView;
 @CreatePresenter(BasePresenter.class)
 public class ArticleUi extends BaseH5Ui<BaseView, BasePresenter<BaseView>> {
 
+    @BindView(R.id.appBarLayout)
+    AppBarLayout appBarLayout;
+    @BindView(R.id.collapsingToolbar)
+    CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     @BindView(R.id.webView)
-    FrameLayout rootWebView;
+    NestedScrollView rootWebView;
 
     public static final String EXTRA_LINK = "link";
 
@@ -58,10 +69,21 @@ public class ArticleUi extends BaseH5Ui<BaseView, BasePresenter<BaseView>> {
     @Override
     protected void initWebView(X5WebView mWebView) {
         setSupportActionBar(toolbar);
-        //设置是否显示返回按钮，注意：这里个方法是actionBar的方法
+        //设置是否显示返回按钮
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        collapsingToolbar.setTitle("公众号");
+        collapsingToolbar.setExpandedTitleColor(Color.WHITE);
+        collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
+        refreshLayout.setEnableOverScrollDrag(true);
+        refreshLayout.setOnRefreshListener(refreshLayout -> mWebView.loadUrl(link));
+        mWebView.setWebViewClient(new X5WebViewClient(this) {
+            @Override
+            public void onPageFinished(WebView webView, String s) {
+                super.onPageFinished(webView, s);
+                refreshLayout.finishRefresh();
+            }
+        });
         toolbar.setNavigationOnClickListener(v -> backFn());
-        ToolbarUtils.addTitleCenter(toolbar, "sdsad");
     }
 
     @Override

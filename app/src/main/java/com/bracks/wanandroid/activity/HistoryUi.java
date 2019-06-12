@@ -5,21 +5,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.HistoryAdapter;
+import com.bracks.wanandroid.contract.HistoryContract;
 import com.bracks.wanandroid.model.bean.History;
 import com.bracks.wanandroid.presenter.HistoryP;
-import com.bracks.wanandroid.viewiterf.HistoryV;
 import com.bracks.wanandroid.viewmodel.HistoryViewModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,12 +45,13 @@ import static com.bracks.mylib.utils.CommonUtils.getContext;
  * @description :
  */
 @CreatePresenter(HistoryP.class)
-public class HistoryUi extends BaseUi<HistoryV, HistoryP> implements HistoryV {
+public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements HistoryContract.View {
     public static final String EXTRA_ID = "id";
     public static final String EXTRA_PAGE = "page";
+    public static final String EXTRA_TITLE = "title";
 
-    @BindView(R.id.searchView)
-    SearchView searchView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView)
@@ -50,12 +61,22 @@ public class HistoryUi extends BaseUi<HistoryV, HistoryP> implements HistoryV {
     private HistoryAdapter mAdapter;
     private int id;
     private int page;
+    private String title;
     private String search = "";
+
+    private SearchView searchView;
+    private SearchView.SearchAutoComplete mSearchAutoComplete;
 
 
     @Override
     protected ViewModel initViewModel() {
         return viewModel;
+    }
+
+    @Override
+    protected boolean isTransparencyBar() {
+        BarUtils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        return false;
     }
 
     @Override
@@ -69,8 +90,106 @@ public class HistoryUi extends BaseUi<HistoryV, HistoryP> implements HistoryV {
         if (intent != null) {
             id = intent.getIntExtra(EXTRA_ID, 0);
             page = intent.getIntExtra(EXTRA_PAGE, 0);
+            title = intent.getStringExtra(EXTRA_TITLE);
         }
         viewModel = getPresenter().fetch(this, id, page, search);
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+        //设置是否显示返回按钮
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> {
+            if (mSearchAutoComplete.isShown()) {
+                try {
+                    mSearchAutoComplete.setText("");
+                    Method method = searchView.getClass().getDeclaredMethod("onCloseClicked");
+                    method.setAccessible(true);
+                    method.invoke(searchView);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_history, menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+
+        //通过MenuItem得到SearchView
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchAutoComplete = searchView.findViewById(R.id.search_src_text);
+        searchView.setQueryHint("搜索历史文章");
+
+        //设置输入框提示文字样式
+        mSearchAutoComplete.setHintTextColor(getResources().getColor(android.R.color.darker_gray));
+        mSearchAutoComplete.setTextColor(getResources().getColor(android.R.color.background_light));
+        mSearchAutoComplete.setTextSize(16);
+        //设置触发查询的最少字符数（默认2个字符才会触发查询）
+        mSearchAutoComplete.setThreshold(1);
+
+        //true value will collapse the SearchView to an icon, while a false will expand it.左侧无放大镜 右侧有叉叉 可以关闭搜索框
+        searchView.setIconified(true);
+        //The default value is true，设置为false直接展开显示 左侧有放大镜(在搜索框外) 右侧无叉叉 有输入内容后有叉叉 不能关闭搜索框
+        //searchView.setIconifiedByDefault(false);
+        //内部调用了setIconified(false); 直接展开显示 左侧无放大镜 右侧无叉叉 有输入内容后有叉叉 不能关闭搜索框
+        //searchView.onActionViewExpanded();
+
+        //设置最大宽度
+        searchView.setMaxWidth(ScreenUtils.getScreenWidth());
+        //设置是否显示搜索框展开时的提交按钮
+        searchView.setSubmitButtonEnabled(false);
+
+        //修改搜索框控件间的间隔
+        LinearLayout search_edit_frame = searchView.findViewById(R.id.search_edit_frame);
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) search_edit_frame.getLayoutParams();
+        params.leftMargin = 0;
+        params.rightMargin = 0;
+        search_edit_frame.setLayoutParams(params);
+
+        //监听SearchView的内容
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search = s;
+                getPresenter().fetch(HistoryUi.this, id, page, search);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                search = s;
+                getPresenter().fetch(HistoryUi.this, id, page, search);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * 让菜单同时显示图标和文字
+     *
+     * @param featureId
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equalsIgnoreCase("MenuBuilder")) {
+                try {
+                    Method method = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    method.setAccessible(true);
+                    method.invoke(menu, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
     }
 
 
@@ -91,21 +210,6 @@ public class HistoryUi extends BaseUi<HistoryV, HistoryP> implements HistoryV {
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     page = 1;
                     getPresenter().fetch(HistoryUi.this, id, page, search);
-                }
-            });
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String s) {
-                    search = s;
-                    getPresenter().fetch(HistoryUi.this, id, page, search);
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String s) {
-                    search = s;
-                    getPresenter().fetch(HistoryUi.this, id, page, search);
-                    return false;
                 }
             });
         }

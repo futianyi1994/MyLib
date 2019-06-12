@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".activity.LoginUi">
+        <activity android:name=".activity.SplashUi">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.LoginUi" />
         <activity android:name=".activity.DownloadUi" />
         <activity android:name=".activity.HomeUi" />
         <activity android:name=".activity.ArticleUi" />

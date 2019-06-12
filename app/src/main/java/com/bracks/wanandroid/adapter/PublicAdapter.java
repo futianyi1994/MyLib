@@ -47,6 +47,7 @@ public class PublicAdapter extends MBaseRecyclerViewAdapter<PublicList.DataBean>
                     new Intent(context, HistoryUi.class)
                             .putExtra(HistoryUi.EXTRA_ID, getItem(i).getId())
                             .putExtra(HistoryUi.EXTRA_PAGE, 1)
+                            .putExtra(HistoryUi.EXTRA_TITLE, getItem(i).getName())
             );
         });
 
