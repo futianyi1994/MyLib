@@ -15,4 +15,9 @@ public class Result<T> extends com.bracks.mylib.base.model.Result<T> {
     public boolean OK() {
         return code == 0;
     }
+
+    @Override
+    public boolean isRedirect() {
+        return code == -1001;
+    }
 }

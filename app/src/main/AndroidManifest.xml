@@ -37,6 +37,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.ArticleUi" />
         <activity android:name=".activity.HistoryUi" />
+        <activity android:name=".activity.CollectUi" />
     </application>
 
 </manifest>

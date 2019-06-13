@@ -20,6 +20,7 @@ import com.bracks.wanandroid.model.bean.Result;
 import com.bracks.wanandroid.net.ApiService;
 import com.jakewharton.rxbinding3.view.RxView;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import io.reactivex.disposables.Disposable;
@@ -34,6 +35,11 @@ import io.reactivex.disposables.Disposable;
  */
 public class HistoryAdapter extends BaseRecyclerViewAdapter<History.DataBean.DatasBean> {
 
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public HistoryAdapter(FragmentActivity activity) {
         super(activity);
@@ -46,8 +52,10 @@ public class HistoryAdapter extends BaseRecyclerViewAdapter<History.DataBean.Dat
 
     @Override
     protected void bindData(BaseViewHolder holder, int position, History.DataBean.DatasBean datasBean) {
+        holder.setText(R.id.tvName, name);
+        holder.setText(R.id.tvLable, String.format("公众号/%s", name));
         holder.setText(R.id.tvTitle, Html.fromHtml(datasBean.getTitle()).toString());
-        holder.setText(R.id.tvTime, String.format(Locale.getDefault(), "时间：%s", TimeUtils.millis2String(datasBean.getPublishTime())));
+        holder.setText(R.id.tvTime, TimeUtils.millis2String(datasBean.getPublishTime(), new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())));
         ImageView ivCollect = ((ImageView) holder.getView(R.id.ivCollect));
         if (datasBean.isCollect()) {
             ivCollect.setBackgroundResource(R.mipmap.collected);

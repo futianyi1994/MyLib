@@ -80,7 +80,7 @@ public class RxFlowHelper {
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .doOnTerminate(() -> {
+                        .doFinally(() -> {
                             if (isShowLoading) {
                                 DialogUtils.dismissDialog(dialog);
                             }
@@ -128,7 +128,7 @@ public class RxFlowHelper {
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .doOnTerminate(() -> {
+                        .doFinally(() -> {
                             if (isShowLoading) {
                                 DialogUtils.dismissDialog(dialog);
                             }

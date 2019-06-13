@@ -58,7 +58,7 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
     RecyclerView recyclerView;
 
     private HistoryViewModel viewModel;
-    private HistoryAdapter mAdapter;
+    private HistoryAdapter adapter;
     private int id;
     private int page;
     private String title;
@@ -195,10 +195,11 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
 
     @Override
     public void showDatas(List<History.DataBean.DatasBean> data) {
-        if (mAdapter == null) {
-            mAdapter = new HistoryAdapter(this);
+        if (adapter == null) {
+            adapter = new HistoryAdapter(this);
+            adapter.setName(title);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.setAdapter(mAdapter);
+            recyclerView.setAdapter(adapter);
             refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
                 @Override
                 public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -213,14 +214,14 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
                 }
             });
         }
-        mAdapter.clear();
-        mAdapter.addAll(data);
+        adapter.clear();
+        adapter.addAll(data);
         refreshLayout.finishRefresh();
     }
 
     @Override
     public void loadMore(List<History.DataBean.DatasBean> data) {
-        mAdapter.addAll(data);
+        adapter.addAll(data);
         refreshLayout.finishLoadMore();
     }
 }

@@ -29,7 +29,7 @@ android {
             buildConfigField 'String', 'VERSION_DATE', "\"${releaseTime()}\""
         }
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'VERSION_DATE', "\"${releaseTime()}\""
         }

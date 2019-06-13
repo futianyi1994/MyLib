@@ -2,9 +2,6 @@ package com.bracks.mylib.net.interceptor;
 
 import android.support.annotation.NonNull;
 
-import com.bracks.mylib.base.model.Result;
-import com.bracks.mylib.utils.json.JsonUtil;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 
@@ -24,8 +21,14 @@ import okio.BufferedSource;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class ResponseParamInterceptor implements Interceptor {
+public abstract class ResponseParamInterceptor implements Interceptor {
     private static final Charset UTF8 = Charset.forName("UTF-8");
+
+    protected interface ResponseParamCallback {
+        void onResult(String bodyString);
+    }
+
+    protected abstract ResponseParamCallback responseParamCallback();
 
     @NonNull
     @Override
@@ -45,17 +48,17 @@ public class ResponseParamInterceptor implements Interceptor {
             charset = contentType.charset(UTF8);
         }
         String bodyString = buffer.clone().readString(charset);
-        Result result = JsonUtil.fromJson(bodyString, Result.class);
+        responseParamCallback().onResult(bodyString);
+        /*Result result = JsonUtil.fromJson(bodyString, Result.class);
         if (!result.OK()) {
-            //cookie失效重新登录
+            //重新登录
             if (result.isExpired() || result.isRedirect()) {
                 //此判断排除个别请求不跳转
                 if (!request.url().toString().contains("app/v3/user/auto-info")) {
                     // TODO: 2019-01-02 Fty: 跳转到登陆页面
-                    //LoginUtils.toLoginUIWithFlags(CommonUtils.getContext(), Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
             }
-        }
+        }*/
         return originalResponse;
     }
 }

@@ -81,7 +81,7 @@ public class RxObservHelper {
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .doOnTerminate(() -> {
+                        .doFinally(() -> {
                             if (isShowLoading) {
                                 DialogUtils.dismissDialog(dialog);
                             }
@@ -130,7 +130,7 @@ public class RxObservHelper {
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .doOnTerminate(() -> {
+                        .doFinally(() -> {
                             if (isShowLoading) {
                                 DialogUtils.dismissDialog(dialog);
                             }
