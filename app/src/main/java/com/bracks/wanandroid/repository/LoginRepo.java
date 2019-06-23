@@ -33,4 +33,15 @@ public class LoginRepo extends BaseRepo<ILoginDataSource> {
         return liveData;
     }
 
+    public MutableLiveData<Login.DataBean> getRegisterLiveData(String userName, String psw, String repassword) {
+        MutableLiveData<Login.DataBean> liveData = new MutableLiveData<>();
+        remoteDataSource.register(userName, psw, repassword, new HttpCallback<Login.DataBean>() {
+            @Override
+            public void onSuccess(Login.DataBean dataBean) {
+                liveData.setValue(dataBean);
+            }
+        });
+        return liveData;
+    }
+
 }

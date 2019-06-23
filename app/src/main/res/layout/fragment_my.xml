@@ -17,7 +17,6 @@
             android:layout_margin="20dp"
             android:paddingTop="40dp"
             android:layout_gravity="center_vertical"
-            android:text="一生之约"
             android:textColor="@color/white"
             android:textSize="30sp" />
 

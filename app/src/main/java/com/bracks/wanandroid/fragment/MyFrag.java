@@ -10,14 +10,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BaseProxyFrag;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
+import com.bracks.mylib.rx.RxBus;
 import com.bracks.mylib.utils.bar.BarUtils;
+import com.bracks.mylib.utils.save.SPUtils;
 import com.bracks.mylib.utils.widget.DialogUtils;
+import com.bracks.wanandroid.Contants;
 import com.bracks.wanandroid.R;
+import com.bracks.wanandroid.activity.LoginUi;
 import com.bracks.wanandroid.adapter.MyAdapter;
 import com.bracks.wanandroid.contract.MyFragContract;
+import com.bracks.wanandroid.model.evenbus.LoginEvent;
 import com.bracks.wanandroid.presenter.MyP;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -25,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
 
 @CreatePresenter(MyP.class)
 public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements MyFragContract.View {
@@ -58,8 +65,30 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     @Override
     public void initView(View view, @Nullable Bundle savedInstanceState) {
         getPresenter().fetch();
+        if (SPUtils.getBoolean(Contants.SP_IS_LOGIN)) {
+            tvUserName.setText(SPUtils.getString(Contants.SP_USER_NAME));
+        } else {
+            tvUserName.setText("请登录");
+        }
         refreshLayout.setEnableOverScrollDrag(true);
         refreshLayout.setOnRefreshListener(refreshLayout -> getPresenter().fetch());
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+        Disposable disposable = RxBus
+                .getDefault()
+                .toObservable(LoginEvent.class)
+                .subscribe(loginEvent -> {
+                    getPresenter().fetch();
+                    if (SPUtils.getBoolean(Contants.SP_IS_LOGIN)) {
+                        tvUserName.setText(SPUtils.getString(Contants.SP_USER_NAME));
+                    } else {
+                        tvUserName.setText("请登录");
+                    }
+                }, throwable -> {
+                });
     }
 
     @Override
@@ -95,6 +124,9 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvUserName:
+                if ("请登录".equals(tvUserName.getText().toString())) {
+                    ActivityUtils.startActivity(LoginUi.class);
+                }
                 break;
             case R.id.image:
                 break;

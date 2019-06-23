@@ -17,11 +17,13 @@ import com.bracks.wanandroid.repository.LoginRepo;
  */
 public class LoginViewModel extends BaseViewModel {
     private MutableLiveData<Login.DataBean> liveData;
+    private MutableLiveData<Login.DataBean> regitsterLiveData;
     private LoginRepo loginRepo;
 
 
     public LoginViewModel() {
         liveData = new MutableLiveData<>();
+        regitsterLiveData = new MutableLiveData<>();
         loginRepo = new LoginRepo(new LoginDataSource(this));
     }
 
@@ -33,6 +35,15 @@ public class LoginViewModel extends BaseViewModel {
 
     public MutableLiveData<Login.DataBean> getHistoryLiveData() {
         return liveData;
+    }
 
+    public void register(String userName, String psw, String repassword) {
+        loginRepo
+                .getRegisterLiveData(userName, psw, repassword)
+                .observe(lifecycleOwner, dataBean -> regitsterLiveData.setValue(dataBean));
+    }
+
+    public MutableLiveData<Login.DataBean> getRegitsterLiveData() {
+        return regitsterLiveData;
     }
 }

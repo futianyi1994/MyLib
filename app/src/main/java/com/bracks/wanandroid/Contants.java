@@ -10,4 +10,10 @@ package com.bracks.wanandroid;
  */
 public class Contants {
     public static final String BASE_URL = "https://www.wanandroid.com/";
+
+
+    /*****************************************Sp*******************************************/
+
+    public static final String SP_USER_NAME = "user_name";
+    public static final String SP_IS_LOGIN = "is_login";
 }

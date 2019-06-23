@@ -73,6 +73,8 @@ dependencies {
     implementation rootProject.ext.dependencies["bottom-navigation-bar"]
     //Rxbinding
     implementation rootProject.ext.dependencies["rxbinding"]
+    //Rxrelay2
+    implementation rootProject.ext.dependencies["rxrelay2"]
     //Room
     implementation rootProject.ext.dependencies["room"]
     annotationProcessor rootProject.ext.dependencies["room-compiler"]

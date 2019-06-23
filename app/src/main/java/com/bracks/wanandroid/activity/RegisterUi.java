@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.contract.LoginContract;
-import com.bracks.wanandroid.manager.LoginManager;
 import com.bracks.wanandroid.presenter.LoginP;
 
 import butterknife.BindView;
@@ -27,14 +26,14 @@ import butterknife.OnClick;
  * @description :
  */
 @CreatePresenter(LoginP.class)
-public class LoginUi extends BaseUi<LoginContract.View, LoginP> implements LoginContract.View {
+public class RegisterUi extends BaseUi<LoginContract.View, LoginP> implements LoginContract.View {
 
     @BindView(R.id.etUserName)
     EditText etUserName;
     @BindView(R.id.etPsw)
     EditText etPsw;
-    @BindView(R.id.tvLogin)
-    TextView tvLogin;
+    @BindView(R.id.etRePsw)
+    EditText etRePsw;
     @BindView(R.id.tvRegister)
     TextView tvRegister;
 
@@ -46,20 +45,18 @@ public class LoginUi extends BaseUi<LoginContract.View, LoginP> implements Login
 
     @Override
     public void loginSrccess(String username) {
-        showToast("登陆成功");
-        ActivityUtils.startActivity(HomeUi.class);
-        LoginManager.login(username);
-        finish();
     }
 
     @Override
     public void registerSrccess() {
-
+        showToast("注册成功");
+        ActivityUtils.startActivity(HomeUi.class);
+        finish();
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_login;
+        return R.layout.activity_register;
     }
 
     @Override
@@ -67,14 +64,11 @@ public class LoginUi extends BaseUi<LoginContract.View, LoginP> implements Login
 
     }
 
-    @OnClick({R.id.tvLogin, R.id.tvRegister})
+    @OnClick({R.id.tvRegister})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tvLogin:
-                getPresenter().login(etUserName.getText().toString(), etPsw.getText().toString());
-                break;
             case R.id.tvRegister:
-                ActivityUtils.startActivity(RegisterUi.class);
+                getPresenter().register(etUserName.getText().toString(), etPsw.getText().toString(), etRePsw.getText().toString());
                 break;
             default:
                 break;

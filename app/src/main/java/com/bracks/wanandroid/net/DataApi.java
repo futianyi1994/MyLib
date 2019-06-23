@@ -1,6 +1,7 @@
 package com.bracks.wanandroid.net;
 
 
+import com.bracks.wanandroid.model.bean.Collect;
 import com.bracks.wanandroid.model.bean.History;
 import com.bracks.wanandroid.model.bean.Login;
 import com.bracks.wanandroid.model.bean.PublicList;
@@ -57,6 +58,27 @@ public interface DataApi {
     Observable<Login> login(@Field("username") String username,
                             @Field("password") String password);
 
+    /**
+     * 注册
+     *
+     * @param username
+     * @param password
+     * @param repassword
+     * @return
+     */
+    @POST("user/register")
+    @FormUrlEncoded
+    Observable<Login> register(@Field("username") String username,
+                               @Field("password") String password,
+                               @Field("repassword") String repassword);
+
+    /**
+     * 推出登录
+     *
+     * @return
+     */
+    @GET("user/logout/json")
+    Observable<Login> logout();
 
     /**
      * 收藏
@@ -67,6 +89,14 @@ public interface DataApi {
     @POST("lg/collect/{id}/json")
     Observable<Result<String>> collect(@Path("id") int id);
 
+    /**
+     * 收藏列表
+     *
+     * @param page
+     * @return
+     */
+    @GET("lg/collect/list/{page}/json")
+    Observable<Collect> collectList(@Path("page") int page);
 
     /**
      * 取消收藏

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class HistoryViewModel extends BaseViewModel {
     private MutableLiveData<List<History.DataBean.DatasBean>> liveData;
-    private HistoryRepo weatherRepo;
+    private HistoryRepo historyRepo;
 
     @Override
     public void startLoading() {
@@ -27,17 +27,16 @@ public class HistoryViewModel extends BaseViewModel {
 
     public HistoryViewModel() {
         liveData = new MutableLiveData<>();
-        weatherRepo = new HistoryRepo(new HistoryDataSource(this));
+        historyRepo = new HistoryRepo(new HistoryDataSource(this));
     }
 
-    public void quertHistory(int id, int page,String search) {
-        weatherRepo
-                .getHistoryLiveData(id, page,search)
+    public void quertHistory(int id, int page, String search) {
+        historyRepo
+                .getHistoryLiveData(id, page, search)
                 .observe(lifecycleOwner, datasBeans -> liveData.setValue(datasBeans));
     }
 
     public MutableLiveData<List<History.DataBean.DatasBean>> getHistoryLiveData() {
         return liveData;
-
     }
 }

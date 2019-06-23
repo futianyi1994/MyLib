@@ -38,6 +38,7 @@
         <activity android:name=".activity.ArticleUi" />
         <activity android:name=".activity.HistoryUi" />
         <activity android:name=".activity.CollectUi" />
+        <activity android:name=".activity.RegisterUi" />
     </application>
 
 </manifest>

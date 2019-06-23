@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
@@ -25,6 +26,7 @@ import com.bracks.wanandroid.contract.HistoryContract;
 import com.bracks.wanandroid.model.bean.History;
 import com.bracks.wanandroid.presenter.HistoryP;
 import com.bracks.wanandroid.viewmodel.HistoryViewModel;
+import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -92,6 +94,7 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
             page = intent.getIntExtra(EXTRA_PAGE, 0);
             title = intent.getStringExtra(EXTRA_TITLE);
         }
+        recyclerView.addItemDecoration(new SpaceItemDecoration(ConvertUtils.dp2px(10)));
         viewModel = getPresenter().fetch(this, id, page, search);
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);

@@ -29,7 +29,14 @@ public class LoginP extends BasePresenter<LoginContract.View> implements LoginCo
                         .getHistoryLiveData()
                         .observe(activity, dataBean -> {
                             if (!TextUtils.isEmpty(dataBean.getUsername())) {
-                                getView().loginSrccess();
+                                getView().loginSrccess(dataBean.getUsername());
+                            }
+                        });
+                viewModel
+                        .getRegitsterLiveData()
+                        .observe(activity, dataBean -> {
+                            if (!TextUtils.isEmpty(dataBean.getUsername())) {
+                                getView().registerSrccess();
                             }
                         });
             }
@@ -41,6 +48,13 @@ public class LoginP extends BasePresenter<LoginContract.View> implements LoginCo
     public void login(String userName, String psw) {
         if (getView() != null) {
             viewModel.login(userName, psw);
+        }
+    }
+
+    @Override
+    public void register(String userName, String psw, String repassword) {
+        if (getView() != null) {
+            viewModel.register(userName, psw, repassword);
         }
     }
 }

@@ -4,8 +4,8 @@ import android.support.v4.app.FragmentActivity;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
-import com.bracks.wanandroid.contract.HistoryContract;
-import com.bracks.wanandroid.viewmodel.HistoryViewModel;
+import com.bracks.wanandroid.contract.CollectContract;
+import com.bracks.wanandroid.viewmodel.CollectViewModel;
 
 /**
  * good programmer.
@@ -15,28 +15,28 @@ import com.bracks.wanandroid.viewmodel.HistoryViewModel;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class HistoryP extends BasePresenter<HistoryContract.View> implements HistoryContract.Presenter {
-    private HistoryViewModel viewModel;
+public class CollectP extends BasePresenter<CollectContract.View> implements CollectContract.Presenter {
+    private CollectViewModel viewModel;
     private int mPage;
 
     @Override
-    public HistoryViewModel fetch(FragmentActivity activity, int id, int page, String search) {
+    public CollectViewModel fetch(FragmentActivity activity, int page) {
         mPage = page;
         if (getView() != null) {
             if (viewModel == null) {
                 getView().showLoading("加载中", true);
-                viewModel = LViewModelProviders.of(activity, HistoryViewModel.class);
+                viewModel = LViewModelProviders.of(activity, CollectViewModel.class);
                 viewModel
-                        .getHistoryLiveData()
+                        .getCollectLiveData()
                         .observe(activity, datasBeans -> {
-                            if (mPage == 1) {
+                            if (mPage == 0) {
                                 getView().showDatas(datasBeans);
                             } else {
                                 getView().loadMore(datasBeans);
                             }
                         });
             }
-            viewModel.quertHistory(id, mPage, search);
+            viewModel.quertCollect(mPage);
         }
         return viewModel;
     }

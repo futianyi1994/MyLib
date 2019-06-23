@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.widget.FrameLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -15,6 +15,9 @@ import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.fragment.MyFrag;
 import com.bracks.wanandroid.fragment.PublicFrag;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -33,6 +36,8 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     @BindView(R.id.bottomNavigationBar)
     BottomNavigationBar bottomNavigationBar;
 
+    private List<Fragment> fragments = new ArrayList<>();
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_home;
@@ -40,7 +45,12 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        switchFragment(PublicFrag.newInstance(), false);
+        fragments.add(PublicFrag.newInstance());
+        fragments.add(PublicFrag.newInstance());
+        fragments.add(PublicFrag.newInstance());
+        fragments.add(PublicFrag.newInstance());
+        fragments.add(MyFrag.newInstance());
+        showFragmentByIndex(0);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED)
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
                 .setActiveColor(R.color.common_main_color)
@@ -56,19 +66,19 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
                     public void onTabSelected(int position) {
                         switch (position) {
                             case 0:
-                                switchFragment(PublicFrag.newInstance(), false);
+                                showFragmentByIndex(0);
                                 break;
                             case 1:
-                                switchFragment(new PublicFrag(), false);
+                                showFragmentByIndex(0);
                                 break;
                             case 2:
-                                switchFragment(new PublicFrag(), false);
+                                showFragmentByIndex(0);
                                 break;
                             case 3:
-                                switchFragment(new PublicFrag(), false);
+                                showFragmentByIndex(0);
                                 break;
                             case 4:
-                                switchFragment(MyFrag.newInstance(), false);
+                                showFragmentByIndex(4);
                                 break;
                             default:
                                 break;
@@ -92,11 +102,20 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
         return null;
     }
 
-    private void switchFragment(Fragment fragment, boolean backStack) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (backStack) {
-            fragmentTransaction.addToBackStack(null);
+    public void showFragmentByIndex(int index) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        for (int i = 0; i < fragments.size(); i++) {
+            if (i == index) {
+                if (fragments.get(i).isAdded()) {
+                    fragmentManager.beginTransaction().show(fragments.get(i)).commit();
+                } else {
+                    fragmentManager.beginTransaction().add(R.id.container, fragments.get(i)).commit();
+                }
+            } else {
+                if (fragments.get(i).isAdded()) {
+                    fragmentManager.beginTransaction().hide(fragments.get(i)).commit();
+                }
+            }
         }
-        fragmentTransaction.replace(R.id.container, fragment).commit();
     }
 }

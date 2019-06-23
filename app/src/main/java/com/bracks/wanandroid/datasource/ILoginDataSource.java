@@ -17,4 +17,6 @@ public interface ILoginDataSource extends BaseDataSource {
 
     void login(String userName, String psw, HttpCallback<Login.DataBean> callback);
 
+    void register(String userName, String psw, String repassword, HttpCallback<Login.DataBean> callback);
+
 }

@@ -24,4 +24,9 @@ public class LoginDataSource extends BaseRemoteDataSource implements ILoginDataS
     public void login(String userName, String psw, HttpCallback<Login.DataBean> callback) {
         execute(ApiService.getService().login(userName, psw), callback);
     }
+
+    @Override
+    public void register(String userName, String psw, String repassword, HttpCallback<Login.DataBean> callback) {
+        execute(ApiService.getService().register(userName, psw, repassword), callback);
+    }
 }

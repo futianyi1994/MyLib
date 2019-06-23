@@ -47,7 +47,7 @@ public class HistoryAdapter extends BaseRecyclerViewAdapter<History.DataBean.Dat
 
     @Override
     protected int inflaterItemLayout(int viewType) {
-        return R.layout.item_history;
+        return R.layout.item_chapter;
     }
 
     @Override
@@ -73,6 +73,7 @@ public class HistoryAdapter extends BaseRecyclerViewAdapter<History.DataBean.Dat
                                 .collect(datasBean.getId())
                                 .compose(RxSchedulersCompat.ioSchedulerObser())
                                 .compose(RxObservHelper.applyProgressBar((RxAppActivity) getContext(), true))
+                                .compose(((RxAppActivity) getContext()).bindToLifecycle())
                                 .subscribe(new RxDefaultObserver<Result>() {
                                     @Override
                                     public void onSuccess(Result response) {
@@ -86,6 +87,7 @@ public class HistoryAdapter extends BaseRecyclerViewAdapter<History.DataBean.Dat
                                 .cancelCollect(datasBean.getId())
                                 .compose(RxSchedulersCompat.ioSchedulerObser())
                                 .compose(RxObservHelper.applyProgressBar((RxAppActivity) getContext(), true))
+                                .compose(((RxAppActivity) getContext()).bindToLifecycle())
                                 .subscribe(new RxDefaultObserver<Result>() {
                                     @Override
                                     public void onSuccess(Result response) {

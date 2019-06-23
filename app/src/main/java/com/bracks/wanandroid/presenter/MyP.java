@@ -1,6 +1,8 @@
 package com.bracks.wanandroid.presenter;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
+import com.bracks.mylib.utils.save.SPUtils;
+import com.bracks.wanandroid.Contants;
 import com.bracks.wanandroid.contract.MyFragContract;
 
 import java.util.ArrayList;
@@ -21,7 +23,9 @@ public class MyP extends BasePresenter<MyFragContract.View> implements MyFragCon
             List<String> items = new ArrayList<>();
             items.add("收藏");
             items.add("设置");
-            items.add("退出");
+            if (SPUtils.getBoolean(Contants.SP_IS_LOGIN)) {
+                items.add("退出登录");
+            }
             getView().showDatas(items);
         }
     }

@@ -4,7 +4,10 @@ import android.support.v4.app.FragmentActivity;
 
 import com.bracks.mylib.base.basemvp.BasePresenterInter;
 import com.bracks.mylib.base.basemvp.BaseView;
-import com.bracks.wanandroid.viewmodel.LoginViewModel;
+import com.bracks.wanandroid.model.bean.Collect;
+import com.bracks.wanandroid.viewmodel.CollectViewModel;
+
+import java.util.List;
 
 /**
  * good programmer.
@@ -14,19 +17,15 @@ import com.bracks.wanandroid.viewmodel.LoginViewModel;
  * @email : futianyi1994@126.com
  * @description :
  */
-public interface LoginContract {
+public interface CollectContract {
 
     interface View extends BaseView {
-        void loginSrccess(String username);
+        void showDatas(List<Collect.DataBean.DatasBean> data);
 
-        void registerSrccess();
+        void loadMore(List<Collect.DataBean.DatasBean> data);
     }
 
     interface Presenter extends BasePresenterInter<View> {
-        LoginViewModel getViewModel(FragmentActivity activity);
-
-        void login(String userName, String psw);
-
-        void register(String userName, String psw, String repassword);
+        CollectViewModel fetch(FragmentActivity activity, int page);
     }
 }
