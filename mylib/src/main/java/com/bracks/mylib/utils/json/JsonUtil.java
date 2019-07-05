@@ -51,8 +51,9 @@ public class JsonUtil {
      * @return
      */
     public static String toJson(Object object) {
-        Gson gson = getGsonBuilder().create();
-        return gson.toJson(object);
+        return getGsonBuilder()
+                .create()
+                .toJson(object);
     }
 
     /**
@@ -62,10 +63,10 @@ public class JsonUtil {
      * @return
      */
     public static String toJsonWithExpose(Object object) {
-        Gson gson = getGsonBuilder()
+        return getGsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
-                .create();
-        return gson.toJson(object);
+                .create()
+                .toJson(object);
     }
 
     /**
@@ -77,36 +78,51 @@ public class JsonUtil {
      * @return
      */
     public static <T> T fromJson(String json, Class<T> classOfT) {
-        //建造者模式设置不同的配置
-        Gson gson = getGsonBuilder()
+        return getGsonBuilder()
                 //防止对网址乱码 忽略对特殊字符的转换
                 .disableHtmlEscaping()
-                .create();
+                .create()
+                .fromJson(json, classOfT);
+    }
 
-        return gson.fromJson(json, classOfT);
+    /**
+     * 把json字符串解析成对象
+     *
+     * @param json
+     * @param typeOfT
+     * @param <T>
+     * @return
+     */
+    public static <T> T formJson(String json, Type typeOfT) {
+        return getGsonBuilder()
+                //防止对网址乱码 忽略对特殊字符的转换
+                .disableHtmlEscaping()
+                .create()
+                .fromJson(json, typeOfT);
     }
 
     /**
      * json中动态字段取值
      *
-     * @param json : json格式如下
-     *             {
-     *             "code": 200,
-     *             "msg": "成功",
-     *             "data": {
-     *             "1.png": "common/12958fbf-9436-4180-a989-6827572f6f6c.png"
-     *             "2.png": "common/12958fbf-9436-4180-a989-682757easdd.png"
-     *             }
-     *             }
+     * @param json       : json格式如下
+     *                   {
+     *                   "code": 200,
+     *                   "msg": "成功",
+     *                   "data": {
+     *                   "1.png": "common/12958fbf-9436-4180-a989-6827572f6f6c.png"
+     *                   "2.png": "common/12958fbf-9436-4180-a989-682757easdd.png"
+     *                   }
+     *                   }
+     * @param dynamicKey : "data"
      * @return
      */
-    public static List<String> jsonParseDynamicKey(String json) {
+    public static List<String> formJsonDynamicKey(String json, String dynamicKey) {
         List<String> values = new ArrayList<>();
         JSONObject jsonObject = null;
         JSONObject mapJSON = null;
         try {
             jsonObject = new JSONObject(json);
-            mapJSON = jsonObject.getJSONObject("data");
+            mapJSON = jsonObject.getJSONObject(dynamicKey);
             // 动态获取key值
             Iterator<String> iterator = mapJSON.keys();
             while (iterator.hasNext()) {
@@ -161,6 +177,7 @@ public class JsonUtil {
             }
             return reader.nextString();
         }
+
         @Override
         public void write(JsonWriter writer, String value) throws IOException {
             if (value == null) {
@@ -172,7 +189,8 @@ public class JsonUtil {
     }
 
     /**
-     *  对字符串类型做处理
+     * 对字符串类型做处理
+     *
      * @param <T>
      */
     public static class NullStringEmptyTypeAdapterFactory<T> implements TypeAdapterFactory {
