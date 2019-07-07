@@ -17,13 +17,14 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
 
     private P presenter;
 
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //创建Presenter
         if (presenter == null) {
             presenter = creatPresenter();
+            getLifecycle().addObserver(presenter);
         }
         if (presenter == null) {
             throw new NullPointerException("presenter 不能为空!");

@@ -24,6 +24,8 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
         //创建Presenter
         if (presenter == null) {
             presenter = creatPresenter();
+            presenter.setLifecycleOwner(this);
+            getLifecycle().addObserver(presenter);
         }
 
         if (presenter == null) {

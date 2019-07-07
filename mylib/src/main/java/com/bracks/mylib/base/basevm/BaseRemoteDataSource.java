@@ -3,6 +3,7 @@ package com.bracks.mylib.base.basevm;
 import com.bracks.mylib.base.model.Result;
 import com.bracks.mylib.exception.ApiException;
 import com.bracks.mylib.net.https.HttpCallback;
+import com.bracks.mylib.rx.RxAutoDispose;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,32 +52,22 @@ public abstract class BaseRemoteDataSource implements BaseDataSource {
     }
 
     protected <T> void execute(Observable<? extends Result<T>> observable, Observer<T> observer, boolean isShow, boolean isDismiss) {
-        Observable<? extends Result<T>> observe = observable
+        Observable<T> compose = observable
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-        Observable<T> compose;
-        if (baseViewModel.lifecycleActProvider != null) {
-            compose = observe
-                    .compose(baseViewModel.lifecycleActProvider.bindToLifecycle())
-                    .compose(applySchedulers());
-        } else if (baseViewModel.lifecycleFragProvider != null) {
-            compose = observe
-                    .compose(baseViewModel.lifecycleFragProvider.bindToLifecycle())
-                    .compose(applySchedulers());
-        } else {
-            compose = observe
-                    .compose(applySchedulers());
-        }
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(applySchedulers());
         addDisposable(
                 isShow
                         ?
                         (Disposable) compose
                                 .compose(isDismiss ? loadingTransformer() : loadingTransformerWithoutDismiss())
+                                .as(RxAutoDispose.bindLifecycle(baseViewModel.lifecycleOwner))
                                 .subscribeWith(observer)
                         :
                         (Disposable) compose
+                                .as(RxAutoDispose.bindLifecycle(baseViewModel.lifecycleOwner))
                                 .subscribeWith(observer));
     }
 

@@ -25,7 +25,7 @@ import java.util.List;
  */
 public abstract class BaseVmUi<V extends BaseView, P extends BasePresenter<V>> extends BaseUi<V, P> {
 
-    private Dialog dialog;
+    protected Dialog dialog;
 
 
     @Override
@@ -71,8 +71,8 @@ public abstract class BaseVmUi<V extends BaseView, P extends BasePresenter<V>> e
 
     private void observeEvent(List<ViewModel> viewModelList) {
         for (ViewModel viewModel : viewModelList) {
-            if (viewModel instanceof IViewModelAction) {
-                IViewModelAction viewModelAction = (IViewModelAction) viewModel;
+            if (viewModel instanceof BaseViewModelInter) {
+                BaseViewModelInter viewModelAction = (BaseViewModelInter) viewModel;
                 viewModelAction
                         .getActionLiveData()
                         .observe(this, baseActionEvent -> {

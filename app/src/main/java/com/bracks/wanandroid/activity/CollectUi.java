@@ -10,12 +10,14 @@ import android.support.v7.widget.Toolbar;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.bracks.mylib.base.basemvp.BasePresenter;
+import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
+import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.CollectAdapter;
-import com.bracks.wanandroid.contract.CollectContract;
 import com.bracks.wanandroid.model.bean.Collect;
-import com.bracks.wanandroid.presenter.CollectP;
+import com.bracks.wanandroid.viewmodel.CollectViewModel;
 import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -33,8 +35,8 @@ import static com.bracks.mylib.utils.CommonUtils.getContext;
  * @email : futianyi1994@126.com
  * @description :
  */
-@CreatePresenter(CollectP.class)
-public class CollectUi extends BaseUi<CollectContract.View, CollectP> implements CollectContract.View {
+@CreatePresenter(BasePresenter.class)
+public class CollectUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.refreshLayout)
@@ -44,11 +46,23 @@ public class CollectUi extends BaseUi<CollectContract.View, CollectP> implements
 
     private int page;
     private CollectAdapter adapter;
-
+    private CollectViewModel viewModel;
 
     @Override
     protected ViewModel initViewModel() {
-        return getPresenter().fetch(this, page);
+        showLoading("加载中", true);
+        viewModel = LViewModelProviders.of(this, CollectViewModel.class);
+        viewModel
+                .getCollectLiveData()
+                .observe(this, datasBeans -> {
+                    if (page == 0) {
+                        showDatas(datasBeans);
+                    } else {
+                        loadMore(datasBeans);
+                    }
+                });
+        viewModel.quertCollect(page);
+        return viewModel;
     }
 
     @Override
@@ -72,11 +86,10 @@ public class CollectUi extends BaseUi<CollectContract.View, CollectP> implements
         recyclerView.addItemDecoration(new SpaceItemDecoration(ConvertUtils.dp2px(10)));
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             page = 0;
-            getPresenter().fetch(CollectUi.this, page);
+            viewModel.quertCollect(page);
         });
     }
 
-    @Override
     public void showDatas(List<Collect.DataBean.DatasBean> data) {
         if (adapter == null) {
             adapter = new CollectAdapter(this);
@@ -93,12 +106,11 @@ public class CollectUi extends BaseUi<CollectContract.View, CollectP> implements
         } else {
             refreshLayout.setOnLoadMoreListener(refreshLayout -> {
                 page++;
-                getPresenter().fetch(CollectUi.this, page);
+                viewModel.quertCollect(page);
             });
         }
     }
 
-    @Override
     public void loadMore(List<Collect.DataBean.DatasBean> data) {
         adapter.addAll(data);
         refreshLayout.finishLoadMore();

@@ -59,13 +59,13 @@ public class PublicFrag extends BaseProxyFrag<PublicFragContract.View, PublicFra
 
     @Override
     public void initView(View view, @Nullable Bundle savedInstanceState) {
-        getPresenter().fetch(this);
+        getPresenter().fetch();
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         collapsingToolbar.setTitle("公众号");
         collapsingToolbar.setExpandedTitleColor(Color.WHITE);
         collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
         refreshLayout.setEnableOverScrollDrag(true);
-        refreshLayout.setOnRefreshListener(refreshLayout -> getPresenter().fetch(PublicFrag.this));
+        refreshLayout.setOnRefreshListener(refreshLayout -> getPresenter().fetch());
     }
 
     @Override

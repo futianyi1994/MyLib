@@ -1,13 +1,13 @@
 package com.bracks.mylib.base;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bracks.mylib.base.interf.BaseFragInterf;
-import com.bracks.mylib.rx.RxAppFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -20,7 +20,7 @@ import butterknife.Unbinder;
  * @email : futianyi1994@126.com
  * @description :fragment基类
  */
-public abstract class BaseFragment extends RxAppFragment implements BaseFragInterf, View.OnTouchListener {
+public abstract class BaseFragment extends Fragment implements BaseFragInterf, View.OnTouchListener {
 
     protected Unbinder mUnbinder;
     /**

@@ -3,6 +3,8 @@ package com.bracks.mylib.base.basevm;
 
 import android.arch.lifecycle.MutableLiveData;
 
+import com.bracks.mylib.base.interf.BaseLifecycleObserver;
+
 /**
  * good programmer.
  *
@@ -11,7 +13,7 @@ import android.arch.lifecycle.MutableLiveData;
  * @email : futianyi1994@126.com
  * @description :
  */
-public interface IViewModelAction {
+public interface BaseViewModelInter extends BaseLifecycleObserver {
 
     void startLoading();
 

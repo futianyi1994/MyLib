@@ -1,5 +1,6 @@
 package com.bracks.wanandroid.adapter;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +9,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.bracks.mylib.base.adapter.MBaseRecyclerViewAdapter;
-import com.bracks.mylib.rx.RxAppActivity;
+import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.rx.RxDefaultObserver;
 import com.bracks.mylib.rx.RxObservHelper;
 import com.bracks.mylib.rx.RxSchedulersCompat;
@@ -74,8 +75,8 @@ public class MyAdapter extends MBaseRecyclerViewAdapter<String> {
                                         .getService()
                                         .logout()
                                         .compose(RxSchedulersCompat.ioSchedulerObser())
-                                        .compose(RxObservHelper.applyProgressBar((RxAppActivity) context, true))
-                                        .compose(((RxAppActivity) context).bindToLifecycle())
+                                        .compose(RxObservHelper.applyProgressBar(context, true))
+                                        .as(RxAutoDispose.bindLifecycle((LifecycleOwner) context))
                                         .subscribe(new RxDefaultObserver<Login>() {
                                             @Override
                                             public void onSuccess(Login response) {

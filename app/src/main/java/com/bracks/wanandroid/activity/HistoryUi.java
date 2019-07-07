@@ -19,12 +19,13 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.bracks.mylib.base.basemvp.BasePresenter;
+import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
+import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.HistoryAdapter;
-import com.bracks.wanandroid.contract.HistoryContract;
 import com.bracks.wanandroid.model.bean.History;
-import com.bracks.wanandroid.presenter.HistoryP;
 import com.bracks.wanandroid.viewmodel.HistoryViewModel;
 import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -46,8 +47,8 @@ import static com.bracks.mylib.utils.CommonUtils.getContext;
  * @email : futianyi1994@126.com
  * @description :
  */
-@CreatePresenter(HistoryP.class)
-public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements HistoryContract.View {
+@CreatePresenter(BasePresenter.class)
+public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     public static final String EXTRA_ID = "id";
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_TITLE = "title";
@@ -72,6 +73,18 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
 
     @Override
     protected ViewModel initViewModel() {
+        showLoading("加载中", true);
+        viewModel = LViewModelProviders.of(this, HistoryViewModel.class);
+        viewModel
+                .getHistoryLiveData()
+                .observe(this, datasBeans -> {
+                    if (page == 1) {
+                        showDatas(datasBeans);
+                    } else {
+                        loadMore(datasBeans);
+                    }
+                });
+        viewModel.quertHistory(id, page, search);
         return viewModel;
     }
 
@@ -95,7 +108,6 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
             title = intent.getStringExtra(EXTRA_TITLE);
         }
         recyclerView.addItemDecoration(new SpaceItemDecoration(ConvertUtils.dp2px(10)));
-        viewModel = getPresenter().fetch(this, id, page, search);
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
         //设置是否显示返回按钮
@@ -157,14 +169,14 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
             @Override
             public boolean onQueryTextSubmit(String s) {
                 search = s;
-                getPresenter().fetch(HistoryUi.this, id, page, search);
+                viewModel.quertHistory(id, page, search);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                 search = s;
-                getPresenter().fetch(HistoryUi.this, id, page, search);
+                viewModel.quertHistory(id, page, search);
                 return false;
             }
         });
@@ -195,8 +207,6 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
         return super.onMenuOpened(featureId, menu);
     }
 
-
-    @Override
     public void showDatas(List<History.DataBean.DatasBean> data) {
         if (adapter == null) {
             adapter = new HistoryAdapter(this);
@@ -207,13 +217,13 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
                 @Override
                 public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                     page++;
-                    getPresenter().fetch(HistoryUi.this, id, page, search);
+                    viewModel.quertHistory(id, page, search);
                 }
 
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     page = 1;
-                    getPresenter().fetch(HistoryUi.this, id, page, search);
+                    viewModel.quertHistory(id, page, search);
                 }
             });
         }
@@ -222,7 +232,6 @@ public class HistoryUi extends BaseUi<HistoryContract.View, HistoryP> implements
         refreshLayout.finishRefresh();
     }
 
-    @Override
     public void loadMore(List<History.DataBean.DatasBean> data) {
         adapter.addAll(data);
         refreshLayout.finishLoadMore();

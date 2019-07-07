@@ -2,7 +2,6 @@ package com.bracks.wanandroid.contract;
 
 import com.bracks.mylib.base.basemvp.BasePresenterInter;
 import com.bracks.mylib.base.basemvp.BaseView;
-import com.bracks.wanandroid.activity.BaseUi;
 
 
 /**
@@ -24,6 +23,6 @@ public interface SplashContract {
 
     interface Presenter extends BasePresenterInter<View> {
 
-        void jumpToMain(BaseUi activity);
+        void jumpToMain();
     }
 }

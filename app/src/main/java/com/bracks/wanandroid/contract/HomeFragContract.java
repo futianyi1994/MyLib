@@ -1,8 +1,10 @@
 package com.bracks.wanandroid.contract;
 
+import com.bracks.mylib.base.basemvp.BaseModel;
 import com.bracks.mylib.base.basemvp.BasePresenterInter;
 import com.bracks.mylib.base.basemvp.BaseView;
-import com.bracks.wanandroid.model.bean.PublicList;
+import com.bracks.wanandroid.model.bean.Banner;
+import com.bracks.wanandroid.model.bean.HomeList;
 
 import java.util.List;
 
@@ -15,13 +17,19 @@ import java.util.List;
  * @email : futianyi1994@126.com
  * @description :
  */
-public interface PublicFragContract {
+public interface HomeFragContract {
 
     interface View extends BaseView {
-        void showDatas(List<PublicList.DataBean> data);
+        void showDatas(List<HomeList.DataBean.DatasBean> data);
+
+        void showBanner(List<Banner.DataBean> data);
+
     }
 
     interface Presenter extends BasePresenterInter<View> {
         void fetch();
+    }
+
+    interface Model<M> extends BaseModel<M> {
     }
 }

@@ -29,11 +29,11 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
     }
 
     @Override
-    public void onBackPressedSupport() {
+    public void onBackPressed() {
         if (isTaskRoot()) {
             CommonUtils.exitBy2Click();
         } else {
-            super.onBackPressedSupport();
+            super.onBackPressed();
         }
     }
 

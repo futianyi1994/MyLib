@@ -1,8 +1,7 @@
 package com.bracks.mylib.base.basemvp;
 
 
-import com.bracks.mylib.net.https.HttpCallback;
-import com.trello.rxlifecycle2.LifecycleProvider;
+import io.reactivex.Observable;
 
 /**
  * good programmer.
@@ -13,5 +12,5 @@ import com.trello.rxlifecycle2.LifecycleProvider;
  * @description :
  */
 public interface BaseModel<M> {
-    <E> void loadData(LifecycleProvider<E> lifecycleProvider, HttpCallback<M> listener);
+    Observable<M> loadData();
 }

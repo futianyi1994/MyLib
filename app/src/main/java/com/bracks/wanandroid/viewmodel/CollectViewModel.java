@@ -38,6 +38,5 @@ public class CollectViewModel extends BaseViewModel {
 
     public MutableLiveData<List<Collect.DataBean.DatasBean>> getCollectLiveData() {
         return liveData;
-
     }
 }

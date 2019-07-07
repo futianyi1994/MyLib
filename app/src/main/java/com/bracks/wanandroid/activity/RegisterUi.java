@@ -3,15 +3,18 @@ package com.bracks.wanandroid.activity;
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.bracks.mylib.base.basemvp.BasePresenter;
+import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
+import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.wanandroid.R;
-import com.bracks.wanandroid.contract.LoginContract;
-import com.bracks.wanandroid.presenter.LoginP;
+import com.bracks.wanandroid.viewmodel.LoginViewModel;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -25,8 +28,8 @@ import butterknife.OnClick;
  * @email : futianyi1994@126.com
  * @description :
  */
-@CreatePresenter(LoginP.class)
-public class RegisterUi extends BaseUi<LoginContract.View, LoginP> implements LoginContract.View {
+@CreatePresenter(BasePresenter.class)
+public class RegisterUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
 
     @BindView(R.id.etUserName)
     EditText etUserName;
@@ -37,21 +40,20 @@ public class RegisterUi extends BaseUi<LoginContract.View, LoginP> implements Lo
     @BindView(R.id.tvRegister)
     TextView tvRegister;
 
+    private LoginViewModel viewModel;
+
 
     @Override
     protected ViewModel initViewModel() {
-        return getPresenter().getViewModel(this);
-    }
-
-    @Override
-    public void loginSrccess(String username) {
-    }
-
-    @Override
-    public void registerSrccess() {
-        showToast("注册成功");
-        ActivityUtils.startActivity(HomeUi.class);
-        finish();
+        viewModel = LViewModelProviders.of(this, LoginViewModel.class);
+        viewModel
+                .getRegitsterLiveData()
+                .observe(this, dataBean -> {
+                    if (!TextUtils.isEmpty(dataBean.getUsername())) {
+                        registerSrccess();
+                    }
+                });
+        return viewModel;
     }
 
     @Override
@@ -68,10 +70,16 @@ public class RegisterUi extends BaseUi<LoginContract.View, LoginP> implements Lo
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvRegister:
-                getPresenter().register(etUserName.getText().toString(), etPsw.getText().toString(), etRePsw.getText().toString());
+                viewModel.register(etUserName.getText().toString(), etPsw.getText().toString(), etRePsw.getText().toString());
                 break;
             default:
                 break;
         }
+    }
+
+    public void registerSrccess() {
+        showToast("注册成功");
+        ActivityUtils.startActivity(HomeUi.class);
+        finish();
     }
 }

@@ -1,8 +1,10 @@
 package com.bracks.wanandroid.net;
 
 
+import com.bracks.wanandroid.model.bean.Banner;
 import com.bracks.wanandroid.model.bean.Collect;
 import com.bracks.wanandroid.model.bean.History;
+import com.bracks.wanandroid.model.bean.HomeList;
 import com.bracks.wanandroid.model.bean.Login;
 import com.bracks.wanandroid.model.bean.PublicList;
 import com.bracks.wanandroid.model.bean.Result;
@@ -106,6 +108,34 @@ public interface DataApi {
      */
     @POST("lg/uncollect_originId/{id}/json")
     Observable<Result<String>> cancelCollect(@Path("id") int id);
+
+    /**
+     * 取笑收藏：我的收藏
+     *
+     * @param id
+     * @return
+     */
+    @POST("lg/uncollect/{id}/json")
+    @FormUrlEncoded
+    Observable<Result<String>> cancelMyCollect(@Path("id") int id,
+                                               @Field("originId") int originId);
+
+    /**
+     * 首页banner
+     *
+     * @return
+     */
+    @GET("banner/json")
+    Observable<Banner> banner();
+
+    /**
+     * 首页列表
+     *
+     * @param page
+     * @return
+     */
+    @GET("/article/list/{page}/json")
+    Observable<HomeList> homeList(@Path("page") int page);
 
 
 }

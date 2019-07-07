@@ -27,6 +27,8 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
      */
     private PresenterProxyImpl<V, P> mProxy = new PresenterProxyImpl<>(getClass());
 
+    private P presenter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,9 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
             mUnbinder = ButterKnife.bind(this, rootView);
             rootView.setOnTouchListener(this);
             mProxy.onCreate((V) this);
+            presenter = mProxy.getPresenter();
+            presenter.setLifecycleOwner(this);
+            getLifecycle().addObserver(presenter);
             initView(rootView, savedInstanceState);
         } else {
             ViewGroup parent = (ViewGroup) rootView.getParent();
@@ -102,6 +107,6 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
      */
     @Override
     public P getPresenter() {
-        return mProxy.getPresenter();
+        return presenter;
     }
 }

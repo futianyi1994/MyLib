@@ -3,16 +3,19 @@ package com.bracks.wanandroid.activity;
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.bracks.mylib.base.basemvp.BasePresenter;
+import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
+import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.wanandroid.R;
-import com.bracks.wanandroid.contract.LoginContract;
 import com.bracks.wanandroid.manager.LoginManager;
-import com.bracks.wanandroid.presenter.LoginP;
+import com.bracks.wanandroid.viewmodel.LoginViewModel;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,8 +29,8 @@ import butterknife.OnClick;
  * @email : futianyi1994@126.com
  * @description :
  */
-@CreatePresenter(LoginP.class)
-public class LoginUi extends BaseUi<LoginContract.View, LoginP> implements LoginContract.View {
+@CreatePresenter(BasePresenter.class)
+public class LoginUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
 
     @BindView(R.id.etUserName)
     EditText etUserName;
@@ -38,23 +41,20 @@ public class LoginUi extends BaseUi<LoginContract.View, LoginP> implements Login
     @BindView(R.id.tvRegister)
     TextView tvRegister;
 
+    private LoginViewModel viewModel;
+
 
     @Override
     protected ViewModel initViewModel() {
-        return getPresenter().getViewModel(this);
-    }
-
-    @Override
-    public void loginSrccess(String username) {
-        showToast("登陆成功");
-        ActivityUtils.startActivity(HomeUi.class);
-        LoginManager.login(username);
-        finish();
-    }
-
-    @Override
-    public void registerSrccess() {
-
+        viewModel = LViewModelProviders.of(this, LoginViewModel.class);
+        viewModel
+                .getHistoryLiveData()
+                .observe(this, dataBean -> {
+                    if (!TextUtils.isEmpty(dataBean.getUsername())) {
+                        loginSrccess(dataBean.getUsername());
+                    }
+                });
+        return viewModel;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class LoginUi extends BaseUi<LoginContract.View, LoginP> implements Login
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvLogin:
-                getPresenter().login(etUserName.getText().toString(), etPsw.getText().toString());
+                viewModel.login(etUserName.getText().toString(), etPsw.getText().toString());
                 break;
             case R.id.tvRegister:
                 ActivityUtils.startActivity(RegisterUi.class);
@@ -79,5 +79,12 @@ public class LoginUi extends BaseUi<LoginContract.View, LoginP> implements Login
             default:
                 break;
         }
+    }
+
+    public void loginSrccess(String username) {
+        showToast("登陆成功");
+        ActivityUtils.startActivity(HomeUi.class);
+        LoginManager.login(username);
+        finish();
     }
 }

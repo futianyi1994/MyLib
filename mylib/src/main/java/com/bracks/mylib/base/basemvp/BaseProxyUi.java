@@ -21,6 +21,7 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
      */
     private PresenterProxyImpl<V, P> mProxy = new PresenterProxyImpl<>(getClass());
 
+    private P presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +30,9 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
             mProxy.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_SAVE_KEY));
         }
         mProxy.onCreate((V) this);
+        presenter = mProxy.getPresenter();
+        presenter.setLifecycleOwner(this);
+        getLifecycle().addObserver(presenter);
         initData(savedInstanceState);
         initView(savedInstanceState);
     }
@@ -81,6 +85,6 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
      */
     @Override
     public P getPresenter() {
-        return mProxy.getPresenter();
+        return presenter;
     }
 }

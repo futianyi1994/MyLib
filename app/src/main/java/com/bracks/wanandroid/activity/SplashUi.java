@@ -75,7 +75,7 @@ public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements Sp
         startAnimation(mEightAnimation, "I.json");
         startAnimation(mNineAnimation, "O.json");
         startAnimation(mTenAnimation, "D.json");
-        getPresenter().jumpToMain(this);
+        getPresenter().jumpToMain();
     }
 
     @Override

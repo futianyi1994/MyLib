@@ -6,11 +6,11 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.bracks.mylib.R;
 import com.bracks.mylib.base.interf.BaseUiInterf;
-import com.bracks.mylib.rx.RxAppActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -24,7 +24,7 @@ import butterknife.Unbinder;
  * @email : futianyi1994@126.com
  * @description :
  */
-public abstract class BaseActivity extends RxAppActivity implements BaseUiInterf {
+public abstract class BaseActivity extends AppCompatActivity implements BaseUiInterf {
 
     protected Unbinder mUnbinder;
 

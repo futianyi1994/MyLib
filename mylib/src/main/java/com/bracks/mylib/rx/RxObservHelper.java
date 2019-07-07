@@ -1,10 +1,13 @@
 package com.bracks.mylib.rx;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.bracks.mylib.utils.bar.BarUtils;
 import com.bracks.mylib.utils.widget.DialogUtils;
@@ -36,26 +39,26 @@ public class RxObservHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static boolean isDestroy(RxAppActivity activity) {
+    public static boolean isDestroy(FragmentActivity activity) {
         return activity == null || activity.isDestroyed() || activity.isFinishing();
     }
 
-    public static boolean isDestroy(RxAppFragment fragment) {
+    public static boolean isDestroy(Fragment fragment) {
         return fragment.isDetached();
     }
 
-    public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppActivity activity,
+    public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final Context context,
                                                                    final boolean isShowLoading) {
-        return applyProgressBar(activity, isShowLoading, null);
+        return applyProgressBar(context, isShowLoading, null);
     }
 
-    public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppActivity activity,
+    public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final Context context,
                                                                    final boolean isShowLoading,
                                                                    final DialogInterface.OnDismissListener listener) {
-        return applyProgressBar(activity, isShowLoading, listener, true);
+        return applyProgressBar(context, isShowLoading, listener, true);
     }
 
-    public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppActivity activity,
+    public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final Context context,
                                                                    final boolean isShowLoading,
                                                                    final DialogInterface.OnDismissListener listener,
                                                                    final boolean dialogCancelable) {
@@ -69,7 +72,7 @@ public class RxObservHelper {
                         .subscribeOn(Schedulers.io())
                         .doOnSubscribe(disposable -> {
                             if (isShowLoading) {
-                                dialog = DialogUtils.createLoadingDialog(activity, "加载中", dialogCancelable);
+                                dialog = DialogUtils.createLoadingDialog(context, "加载中", dialogCancelable);
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                                     DialogUtils.afterShow(() -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()));
                                 } else {
@@ -88,56 +91,7 @@ public class RxObservHelper {
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .compose(activity.bindToLifecycle());
-            }
-        };
-    }
-
-    public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppFragment activity,
-                                                                   final boolean isShowLoading) {
-        return applyProgressBar(activity, isShowLoading, null);
-    }
-
-    public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppFragment activity,
-                                                                   final boolean isShowLoading,
-                                                                   final DialogInterface.OnDismissListener listener) {
-        return applyProgressBar(activity, isShowLoading, listener, true);
-    }
-
-    public static <T> ObservableTransformer<T, T> applyProgressBar(@NonNull final RxAppFragment activity,
-                                                                   final boolean isShowLoading,
-                                                                   final DialogInterface.OnDismissListener listener,
-                                                                   final boolean dialogCancelable) {
-        return new ObservableTransformer<T, T>() {
-
-            Dialog dialog;
-
-            @Override
-            public ObservableSource<T> apply(Observable<T> upstream) {
-                return upstream
-                        .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(disposable -> {
-                            if (isShowLoading) {
-                                dialog = DialogUtils.createLoadingDialog(activity.getContext(), "加载中", dialogCancelable);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                    DialogUtils.afterShow(() -> BarUtils.hideNavBar(dialog.getWindow().getDecorView()));
-                                } else {
-                                    dialog.show();
-                                }
-                                if (listener != null) {
-                                    dialog.setOnDismissListener(listener);
-                                }
-                            }
-                        })
-                        .subscribeOn(AndroidSchedulers.mainThread())
-                        .doFinally(() -> {
-                            if (isShowLoading) {
-                                DialogUtils.dismissDialog(dialog);
-                            }
-                        })
-                        .subscribeOn(AndroidSchedulers.mainThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .compose(activity.bindToLifecycle());
+                        ;
             }
         };
     }

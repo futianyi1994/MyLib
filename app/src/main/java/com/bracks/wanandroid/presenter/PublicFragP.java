@@ -1,15 +1,11 @@
 package com.bracks.wanandroid.presenter;
 
 
-import com.bracks.mylib.base.basemvp.BaseModel;
 import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.net.https.HttpCallback;
+import com.bracks.mylib.rx.RxDefaultObserver;
 import com.bracks.wanandroid.contract.PublicFragContract;
 import com.bracks.wanandroid.model.PublicFragM;
 import com.bracks.wanandroid.model.bean.PublicList;
-import com.trello.rxlifecycle2.LifecycleProvider;
-
-import java.util.List;
 
 
 /**
@@ -21,24 +17,26 @@ import java.util.List;
  * @description :
  */
 public class PublicFragP extends BasePresenter<PublicFragContract.View> implements PublicFragContract.Presenter {
-    private BaseModel<List<PublicList.DataBean>> iCourseModel = new PublicFragM();
 
     @Override
-    public <E> void fetch(LifecycleProvider<E> lifecycleProvider) {
+    public void fetch() {
         if (getView() != null) {
             getView().showLoading("加载中", true);
-            iCourseModel.loadData(lifecycleProvider, new HttpCallback<List<PublicList.DataBean>>() {
-                @Override
-                public void onSuccess(List<PublicList.DataBean> beanList) {
-                    getView().showDatas(beanList);
-                }
+            new PublicFragM()
+                    .loadData()
+                    .as(bindLifecycle())
+                    .subscribe(new RxDefaultObserver<PublicList>() {
+                        @Override
+                        public void onSuccess(PublicList response) {
+                            getView().showDatas(response.getData());
+                        }
 
-                @Override
-                public void onComplete() {
-                    super.onComplete();
-                    getView().hideLoading();
-                }
-            });
+                        @Override
+                        public void onComplete() {
+                            super.onComplete();
+                            getView().hideLoading();
+                        }
+                    });
         }
     }
 }

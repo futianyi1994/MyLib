@@ -13,6 +13,7 @@ import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
+import com.bracks.wanandroid.fragment.HomeFrag;
 import com.bracks.wanandroid.fragment.MyFrag;
 import com.bracks.wanandroid.fragment.PublicFrag;
 
@@ -45,7 +46,7 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        fragments.add(PublicFrag.newInstance());
+        fragments.add(HomeFrag.newInstance());
         fragments.add(PublicFrag.newInstance());
         fragments.add(PublicFrag.newInstance());
         fragments.add(PublicFrag.newInstance());
@@ -64,25 +65,7 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
                 .setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(int position) {
-                        switch (position) {
-                            case 0:
-                                showFragmentByIndex(0);
-                                break;
-                            case 1:
-                                showFragmentByIndex(0);
-                                break;
-                            case 2:
-                                showFragmentByIndex(0);
-                                break;
-                            case 3:
-                                showFragmentByIndex(0);
-                                break;
-                            case 4:
-                                showFragmentByIndex(4);
-                                break;
-                            default:
-                                break;
-                        }
+                        showFragmentByIndex(position);
                     }
 
                     @Override

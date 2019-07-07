@@ -1,10 +1,14 @@
 package com.bracks.mylib.base.basemvp;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.bracks.mylib.utils.log.TLog;
-import com.trello.rxlifecycle2.LifecycleProvider;
+import com.bracks.mylib.rx.RxAutoDispose;
+import com.uber.autodispose.AutoDisposeConverter;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 
@@ -17,12 +21,8 @@ import java.lang.ref.WeakReference;
  * @description : 所有Presenter的基类，并不强制实现这些方法，有需要在重写
  */
 public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> {
-    public static final String TAG = "BasePresenter";
 
-    /**
-     * LifecycleProvide接口
-     */
-    private LifecycleProvider lifecycleProvider;
+    private LifecycleOwner lifecycleOwner;
 
     /**
      * V层view
@@ -32,20 +32,6 @@ public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> 
     public BasePresenter() {
     }
 
-    public <E> BasePresenter(LifecycleProvider<E> lifecycleProvider) {
-        this.lifecycleProvider = lifecycleProvider;
-    }
-
-    @Override
-    public <E> LifecycleProvider<E> getLifecycleProvider() {
-        return lifecycleProvider;
-    }
-
-    @Override
-    public <E> void setLifecycleProvider(LifecycleProvider<E> lifecycleProvider) {
-        this.lifecycleProvider = lifecycleProvider;
-    }
-
     /**
      * Presenter被创建后调用
      *
@@ -53,7 +39,6 @@ public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> 
      */
     @Override
     public void onCreatePersenter(@Nullable Bundle savedState) {
-        TLog.i(TAG, "P onCreatePersenter");
     }
 
 
@@ -62,7 +47,6 @@ public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> 
      */
     @Override
     public void onDestroyPersenter() {
-        TLog.i(TAG, "P onDestroyPersenter");
     }
 
     /**
@@ -73,7 +57,6 @@ public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> 
      */
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        TLog.i(TAG, "P onSaveInstanceState");
     }
 
     /**
@@ -102,5 +85,45 @@ public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> 
     @Override
     public V getView() {
         return mViewRef == null ? null : mViewRef.get();
+    }
+
+    @Override
+    public void setLifecycleOwner(LifecycleOwner owner) {
+        lifecycleOwner = owner;
+    }
+
+    @Override
+    public void onCreate(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onStart(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onResume(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onPause(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onStop(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onDestroy(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onLifecycleChanged(@NotNull LifecycleOwner owner, @NotNull Lifecycle.Event event) {
+    }
+
+    protected <T> AutoDisposeConverter<T> bindLifecycle() {
+        if (null == lifecycleOwner) {
+            throw new NullPointerException("lifecycleOwner == null");
+        }
+        return RxAutoDispose.bindLifecycle(lifecycleOwner);
     }
 }

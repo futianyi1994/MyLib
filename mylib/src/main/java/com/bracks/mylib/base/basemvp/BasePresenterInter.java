@@ -3,7 +3,8 @@ package com.bracks.mylib.base.basemvp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.trello.rxlifecycle2.LifecycleProvider;
+import com.bracks.mylib.base.interf.BaseLifecycleObserver;
+
 
 /**
  * good programmer.
@@ -13,11 +14,7 @@ import com.trello.rxlifecycle2.LifecycleProvider;
  * @email : futianyi1994@126.com
  * @description :
  */
-public interface BasePresenterInter<V extends BaseView> {
-
-    <E> LifecycleProvider<E> getLifecycleProvider();
-
-    <E> void setLifecycleProvider(LifecycleProvider<E> lifecycleProvider);
+public interface BasePresenterInter<V extends BaseView> extends BaseLifecycleObserver {
 
     /**
      * Presenter被创建后调用

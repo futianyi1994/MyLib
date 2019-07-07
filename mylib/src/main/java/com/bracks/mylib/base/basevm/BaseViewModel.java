@@ -1,15 +1,11 @@
 package com.bracks.mylib.base.basevm;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.bracks.mylib.exception.ApiException;
-import com.bracks.mylib.rx.RxAppActivity;
-import com.bracks.mylib.rx.RxAppFragment;
-import com.trello.rxlifecycle2.LifecycleProvider;
-import com.trello.rxlifecycle2.android.ActivityEvent;
-import com.trello.rxlifecycle2.android.FragmentEvent;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -20,17 +16,12 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class BaseViewModel extends ViewModel implements IViewModelAction {
+public class BaseViewModel extends ViewModel implements BaseViewModelInter {
 
     private MutableLiveData<BaseActionEvent> actionLiveData;
 
     protected LifecycleOwner lifecycleOwner;
 
-    /**
-     * LifecycleProvide接口
-     */
-    protected LifecycleProvider<ActivityEvent> lifecycleActProvider;
-    protected LifecycleProvider<FragmentEvent> lifecycleFragProvider;
 
     public BaseViewModel() {
         actionLiveData = new MutableLiveData<>();
@@ -76,29 +67,40 @@ public class BaseViewModel extends ViewModel implements IViewModelAction {
         return actionLiveData;
     }
 
-    public void setLifecycleOwner(LifecycleOwner lifecycleOwner) {
-        this.lifecycleOwner = lifecycleOwner;
+    @Override
+    public void setLifecycleOwner(LifecycleOwner owner) {
+        lifecycleOwner = owner;
     }
 
-    public <E> void setLifecycleProvider(LifecycleProvider<E> lifecycleProvider) {
-        if (lifecycleProvider instanceof RxAppActivity) {
-            lifecycleActProvider = ((RxAppActivity) lifecycleProvider);
-        } else if (lifecycleProvider instanceof RxAppFragment) {
-            lifecycleFragProvider = ((RxAppFragment) lifecycleProvider);
-        } else {
-            throw new ApiException(0, "Base Activity not implements LifecycleProvider");
-        }
+    @Override
+    public void onCreate(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onStart(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onResume(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onPause(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onStop(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onDestroy(@NotNull LifecycleOwner owner) {
+    }
+
+    @Override
+    public void onLifecycleChanged(@NotNull LifecycleOwner owner, @NotNull Lifecycle.Event event) {
     }
 
     public LifecycleOwner getLifecycleOwner() {
         return lifecycleOwner;
-    }
-
-    public LifecycleProvider<ActivityEvent> getLifecycleActProvider() {
-        return lifecycleActProvider;
-    }
-
-    public LifecycleProvider<FragmentEvent> getLifecycleFragProvider() {
-        return lifecycleFragProvider;
     }
 }

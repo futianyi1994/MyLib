@@ -5,24 +5,14 @@ import java.util.List;
 /**
  * good programmer.
  *
- * @date : 2019-06-23 下午 06:16
+ * @date : 2019-06-29 下午 03:20
  * @author: futia
  * @email : futianyi1994@126.com
  * @description :
  */
-public class Collect extends Result<Collect.DataBean> {
+public class HomeList extends Result<HomeList.DataBean> {
+
     public static class DataBean {
-
-        /**
-         * curPage : 1
-         * datas : [{"author":"青霉素","chapterId":459,"chapterName":"Activity","courseId":13,"desc":"","envelopePic":"","id":67409,"link":"https://juejin.im/post/5d00cc9fe51d4510624f97b4","niceDate":"2019-06-13","origin":"","originId":8610,"publishTime":1560412951000,"title":"从Activity创建到View呈现中间发生了什么？","userId":17119,"visible":0,"zan":0}]
-         * offset : 0
-         * over : true
-         * pageCount : 1
-         * size : 20
-         * total : 1
-         */
-
         private int curPage;
         private int offset;
         private boolean over;
@@ -89,49 +79,64 @@ public class Collect extends Result<Collect.DataBean> {
 
         public static class DatasBean {
             /**
-             * author : 青霉素
-             * chapterId : 459
-             * chapterName : Activity
+             * apkLink :
+             * author : ljphawk
+             * chapterId : 314
+             * chapterName : RV列表动效
+             * collect : false
              * courseId : 13
-             * desc :
-             * envelopePic :
-             * id : 67409
-             * link : https://juejin.im/post/5d00cc9fe51d4510624f97b4
-             * niceDate : 2019-06-13
+             * desc : 一个零耦合的侧滑菜单，支持RecyclerView、ListView、GridView等不同条目布局，支持菜单在左或在右，可选滑动阻塞，是否禁用等功能
+             * envelopePic : https://wanandroid.com/blogimgs/e286419c-d291-4956-87d8-236e06151142.png
+             * fresh : true
+             * id : 8651
+             * link : http://www.wanandroid.com/blog/show/2614
+             * niceDate : 16小时前
              * origin :
-             * originId : 8610
-             * publishTime : 1560412951000
-             * title : 从Activity创建到View呈现中间发生了什么？
-             * userId : 17119
-             * visible : 0
+             * prefix :
+             * projectLink : https://github.com/ljphawk/SwipeMenuLayout
+             * publishTime : 1561729538000
+             * superChapterId : 294
+             * superChapterName : 开源项目主Tab
+             * tags : [{"name":"项目","url":"/project/list/1?cid=314"}]
+             * title : 一个零耦合的侧滑菜单 SwipeMenuLayout
+             * type : 0
+             * userId : -1
+             * visible : 1
              * zan : 0
              */
 
+            private String apkLink;
             private String author;
             private int chapterId;
             private String chapterName;
+            private boolean collect;
             private int courseId;
             private String desc;
             private String envelopePic;
+            private boolean fresh;
             private int id;
             private String link;
             private String niceDate;
             private String origin;
-            private int originId;
+            private String prefix;
+            private String projectLink;
             private long publishTime;
+            private int superChapterId;
+            private String superChapterName;
             private String title;
+            private int type;
             private int userId;
             private int visible;
             private int zan;
-            /**
-             * 自定义添加：是否收藏（默认受收藏）
-             */
-            private boolean collect = true;
+            private List<TagsBean> tags;
 
-            /**
-             * 自定义：是否最后一页
-             */
-            private boolean isOver;
+            public String getApkLink() {
+                return apkLink;
+            }
+
+            public void setApkLink(String apkLink) {
+                this.apkLink = apkLink;
+            }
 
             public String getAuthor() {
                 return author;
@@ -157,6 +162,14 @@ public class Collect extends Result<Collect.DataBean> {
                 this.chapterName = chapterName;
             }
 
+            public boolean isCollect() {
+                return collect;
+            }
+
+            public void setCollect(boolean collect) {
+                this.collect = collect;
+            }
+
             public int getCourseId() {
                 return courseId;
             }
@@ -179,6 +192,14 @@ public class Collect extends Result<Collect.DataBean> {
 
             public void setEnvelopePic(String envelopePic) {
                 this.envelopePic = envelopePic;
+            }
+
+            public boolean isFresh() {
+                return fresh;
+            }
+
+            public void setFresh(boolean fresh) {
+                this.fresh = fresh;
             }
 
             public int getId() {
@@ -213,12 +234,20 @@ public class Collect extends Result<Collect.DataBean> {
                 this.origin = origin;
             }
 
-            public int getOriginId() {
-                return originId;
+            public String getPrefix() {
+                return prefix;
             }
 
-            public void setOriginId(int originId) {
-                this.originId = originId;
+            public void setPrefix(String prefix) {
+                this.prefix = prefix;
+            }
+
+            public String getProjectLink() {
+                return projectLink;
+            }
+
+            public void setProjectLink(String projectLink) {
+                this.projectLink = projectLink;
             }
 
             public long getPublishTime() {
@@ -229,12 +258,36 @@ public class Collect extends Result<Collect.DataBean> {
                 this.publishTime = publishTime;
             }
 
+            public int getSuperChapterId() {
+                return superChapterId;
+            }
+
+            public void setSuperChapterId(int superChapterId) {
+                this.superChapterId = superChapterId;
+            }
+
+            public String getSuperChapterName() {
+                return superChapterName;
+            }
+
+            public void setSuperChapterName(String superChapterName) {
+                this.superChapterName = superChapterName;
+            }
+
             public String getTitle() {
                 return title;
             }
 
             public void setTitle(String title) {
                 this.title = title;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
             }
 
             public int getUserId() {
@@ -261,20 +314,38 @@ public class Collect extends Result<Collect.DataBean> {
                 this.zan = zan;
             }
 
-            public boolean isOver() {
-                return isOver;
+            public List<TagsBean> getTags() {
+                return tags;
             }
 
-            public void setOver(boolean over) {
-                isOver = over;
+            public void setTags(List<TagsBean> tags) {
+                this.tags = tags;
             }
 
-            public boolean isCollect() {
-                return collect;
-            }
+            public static class TagsBean {
+                /**
+                 * name : 项目
+                 * url : /project/list/1?cid=314
+                 */
 
-            public void setCollect(boolean collect) {
-                this.collect = collect;
+                private String name;
+                private String url;
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public String getUrl() {
+                    return url;
+                }
+
+                public void setUrl(String url) {
+                    this.url = url;
+                }
             }
         }
     }

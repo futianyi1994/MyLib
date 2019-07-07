@@ -71,8 +71,8 @@ public abstract class BaseVmProxyUi<V extends BaseView, P extends BasePresenter<
 
     private void observeEvent(List<ViewModel> viewModelList) {
         for (ViewModel viewModel : viewModelList) {
-            if (viewModel instanceof IViewModelAction) {
-                IViewModelAction viewModelAction = (IViewModelAction) viewModel;
+            if (viewModel instanceof BaseViewModelInter) {
+                BaseViewModelInter viewModelAction = (BaseViewModelInter) viewModel;
                 viewModelAction
                         .getActionLiveData()
                         .observe(this, baseActionEvent -> {
