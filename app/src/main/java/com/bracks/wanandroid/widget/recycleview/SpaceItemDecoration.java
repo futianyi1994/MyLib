@@ -41,10 +41,6 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
      */
     private int headItemCount;
     /**
-     * 边距
-     */
-    private int space;
-    /**
      * 是否包含边距
      */
     private boolean includeEdge;
@@ -57,7 +53,7 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     int layoutManager;
 
     /**
-     * GridLayoutManager or StaggeredGridLayoutManager spacing
+     * LinearLayoutManager or GridLayoutManager or StaggeredGridLayoutManager spacing
      *
      * @param leftRight
      * @param topBottom
@@ -74,7 +70,7 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * GridLayoutManager or StaggeredGridLayoutManager spacing
+     * LinearLayoutManager or GridLayoutManager or StaggeredGridLayoutManager spacing
      *
      * @param leftRight
      * @param topBottom
@@ -86,40 +82,25 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * GridLayoutManager or StaggeredGridLayoutManager spacing
-     *
-     * @param space
-     * @param headItemCount
-     * @param includeEdge
-     * @param layoutManager
-     */
-    public SpaceItemDecoration(int space, int headItemCount, boolean includeEdge, @LayoutManager int layoutManager) {
-        this.space = space;
-        this.headItemCount = headItemCount;
-        this.includeEdge = includeEdge;
-        this.layoutManager = layoutManager;
-    }
-
-    /**
-     * GridLayoutManager or StaggeredGridLayoutManager spacing
+     * LinearLayoutManager or GridLayoutManager or StaggeredGridLayoutManager spacing
      *
      * @param space
      * @param includeEdge
      * @param layoutManager
      */
     public SpaceItemDecoration(int space, boolean includeEdge, @LayoutManager int layoutManager) {
-        this(space, 0, includeEdge, layoutManager);
+        this(space, space, 0, includeEdge, layoutManager);
     }
 
     /**
-     * GridLayoutManager or StaggeredGridLayoutManager spacing
+     * LinearLayoutManager or GridLayoutManager or StaggeredGridLayoutManager spacing
      *
      * @param space
      * @param headItemCount
      * @param layoutManager
      */
     public SpaceItemDecoration(int space, int headItemCount, @LayoutManager int layoutManager) {
-        this(space, headItemCount, true, layoutManager);
+        this(space, space, headItemCount, true, layoutManager);
     }
 
     /**
@@ -129,7 +110,7 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
      * @param layoutManager
      */
     public SpaceItemDecoration(int space, @LayoutManager int layoutManager) {
-        this(space, 0, true, layoutManager);
+        this(space, space, 0, true, layoutManager);
     }
 
     /**
@@ -138,7 +119,7 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
      * @param space
      */
     public SpaceItemDecoration(int space) {
-        this(space, 0, true, LINEARLAYOUT);
+        this(space, space, 0, true, LINEARLAYOUT);
     }
 
     @Override
@@ -178,15 +159,13 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
      * @param state
      */
     private void setLinearLayoutSpaceItemDecoration(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        if (leftRight == -1) {
-            leftRight = space;
-        }
-        if (topBottom == -1) {
-            topBottom = space;
+        outRect.bottom = topBottom;
+        int position = parent.getChildAdapterPosition(view) - headItemCount;
+        if (headItemCount != 0 && position == -headItemCount) {
+            return;
         }
         outRect.left = leftRight;
         outRect.right = leftRight;
-        outRect.bottom = topBottom;
         if (parent.getChildLayoutPosition(view) == 0) {
             outRect.top = topBottom;
         } else {
@@ -206,12 +185,6 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         int position = parent.getChildAdapterPosition(view) - headItemCount;
         if (headItemCount != 0 && position == -headItemCount) {
             return;
-        }
-        if (leftRight == -1) {
-            leftRight = space;
-        }
-        if (topBottom == -1) {
-            topBottom = space;
         }
         int column = position % spanCount;
         if (includeEdge) {

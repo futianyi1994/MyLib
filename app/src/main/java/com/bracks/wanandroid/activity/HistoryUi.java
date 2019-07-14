@@ -24,8 +24,8 @@ import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.wanandroid.R;
-import com.bracks.wanandroid.adapter.HistoryAdapter;
-import com.bracks.wanandroid.model.bean.History;
+import com.bracks.wanandroid.adapter.ChapterAdapter;
+import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.viewmodel.HistoryViewModel;
 import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -61,7 +61,7 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     RecyclerView recyclerView;
 
     private HistoryViewModel viewModel;
-    private HistoryAdapter adapter;
+    private ChapterAdapter adapter;
     private int id;
     private int page;
     private String title;
@@ -207,10 +207,9 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
         return super.onMenuOpened(featureId, menu);
     }
 
-    public void showDatas(List<History.DataBean.DatasBean> data) {
+    public void showDatas(List<Chapter.DataBean.DatasBean> data) {
         if (adapter == null) {
-            adapter = new HistoryAdapter(this);
-            adapter.setName(title);
+            adapter = new ChapterAdapter(this);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setAdapter(adapter);
             refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -227,12 +226,11 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
                 }
             });
         }
-        adapter.clear();
-        adapter.addAll(data);
+        adapter.setData(data);
         refreshLayout.finishRefresh();
     }
 
-    public void loadMore(List<History.DataBean.DatasBean> data) {
+    public void loadMore(List<Chapter.DataBean.DatasBean> data) {
         adapter.addAll(data);
         refreshLayout.finishLoadMore();
     }

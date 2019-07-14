@@ -215,7 +215,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
      */
     protected abstract void onItemClickListener(View itemView, int position, T t);
 
-    private void onItemLongClickListener(View itemView, int position, T t) {
+    protected void onItemLongClickListener(View itemView, int position, T t) {
     }
 
     /**

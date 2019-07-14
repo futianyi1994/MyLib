@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import com.bracks.mylib.base.basevm.BaseRepo;
 import com.bracks.mylib.net.https.HttpCallback;
 import com.bracks.wanandroid.datasource.IHistoryDataSource;
-import com.bracks.wanandroid.model.bean.History;
+import com.bracks.wanandroid.model.bean.Chapter;
 
 import java.util.List;
 
@@ -24,11 +24,11 @@ public class HistoryRepo extends BaseRepo<IHistoryDataSource> {
         super(remoteDataSource);
     }
 
-    public MutableLiveData<List<History.DataBean.DatasBean>> getHistoryLiveData(int id, int page, String search) {
-        MutableLiveData<List<History.DataBean.DatasBean>> liveData = new MutableLiveData<>();
-        remoteDataSource.queryHistory(id, page, search, new HttpCallback<History.DataBean>() {
+    public MutableLiveData<List<Chapter.DataBean.DatasBean>> getHistoryLiveData(int id, int page, String search) {
+        MutableLiveData<List<Chapter.DataBean.DatasBean>> liveData = new MutableLiveData<>();
+        remoteDataSource.queryHistory(id, page, search, new HttpCallback<Chapter.DataBean>() {
             @Override
-            public void onSuccess(History.DataBean dataBean) {
+            public void onSuccess(Chapter.DataBean dataBean) {
                 liveData.setValue(dataBean.getDatas());
             }
         });

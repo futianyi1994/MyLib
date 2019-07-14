@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.bracks.mylib.base.basevm.BaseViewModel;
 import com.bracks.wanandroid.datasource.HistoryDataSource;
-import com.bracks.wanandroid.model.bean.History;
+import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.repository.HistoryRepo;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
  * @description :
  */
 public class HistoryViewModel extends BaseViewModel {
-    private MutableLiveData<List<History.DataBean.DatasBean>> liveData;
+    private MutableLiveData<List<Chapter.DataBean.DatasBean>> liveData;
     private HistoryRepo historyRepo;
 
     @Override
@@ -36,7 +36,7 @@ public class HistoryViewModel extends BaseViewModel {
                 .observe(lifecycleOwner, datasBeans -> liveData.setValue(datasBeans));
     }
 
-    public MutableLiveData<List<History.DataBean.DatasBean>> getHistoryLiveData() {
+    public MutableLiveData<List<Chapter.DataBean.DatasBean>> getHistoryLiveData() {
         return liveData;
     }
 }

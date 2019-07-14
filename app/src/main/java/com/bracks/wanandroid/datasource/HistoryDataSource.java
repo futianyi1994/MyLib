@@ -4,7 +4,7 @@ package com.bracks.wanandroid.datasource;
 import com.bracks.mylib.base.basevm.BaseRemoteDataSource;
 import com.bracks.mylib.base.basevm.BaseViewModel;
 import com.bracks.mylib.net.https.HttpCallback;
-import com.bracks.wanandroid.model.bean.History;
+import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.net.ApiService;
 
 /**
@@ -22,7 +22,7 @@ public class HistoryDataSource extends BaseRemoteDataSource implements IHistoryD
 
 
     @Override
-    public void queryHistory(int id, int page, String search, HttpCallback<History.DataBean> callback) {
+    public void queryHistory(int id, int page, String search, HttpCallback<Chapter.DataBean> callback) {
         execute(ApiService.getService().getHistoryList(id, page,search), callback);
     }
 }

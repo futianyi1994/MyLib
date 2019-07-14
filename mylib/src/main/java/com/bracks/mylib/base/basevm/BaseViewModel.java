@@ -4,8 +4,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 
 /**
@@ -73,31 +72,31 @@ public class BaseViewModel extends ViewModel implements BaseViewModelInter {
     }
 
     @Override
-    public void onCreate(@NotNull LifecycleOwner owner) {
+    public void onCreate(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onStart(@NotNull LifecycleOwner owner) {
+    public void onStart(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onResume(@NotNull LifecycleOwner owner) {
+    public void onResume(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onPause(@NotNull LifecycleOwner owner) {
+    public void onPause(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onStop(@NotNull LifecycleOwner owner) {
+    public void onStop(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onDestroy(@NotNull LifecycleOwner owner) {
+    public void onDestroy(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onLifecycleChanged(@NotNull LifecycleOwner owner, @NotNull Lifecycle.Event event) {
+    public void onLifecycleChanged(@NonNull LifecycleOwner owner, @NonNull Lifecycle.Event event) {
     }
 
     public LifecycleOwner getLifecycleOwner() {

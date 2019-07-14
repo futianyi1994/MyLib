@@ -1,52 +1,51 @@
 package com.bracks.wanandroid.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BaseProxyFrag;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.utils.bar.BarUtils;
 import com.bracks.mylib.utils.widget.DialogUtils;
 import com.bracks.wanandroid.R;
-import com.bracks.wanandroid.activity.ArticleUi;
+import com.bracks.wanandroid.adapter.ChapterAdapter;
 import com.bracks.wanandroid.contract.HomeFragContract;
-import com.bracks.wanandroid.model.bean.HomeList;
+import com.bracks.wanandroid.model.bean.Banner;
+import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.presenter.HomeFragP;
-import com.bumptech.glide.Glide;
+import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
-import com.youth.banner.loader.ImageLoader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 @CreatePresenter(HomeFragP.class)
 public class HomeFrag extends BaseProxyFrag<HomeFragContract.View, HomeFragP> implements HomeFragContract.View {
 
-    @BindView(R.id.appBarLayout)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.banner)
-    Banner banner;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     private Dialog dialog;
+    private ChapterAdapter adapter;
+
+    private int page;
 
     public static HomeFrag newInstance() {
         Bundle args = new Bundle();
@@ -62,48 +61,43 @@ public class HomeFrag extends BaseProxyFrag<HomeFragContract.View, HomeFragP> im
 
     @Override
     public void initView(View view, @Nullable Bundle savedInstanceState) {
-        getPresenter().fetch();
+        adapter = new ChapterAdapter(getActivity());
         refreshLayout.setEnableOverScrollDrag(true);
-        refreshLayout.setOnRefreshListener(refreshLayout -> getPresenter().fetch());
+        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page++;
+                getPresenter().loadMore(page);
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                page = 0;
+                getPresenter().refresh();
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new SpaceItemDecoration(ConvertUtils.dp2px(10), 1, SpaceItemDecoration.LINEARLAYOUT));
+        getPresenter().refresh();
     }
 
     @Override
-    public void showDatas(List<HomeList.DataBean.DatasBean> data) {
-//        PublicAdapter adapter = new PublicAdapter();
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        adapter.setData(data);
-//        recyclerView.setAdapter(adapter);
+    public void showBanner(List<Banner.DataBean> data) {
+        //获取数据时已经处理首先获取banner数据所以这里不需要做判断
+        adapter.setBannerData(data);
+    }
+
+    @Override
+    public void onRefresh(List<Chapter.DataBean.DatasBean> data) {
+        adapter.setData(data);
+        recyclerView.setAdapter(adapter);
         refreshLayout.finishRefresh();
     }
 
     @Override
-    public void showBanner(List<com.bracks.wanandroid.model.bean.Banner.DataBean> data) {
-        List<String> images = new ArrayList<>();
-        List<String> titles = new ArrayList<>();
-        for (com.bracks.wanandroid.model.bean.Banner.DataBean dataBean : data) {
-            images.add(dataBean.getImagePath());
-            titles.add(dataBean.getTitle());
-        }
-        banner
-                .setImageLoader(new ImageLoader() {
-                    @Override
-                    public void displayImage(Context context, Object path, ImageView imageView) {
-                        Glide.with(context).load(path).into(imageView);
-                    }
-                })
-                .setOnBannerListener(position -> ActivityUtils.startActivity(
-                        new Intent(getContext(), ArticleUi.class).putExtra(ArticleUi.EXTRA_LINK, data.get(position).getUrl())
-                ))
-                .setImages(images)
-                .setBannerTitles(titles)
-                .setBannerAnimation(Transformer.DepthPage)
-                .isAutoPlay(true)
-                .setDelayTime(1500)
-                .setDelayTime(1500)
-                .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE)
-                .setIndicatorGravity(BannerConfig.CENTER)
-                .start()
-        ;
+    public void onLoadMore(List<Chapter.DataBean.DatasBean> data) {
+        adapter.addAll(data);
+        refreshLayout.finishLoadMore();
     }
 
     @Override
@@ -124,5 +118,16 @@ public class HomeFrag extends BaseProxyFrag<HomeFragContract.View, HomeFragP> im
     @Override
     public void showToast(String msg) {
         ToastUtils.showLong(msg);
+    }
+
+    @OnClick({R.id.fab})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.fab:
+                recyclerView.smoothScrollToPosition(0);
+                break;
+            default:
+                break;
+        }
     }
 }

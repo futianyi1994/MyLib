@@ -3,12 +3,11 @@ package com.bracks.mylib.base.basemvp;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.bracks.mylib.rx.RxAutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 
@@ -93,31 +92,31 @@ public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> 
     }
 
     @Override
-    public void onCreate(@NotNull LifecycleOwner owner) {
+    public void onCreate(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onStart(@NotNull LifecycleOwner owner) {
+    public void onStart(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onResume(@NotNull LifecycleOwner owner) {
+    public void onResume(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onPause(@NotNull LifecycleOwner owner) {
+    public void onPause(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onStop(@NotNull LifecycleOwner owner) {
+    public void onStop(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onDestroy(@NotNull LifecycleOwner owner) {
+    public void onDestroy(@NonNull LifecycleOwner owner) {
     }
 
     @Override
-    public void onLifecycleChanged(@NotNull LifecycleOwner owner, @NotNull Lifecycle.Event event) {
+    public void onLifecycleChanged(@NonNull LifecycleOwner owner, @NonNull Lifecycle.Event event) {
     }
 
     protected <T> AutoDisposeConverter<T> bindLifecycle() {

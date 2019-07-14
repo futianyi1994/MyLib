@@ -4,9 +4,11 @@ import com.bracks.mylib.base.basemvp.BaseModel;
 import com.bracks.mylib.base.basemvp.BasePresenterInter;
 import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.wanandroid.model.bean.Banner;
-import com.bracks.wanandroid.model.bean.HomeList;
+import com.bracks.wanandroid.model.bean.Chapter;
 
 import java.util.List;
+
+import io.reactivex.Observable;
 
 
 /**
@@ -20,16 +22,23 @@ import java.util.List;
 public interface HomeFragContract {
 
     interface View extends BaseView {
-        void showDatas(List<HomeList.DataBean.DatasBean> data);
-
         void showBanner(List<Banner.DataBean> data);
+
+        void onRefresh(List<Chapter.DataBean.DatasBean> data);
+
+        void onLoadMore(List<Chapter.DataBean.DatasBean> data);
 
     }
 
     interface Presenter extends BasePresenterInter<View> {
-        void fetch();
+        void refresh();
+
+        void loadMore(int page);
     }
 
     interface Model<M> extends BaseModel<M> {
+        Observable<M> refresh();
+
+        Observable<Chapter> loadMore(int page);
     }
 }

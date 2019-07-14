@@ -3,8 +3,7 @@ package com.bracks.wanandroid.net;
 
 import com.bracks.wanandroid.model.bean.Banner;
 import com.bracks.wanandroid.model.bean.Collect;
-import com.bracks.wanandroid.model.bean.History;
-import com.bracks.wanandroid.model.bean.HomeList;
+import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.model.bean.Login;
 import com.bracks.wanandroid.model.bean.PublicList;
 import com.bracks.wanandroid.model.bean.Result;
@@ -44,7 +43,7 @@ public interface DataApi {
      * @return
      */
     @GET("wxarticle/list/{id}/{page}/json")
-    Observable<History> getHistoryList(@Path("id") int id,
+    Observable<Chapter> getHistoryList(@Path("id") int id,
                                        @Path("page") int page,
                                        @Query("k") String k);
 
@@ -135,7 +134,7 @@ public interface DataApi {
      * @return
      */
     @GET("/article/list/{page}/json")
-    Observable<HomeList> homeList(@Path("page") int page);
+    Observable<Chapter> homeList(@Path("page") int page);
 
 
 }

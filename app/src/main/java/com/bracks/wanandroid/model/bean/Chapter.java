@@ -10,7 +10,7 @@ import java.util.List;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class History extends Result<History.DataBean> {
+public class Chapter extends Result<Chapter.DataBean> {
 
     public static class DataBean {
 

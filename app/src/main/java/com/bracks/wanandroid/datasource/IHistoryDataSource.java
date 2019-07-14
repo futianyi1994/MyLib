@@ -3,7 +3,7 @@ package com.bracks.wanandroid.datasource;
 
 import com.bracks.mylib.base.basevm.BaseDataSource;
 import com.bracks.mylib.net.https.HttpCallback;
-import com.bracks.wanandroid.model.bean.History;
+import com.bracks.wanandroid.model.bean.Chapter;
 
 /**
  * good programmer.
@@ -15,6 +15,6 @@ import com.bracks.wanandroid.model.bean.History;
  */
 public interface IHistoryDataSource extends BaseDataSource {
 
-    void queryHistory(int id, int page, String search, HttpCallback<History.DataBean> callback);
+    void queryHistory(int id, int page, String search, HttpCallback<Chapter.DataBean> callback);
 
 }
