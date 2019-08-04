@@ -124,7 +124,7 @@ public class HttpManager {
 
                 //不使用多域名
                 /*retrofiitBuilder = new Retrofit.Builder()
-                        .client(getOkHttpClientBuilder(true).build())
+                        .client(builder.build())
                         .baseUrl(baseUrl)
                         .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create());*/

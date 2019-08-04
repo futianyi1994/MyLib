@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.support.annotation.FloatRange;
 import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,7 +108,7 @@ public class CustomPopupWindow extends PopupWindow {
      *
      * @param bgAlpha
      */
-    public void setBackgroundAlpha(float bgAlpha) {
+    public void setBackgroundAlpha(@FloatRange(from = 0.0f, to = 1.0f) float bgAlpha) {
         controller.setBackGroundLevel(bgAlpha);
     }
 
@@ -309,7 +310,7 @@ public class CustomPopupWindow extends PopupWindow {
          * @param level 0.0f-1.0f
          * @return Builder
          */
-        public Builder setBackGroundLevel(float level) {
+        public Builder setBackGroundLevel(@FloatRange(from = 0.0f, to = 1.0f) float level) {
             params.isShowBg = true;
             params.bg_level = level;
             return this;
@@ -472,7 +473,7 @@ public class CustomPopupWindow extends PopupWindow {
             popupWindow.setSoftInputMode(softInputMode);
         }
 
-        private void setBackGroundLevel(float level) {
+        private void setBackGroundLevel(@FloatRange(from = 0.0f, to = 1.0f) float level) {
             mWindow = ((Activity) context).getWindow();
             WindowManager.LayoutParams params = mWindow.getAttributes();
             params.alpha = level;

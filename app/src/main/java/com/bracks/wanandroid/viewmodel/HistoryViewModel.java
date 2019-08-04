@@ -30,7 +30,7 @@ public class HistoryViewModel extends BaseViewModel {
         historyRepo = new HistoryRepo(new HistoryDataSource(this));
     }
 
-    public void quertHistory(int id, int page, String search) {
+    public void queryHistory(int id, int page, String search) {
         historyRepo
                 .getHistoryLiveData(id, page, search)
                 .observe(lifecycleOwner, datasBeans -> liveData.setValue(datasBeans));

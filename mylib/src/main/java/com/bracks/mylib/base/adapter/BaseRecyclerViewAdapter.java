@@ -104,7 +104,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
      */
     @Override
     public void onBindViewHolder(@NonNull BaseRecyclerViewAdapter<T>.BaseViewHolder holder, int position) {
-        bindData(holder, position, realDatas.get(position));
+        bindData(holder, position, realDatas.size() == 0 ? null : realDatas.get(position));
         //在这里设置Item的点击事件
         if (mClickListener == null) {
             //让子类去实现

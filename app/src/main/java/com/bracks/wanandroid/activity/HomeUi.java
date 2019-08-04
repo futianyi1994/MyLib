@@ -15,7 +15,7 @@ import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.fragment.HomeFrag;
 import com.bracks.wanandroid.fragment.MyFrag;
-import com.bracks.wanandroid.fragment.PublicFrag;
+import com.bracks.wanandroid.fragment.PubFrag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +47,9 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         fragments.add(HomeFrag.newInstance());
-        fragments.add(PublicFrag.newInstance());
-        fragments.add(PublicFrag.newInstance());
-        fragments.add(PublicFrag.newInstance());
+        fragments.add(PubFrag.newInstance());
+        fragments.add(PubFrag.newInstance());
+        fragments.add(PubFrag.newInstance());
         fragments.add(MyFrag.newInstance());
         showFragmentByIndex(0);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED)

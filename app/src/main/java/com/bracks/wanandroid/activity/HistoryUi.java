@@ -84,7 +84,7 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
                         loadMore(datasBeans);
                     }
                 });
-        viewModel.quertHistory(id, page, search);
+        viewModel.queryHistory(id, page, search);
         return viewModel;
     }
 
@@ -169,14 +169,14 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 search = s;
-                viewModel.quertHistory(id, page, search);
+                viewModel.queryHistory(id, page, search);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                 search = s;
-                viewModel.quertHistory(id, page, search);
+                viewModel.queryHistory(id, page, search);
                 return false;
             }
         });
@@ -216,13 +216,13 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
                 @Override
                 public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                     page++;
-                    viewModel.quertHistory(id, page, search);
+                    viewModel.queryHistory(id, page, search);
                 }
 
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                     page = 1;
-                    viewModel.quertHistory(id, page, search);
+                    viewModel.queryHistory(id, page, search);
                 }
             });
         }

@@ -45,6 +45,7 @@ import io.reactivex.disposables.Disposable;
 public class ChapterAdapter extends BaseRecyclerViewAdapter<Chapter.DataBean.DatasBean> {
     public static final int BANNER_VIEW = 0;
     public static final int ITEM_VIEW = 1;
+    public static final int EMPTY_VIEW = 2;
 
 
     private List<com.bracks.wanandroid.model.bean.Banner.DataBean> bannerData;
@@ -60,11 +61,14 @@ public class ChapterAdapter extends BaseRecyclerViewAdapter<Chapter.DataBean.Dat
 
     @Override
     public int getItemCount() {
-        return super.getItemCount() + 1;
+        return getData().size() == 0 ? 1 : bannerData == null ? super.getItemCount() : super.getItemCount() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
+        if (getData().size() == 0) {
+            return EMPTY_VIEW;
+        }
         if (bannerData == null) {
             return ITEM_VIEW;
         }
@@ -77,10 +81,14 @@ public class ChapterAdapter extends BaseRecyclerViewAdapter<Chapter.DataBean.Dat
 
     @Override
     protected int inflaterItemLayout(int viewType) {
-        if (viewType == BANNER_VIEW) {
-            return R.layout.item_banner;
-        } else {
-            return R.layout.item_chapter;
+        switch (viewType) {
+            case BANNER_VIEW:
+                return R.layout.item_banner;
+            case ITEM_VIEW:
+                return R.layout.item_chapter;
+            case EMPTY_VIEW:
+            default:
+                return R.layout.item_empty;
         }
     }
 
@@ -91,81 +99,89 @@ public class ChapterAdapter extends BaseRecyclerViewAdapter<Chapter.DataBean.Dat
 
     @Override
     protected void bindData(BaseViewHolder holder, int position, Chapter.DataBean.DatasBean datasBean) {
-        if (holder.getViewType() == BANNER_VIEW) {
-            List<String> images = new ArrayList<>();
-            List<String> titles = new ArrayList<>();
-            for (com.bracks.wanandroid.model.bean.Banner.DataBean dataBean : bannerData) {
-                images.add(dataBean.getImagePath());
-                titles.add(dataBean.getTitle());
-            }
-            Banner banner = (Banner) holder.getView(R.id.banner);
-            banner
-                    .setImageLoader(new ImageLoader() {
-                        @Override
-                        public void displayImage(Context context, Object path, ImageView imageView) {
-                            Glide.with(context).load(path).into(imageView);
-                        }
-                    })
-                    .setOnBannerListener(pos ->
-                            ActivityUtils.startActivity(
-                                    new Intent(getContext(), ArticleUi.class).putExtra(ArticleUi.EXTRA_LINK, bannerData.get(pos).getUrl())
-                            )
-                    )
-                    .setImages(images)
-                    .setBannerTitles(titles)
-                    .setBannerAnimation(Transformer.DepthPage)
-                    .isAutoPlay(true)
-                    .setDelayTime(1500)
-                    .setDelayTime(1500)
-                    .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE)
-                    .setIndicatorGravity(BannerConfig.CENTER)
-                    .start()
-            ;
-        } else {
-            holder.setText(R.id.tvName, datasBean.getAuthor());
-            holder.setText(R.id.tvLable, String.format("%s/%s", datasBean.getSuperChapterName(), datasBean.getChapterName()));
-            holder.setText(R.id.tvTitle, Html.fromHtml(datasBean.getTitle()).toString());
-            holder.setText(R.id.tvTime, TimeUtils.millis2String(datasBean.getPublishTime(), new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())));
-            ImageView ivCollect = ((ImageView) holder.getView(R.id.ivCollect));
-            if (datasBean.isCollect()) {
-                ivCollect.setBackgroundResource(R.mipmap.collected);
-            } else {
-                ivCollect.setBackgroundResource(R.mipmap.collect);
-            }
+        switch (holder.getViewType()) {
+            case BANNER_VIEW:
+                List<String> images = new ArrayList<>();
+                List<String> titles = new ArrayList<>();
+                for (com.bracks.wanandroid.model.bean.Banner.DataBean dataBean : bannerData) {
+                    images.add(dataBean.getImagePath());
+                    titles.add(dataBean.getTitle());
+                }
+                Banner banner = (Banner) holder.getView(R.id.banner);
+                banner
+                        .setImageLoader(new ImageLoader() {
+                            @Override
+                            public void displayImage(Context context, Object path, ImageView imageView) {
+                                Glide.with(context).load(path).into(imageView);
+                            }
+                        })
+                        .setOnBannerListener(pos ->
+                                ActivityUtils.startActivity(
+                                        new Intent(getContext(), ArticleUi.class).putExtra(ArticleUi.EXTRA_LINK, bannerData.get(pos).getUrl())
+                                )
+                        )
+                        .setImages(images)
+                        .setBannerTitles(titles)
+                        .setBannerAnimation(Transformer.DepthPage)
+                        .isAutoPlay(true)
+                        .setDelayTime(1500)
+                        .setDelayTime(1500)
+                        .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE)
+                        .setIndicatorGravity(BannerConfig.CENTER)
+                        .start()
+                ;
+                break;
+            case ITEM_VIEW:
+                holder.setText(R.id.tvName, datasBean.getAuthor());
+                holder.setText(R.id.tvLable, String.format("%s/%s", datasBean.getSuperChapterName(), datasBean.getChapterName()));
+                holder.setText(R.id.tvTitle, Html.fromHtml(datasBean.getTitle()).toString());
+                holder.setText(R.id.tvTime, TimeUtils.millis2String(datasBean.getPublishTime(), new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())));
+                ImageView ivCollect = ((ImageView) holder.getView(R.id.ivCollect));
+                if (datasBean.isCollect()) {
+                    ivCollect.setBackgroundResource(R.mipmap.collected);
+                } else {
+                    ivCollect.setBackgroundResource(R.mipmap.collect);
+                }
 
-            Disposable disposable = RxView
-                    .clicks(ivCollect)
-                    .subscribe(unit -> {
-                        CollectM collectM = new CollectM(datasBean.getId());
-                        if (!datasBean.isCollect()) {
-                            collectM
-                                    .loadData()
-                                    .compose(RxObservHelper.applyProgressBar(getContext(), true))
-                                    .as(RxAutoDispose.bindLifecycle((LifecycleOwner) getContext()))
-                                    .subscribe(new RxDefaultObserver<Result>() {
+                Disposable disposable = RxView
+                        .clicks(ivCollect)
+                        .subscribe(unit -> {
+                            CollectM collectM = new CollectM(datasBean.getId());
+                            if (!datasBean.isCollect()) {
+                                collectM
+                                        .loadData()
+                                        .compose(RxObservHelper.applyProgressBar(getContext(), true))
+                                        .as(RxAutoDispose.bindLifecycle((LifecycleOwner) getContext()))
+                                        .subscribe(new RxDefaultObserver<Result>() {
 
-                                        @Override
-                                        public void onSuccess(Result response) {
-                                            datasBean.setCollect(true);
-                                            ivCollect.setBackgroundResource(R.mipmap.collected);
-                                        }
-                                    })
-                            ;
-                        } else {
-                            collectM.
-                                    cancelCollect()
-                                    .compose(RxObservHelper.applyProgressBar(getContext(), true))
-                                    .as(RxAutoDispose.bindLifecycle((LifecycleOwner) getContext()))
-                                    .subscribe(new RxDefaultObserver<Result>() {
-                                        @Override
-                                        public void onSuccess(Result response) {
-                                            datasBean.setCollect(false);
-                                            ivCollect.setBackgroundResource(R.mipmap.collect);
-                                        }
-                                    })
-                            ;
-                        }
-                    });
+                                            @Override
+                                            public void onSuccess(Result response) {
+                                                datasBean.setCollect(true);
+                                                ivCollect.setBackgroundResource(R.mipmap.collected);
+                                            }
+                                        })
+                                ;
+                            } else {
+                                collectM.
+                                        cancelCollect()
+                                        .compose(RxObservHelper.applyProgressBar(getContext(), true))
+                                        .as(RxAutoDispose.bindLifecycle((LifecycleOwner) getContext()))
+                                        .subscribe(new RxDefaultObserver<Result>() {
+                                            @Override
+                                            public void onSuccess(Result response) {
+                                                datasBean.setCollect(false);
+                                                ivCollect.setBackgroundResource(R.mipmap.collect);
+                                            }
+                                        })
+                                ;
+                            }
+                        });
+                break;
+            case EMPTY_VIEW:
+                holder.setText(R.id.tvEmpty, "Empty");
+                break;
+            default:
+                break;
         }
     }
 
