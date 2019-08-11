@@ -90,7 +90,7 @@ dependencies {
     api rootProject.ext.dependencies["recyclerview-v7"]
     api rootProject.ext.dependencies["design"]
 
-    //Rxjava2
+    //Rxjava
     api rootProject.ext.dependencies["rxandroid2"]
     api rootProject.ext.dependencies["rxjava2"]
 

@@ -40,16 +40,44 @@ import java.util.Map;
  * @description :
  */
 public class SPUtils {
-    private static final String SP_NAME = "config";
     private static final String AES_KEY = "aes_key";
     private static final String AES_TRANSFORMATION = "aes";
 
-    public static SharedPreferences getSp(Context mContext, String preferenceName) {
-        return mContext.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
+    private static final Map<String, SPUtils> SP_UTILS_MAP = new HashMap<>();
+    private SharedPreferences sp;
+
+
+    public static SPUtils getInstance() {
+        return getInstance("", Context.MODE_PRIVATE);
     }
 
-    public static SharedPreferences getSp() {
-        return getSp(CommonUtils.getContext(), SP_NAME);
+    public static SPUtils getInstance(String spName) {
+        return getInstance(spName, Context.MODE_PRIVATE);
+    }
+
+    public static SPUtils getInstance(final int mode) {
+        return getInstance("", mode);
+    }
+
+    public static SPUtils getInstance(String spName, final int mode) {
+        if (TextUtils.isEmpty(spName)) {
+            spName = "config";
+        }
+        SPUtils spUtils = SP_UTILS_MAP.get(spName);
+        if (spUtils == null) {
+            synchronized (SPUtils.class) {
+                spUtils = SP_UTILS_MAP.get(spName);
+                if (spUtils == null) {
+                    spUtils = new SPUtils(spName, mode);
+                    SP_UTILS_MAP.put(spName, spUtils);
+                }
+            }
+        }
+        return spUtils;
+    }
+
+    private SPUtils(String spName, final int mode) {
+        sp = CommonUtils.getContext().getSharedPreferences(spName, mode);
     }
 
     /**
@@ -58,8 +86,8 @@ public class SPUtils {
      * @param key
      * @param value
      */
-    public static boolean put(String key, Object value) {
-        SharedPreferences.Editor editor = getSp().edit();
+    public boolean put(String key, Object value) {
+        SharedPreferences.Editor editor = sp.edit();
         if (value instanceof String) {
             editor.putString(key, (String) value);
         } else if (value instanceof Integer) {
@@ -83,8 +111,7 @@ public class SPUtils {
      * @param defaultObject
      * @return
      */
-    public static Object get(String key, Object defaultObject) {
-        SharedPreferences sp = getSp();
+    public Object get(String key, Object defaultObject) {
         if (defaultObject instanceof String) {
             return sp.getString(key, (String) defaultObject);
         } else if (defaultObject instanceof Integer) {
@@ -106,7 +133,7 @@ public class SPUtils {
      * @param value
      * @return
      */
-    public static boolean putEncrypt(String key, Object value) {
+    public boolean putEncrypt(String key, Object value) {
         String target = "";
         if (value instanceof Boolean) {
             target = EncryptUtils.encryptAES2HexString(
@@ -133,7 +160,7 @@ public class SPUtils {
      * @param defaultObject
      * @return
      */
-    public static Object getDecrypt(String key, Object defaultObject) {
+    public Object getDecrypt(String key, Object defaultObject) {
         String source = getString(key);
         if (TextUtils.isEmpty(source)) {
             return defaultObject;
@@ -164,7 +191,7 @@ public class SPUtils {
      * @param key
      * @param datalist
      */
-    public static <T> boolean putList(String key, List<T> datalist) {
+    public <T> boolean putList(String key, List<T> datalist) {
         if (null == datalist || datalist.size() <= 0) {
             return false;
         }
@@ -179,7 +206,7 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static <T> List<T> getList(String key) {
+    public <T> List<T> getList(String key) {
         String strJson = getString(key, null);
         return strJson == null
                 ?
@@ -199,7 +226,7 @@ public class SPUtils {
      * @param <T>
      * @return
      */
-    public static <T> List<T> getList(String key, Class<T[]> classOfT) {
+    public <T> List<T> getList(String key, Class<T[]> classOfT) {
         String strJson = getString(key, null);
         return strJson == null
                 ?
@@ -214,7 +241,7 @@ public class SPUtils {
      * @param key
      * @param datas
      */
-    public static boolean putListMap(String key, List<Map<String, Integer>> datas) {
+    public boolean putListMap(String key, List<Map<String, Integer>> datas) {
         JSONArray mJsonArray = new JSONArray();
         for (int i = 0; i < datas.size(); i++) {
             Map<String, Integer> itemMap = datas.get(i);
@@ -241,7 +268,7 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static List<Map<String, Integer>> getListMap(String key) {
+    public List<Map<String, Integer>> getListMap(String key) {
         List<Map<String, Integer>> datas = new ArrayList<Map<String, Integer>>();
         try {
             JSONArray array = new JSONArray(getString(key));
@@ -270,7 +297,7 @@ public class SPUtils {
      * @param key
      * @param settings
      */
-    public static boolean putObject(String key, Object settings) {
+    public boolean putObject(String key, Object settings) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -290,7 +317,7 @@ public class SPUtils {
      * @param defaultObject
      * @return
      */
-    public static Object getObject(String key, Object defaultObject) {
+    public Object getObject(String key, Object defaultObject) {
         ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decode(getString(key).getBytes(), Base64.DEFAULT));
         Object settings = defaultObject;
         try {
@@ -308,7 +335,7 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static String getString(String key) {
+    public String getString(String key) {
         return getString(key, "");
     }
 
@@ -319,8 +346,8 @@ public class SPUtils {
      * @param defaultValue
      * @return
      */
-    public static String getString(String key, String defaultValue) {
-        return getSp().getString(key, defaultValue);
+    public String getString(String key, String defaultValue) {
+        return sp.getString(key, defaultValue);
     }
 
     /**
@@ -329,8 +356,8 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static int getInt(String key) {
-        return getSp().getInt(key, 0);
+    public int getInt(String key) {
+        return sp.getInt(key, 0);
     }
 
     /**
@@ -340,8 +367,8 @@ public class SPUtils {
      * @param defalut
      * @return
      */
-    public static int getInt(String key, int defalut) {
-        return getSp().getInt(key, defalut);
+    public int getInt(String key, int defalut) {
+        return sp.getInt(key, defalut);
     }
 
     /**
@@ -350,8 +377,8 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static boolean getBoolean(String key) {
-        return getSp().getBoolean(key, false);
+    public boolean getBoolean(String key) {
+        return sp.getBoolean(key, false);
     }
 
     /**
@@ -361,8 +388,8 @@ public class SPUtils {
      * @param defalut
      * @return
      */
-    public static boolean getBoolean(String key, boolean defalut) {
-        return getSp().getBoolean(key, defalut);
+    public boolean getBoolean(String key, boolean defalut) {
+        return sp.getBoolean(key, defalut);
     }
 
     /**
@@ -371,8 +398,8 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static long getLong(String key) {
-        return getSp().getLong(key, 0L);
+    public long getLong(String key) {
+        return sp.getLong(key, 0L);
     }
 
     /**
@@ -382,8 +409,8 @@ public class SPUtils {
      * @param defualt
      * @return
      */
-    public static long getLong(String key, long defualt) {
-        return getSp().getLong(key, defualt);
+    public long getLong(String key, long defualt) {
+        return sp.getLong(key, defualt);
     }
 
     /**
@@ -392,8 +419,8 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static boolean remove(String key) {
-        SharedPreferences.Editor edit = getSp().edit();
+    public boolean remove(String key) {
+        SharedPreferences.Editor edit = sp.edit();
         edit.remove(key);
         return SharedPreferencesCompat.apply(edit);
     }
@@ -401,8 +428,8 @@ public class SPUtils {
     /**
      * 清空首选项
      */
-    public static boolean clear() {
-        SharedPreferences.Editor edit = getSp().edit();
+    public boolean clear() {
+        SharedPreferences.Editor edit = sp.edit();
         edit.clear();
         return SharedPreferencesCompat.apply(edit);
     }
@@ -413,8 +440,7 @@ public class SPUtils {
      * @param key
      * @return
      */
-    public static boolean contains(String key) {
-        SharedPreferences sp = getSp();
+    public boolean contains(String key) {
         return sp.contains(key);
     }
 
@@ -423,8 +449,8 @@ public class SPUtils {
      *
      * @return
      */
-    public static Map<String, ?> getAll() {
-        return getSp().getAll();
+    public Map<String, ?> getAll() {
+        return sp.getAll();
     }
 
     /**
@@ -476,7 +502,7 @@ public class SPUtils {
      * @param context
      * @param pathname
      */
-    public static void changeSPPath(Context context, String pathname) {
+    public void changeSPPath(Context context, String pathname) {
         try {
             Field field;
             //获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象

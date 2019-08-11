@@ -65,8 +65,8 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     @Override
     public void initView(View view, @Nullable Bundle savedInstanceState) {
         getPresenter().fetch();
-        if (SPUtils.getBoolean(Contants.SP_IS_LOGIN)) {
-            tvUserName.setText(SPUtils.getString(Contants.SP_USER_NAME));
+        if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {
+            tvUserName.setText(SPUtils.getInstance().getString(Contants.SP_USER_NAME));
         } else {
             tvUserName.setText("请登录");
         }
@@ -82,8 +82,8 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
                 .toObservable(LoginEvent.class)
                 .subscribe(loginEvent -> {
                     getPresenter().fetch();
-                    if (SPUtils.getBoolean(Contants.SP_IS_LOGIN)) {
-                        tvUserName.setText(SPUtils.getString(Contants.SP_USER_NAME));
+                    if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {
+                        tvUserName.setText(SPUtils.getInstance().getString(Contants.SP_USER_NAME));
                     } else {
                         tvUserName.setText("请登录");
                     }

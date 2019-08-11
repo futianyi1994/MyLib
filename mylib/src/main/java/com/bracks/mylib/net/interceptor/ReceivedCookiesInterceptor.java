@@ -35,7 +35,7 @@ public class ReceivedCookiesInterceptor implements Interceptor {
                 }
                 sb.append(cookies.get(j));
             }
-            SPUtils.put(Constants.COOKIE, sb.toString());
+            SPUtils.getInstance().put(Constants.COOKIE, sb.toString());
         }
         return originalResponse;
     }

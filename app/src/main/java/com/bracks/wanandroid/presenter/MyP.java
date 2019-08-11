@@ -23,7 +23,7 @@ public class MyP extends BasePresenter<MyFragContract.View> implements MyFragCon
             List<String> items = new ArrayList<>();
             items.add("收藏");
             items.add("设置");
-            if (SPUtils.getBoolean(Contants.SP_IS_LOGIN)) {
+            if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {
                 items.add("退出登录");
             }
             getView().showDatas(items);

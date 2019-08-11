@@ -34,7 +34,7 @@ public class CookieUtils {
             //cookieManager.removeSessionCookie();
             //cookieManager.removeAllCookie();
 
-            for (String cookie : SPUtils.getString(Constants.COOKIE).split(";")) {
+            for (String cookie : SPUtils.getInstance().getString(Constants.COOKIE).split(";")) {
                 cookieManager.setCookie(url, cookie);
             }
 

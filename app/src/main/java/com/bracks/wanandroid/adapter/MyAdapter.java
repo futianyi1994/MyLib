@@ -62,7 +62,7 @@ public class MyAdapter extends MBaseRecyclerViewAdapter<String> {
                 break;
             //登录
             case 2:
-                if (SPUtils.getBoolean(Contants.SP_IS_LOGIN)) {
+                if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {
                     tvItem.setText("退出登录");
                     tvItem.setOnClickListener(v -> {
                         dialog = new CustomAlertDialog

@@ -45,7 +45,7 @@ public abstract class TokenAuth implements Authenticator {
                     .newBuilder()
                     .url(authorizedUrlBuilder.build())
                     .removeHeader(tokenName)
-                    .addHeader(tokenName, SPUtils.getString(Constants.TOKEN))
+                    .addHeader(tokenName, SPUtils.getInstance().getString(Constants.TOKEN))
                     .method(oriRequest.method(), oriRequest.body());
             return newRequestBuilder.build();
         } else {

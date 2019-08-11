@@ -94,7 +94,7 @@ public class ChapterAdapter extends BaseRecyclerViewAdapter<Chapter.DataBean.Dat
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position == 0 ? 0 : position - 1);
+        super.onBindViewHolder(holder, holder.getViewType() != BANNER_VIEW ? position : position == 0 ? 0 : position - 1);
     }
 
     @Override

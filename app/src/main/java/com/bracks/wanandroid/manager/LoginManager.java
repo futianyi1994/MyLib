@@ -15,16 +15,16 @@ import com.bracks.wanandroid.model.evenbus.LoginEvent;
  */
 public class LoginManager {
     public static void login(String username) {
-        SPUtils.put(Contants.SP_USER_NAME, username);
-        SPUtils.put(Contants.SP_IS_LOGIN, true);
+        SPUtils.getInstance().put(Contants.SP_USER_NAME, username);
+        SPUtils.getInstance().put(Contants.SP_IS_LOGIN, true);
         RxBus
                 .getDefault()
                 .post(new LoginEvent(username, true));
     }
 
     public static void logout() {
-        SPUtils.remove(Contants.SP_USER_NAME);
-        SPUtils.remove(Contants.SP_IS_LOGIN);
+        SPUtils.getInstance().remove(Contants.SP_USER_NAME);
+        SPUtils.getInstance().remove(Contants.SP_IS_LOGIN);
         RxBus
                 .getDefault()
                 .post(new LoginEvent("", false));
