@@ -62,11 +62,15 @@ dependencies {
     testImplementation rootProject.ext.dependencies["junit"]
     androidTestImplementation rootProject.ext.dependencies["runner"]
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]
+
     implementation project(':mylib')
     //implementation rootProject.ext.dependencies["mylib"]
+
+    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["support-v4"]
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["recyclerview-v7"]
     implementation rootProject.ext.dependencies["constraint-layout"]
-    //Multitype
-    //implementation rootProject.ext.dependencies["multitype"]
     //Smartrefreshlayout
     implementation rootProject.ext.dependencies["smartrefreshlayout"]
     //Bottom-navigation-bar
@@ -79,10 +83,20 @@ dependencies {
     implementation rootProject.ext.dependencies["banner"]
     //Glide
     implementation rootProject.ext.dependencies["glide"]
+    //Gson
+    implementation rootProject.ext.dependencies["gson"]
+    //Multidex
+    implementation rootProject.ext.dependencies["multidex"]
+    //Utilcode
+    implementation rootProject.ext.dependencies["utilcode"]
+    //Autodispose
+    implementation rootProject.ext.dependencies["autodispose"]
+    implementation rootProject.ext.dependencies["autodispose-android-archcomponents"]
     //Room
     implementation rootProject.ext.dependencies["room"]
     annotationProcessor rootProject.ext.dependencies["room-compiler"]
     //Butterknife
+    implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
 
     //Lottie-Android
