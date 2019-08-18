@@ -3,17 +3,19 @@ package com.bracks.wanandroid.fragment;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BaseProxyFrag;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
+import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.rx.RxBus;
 import com.bracks.mylib.utils.bar.BarUtils;
 import com.bracks.mylib.utils.save.SPUtils;
@@ -80,6 +82,7 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
         Disposable disposable = RxBus
                 .getDefault()
                 .toObservable(LoginEvent.class)
+                .as(RxAutoDispose.bindLifecycle(this))
                 .subscribe(loginEvent -> {
                     getPresenter().fetch();
                     if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {

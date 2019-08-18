@@ -1,6 +1,6 @@
 package com.bracks.wanandroid.viewmodel;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bracks.mylib.base.basevm.BaseViewModel;
 import com.bracks.wanandroid.datasource.LoginDataSource;

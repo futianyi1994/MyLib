@@ -1,10 +1,10 @@
 package com.bracks.mylib.base.basevm;
 
 import android.app.Dialog;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseProxyFrag;

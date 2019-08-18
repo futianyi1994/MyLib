@@ -1,7 +1,7 @@
 package com.bracks.mylib.base;
 
 import android.content.Intent;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 
 import com.bracks.mylib.utils.CommonUtils;
 import com.bracks.mylib.utils.log.TLog;

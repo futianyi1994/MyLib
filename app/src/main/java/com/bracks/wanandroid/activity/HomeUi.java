@@ -1,10 +1,10 @@
 package com.bracks.wanandroid.activity;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import android.widget.FrameLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;

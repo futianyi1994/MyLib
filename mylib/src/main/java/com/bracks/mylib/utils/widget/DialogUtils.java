@@ -3,7 +3,7 @@ package com.bracks.mylib.utils.widget;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;

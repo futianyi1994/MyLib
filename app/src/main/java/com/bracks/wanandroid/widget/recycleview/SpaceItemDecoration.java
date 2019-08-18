@@ -2,11 +2,12 @@ package com.bracks.wanandroid.widget.recycleview;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.annotation.IntDef;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+
+import androidx.annotation.IntDef;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

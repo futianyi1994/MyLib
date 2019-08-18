@@ -100,5 +100,5 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
 
     //Lottie-Android
-    implementation "com.airbnb.android:lottie:2.7.0"
+    implementation "com.airbnb.android:lottie:2.8.0"
 }

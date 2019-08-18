@@ -3,7 +3,7 @@ package com.bracks.mylib.utils.bar;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;

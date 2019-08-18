@@ -1,6 +1,6 @@
 package com.bracks.mylib.net.interceptor;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.bracks.mylib.net.download.ProgressResponseBody;
 import com.bracks.mylib.net.https.ProgressListener;

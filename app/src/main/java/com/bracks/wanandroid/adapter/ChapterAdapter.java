@@ -1,10 +1,10 @@
 package com.bracks.wanandroid.adapter;
 
-import android.arch.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;

@@ -1,7 +1,7 @@
 package com.bracks.mylib.utils.permission;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;

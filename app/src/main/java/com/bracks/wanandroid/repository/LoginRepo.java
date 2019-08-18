@@ -1,6 +1,6 @@
 package com.bracks.wanandroid.repository;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bracks.mylib.base.basevm.BaseRepo;
 import com.bracks.mylib.net.https.HttpCallback;

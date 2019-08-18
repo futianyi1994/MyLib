@@ -1,17 +1,17 @@
 package com.bracks.wanandroid.fragment;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import com.google.android.material.appbar.AppBarLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.tabs.TabLayout;
+import androidx.core.view.MenuItemCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;

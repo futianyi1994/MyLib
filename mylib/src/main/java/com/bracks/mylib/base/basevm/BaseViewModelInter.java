@@ -1,7 +1,7 @@
 package com.bracks.mylib.base.basevm;
 
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bracks.mylib.base.interf.BaseLifecycleObserver;
 

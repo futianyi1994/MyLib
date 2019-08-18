@@ -1,7 +1,7 @@
 package com.bracks.mylib.net.interceptor;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.bracks.mylib.Constants;
 import com.bracks.mylib.utils.save.SPUtils;

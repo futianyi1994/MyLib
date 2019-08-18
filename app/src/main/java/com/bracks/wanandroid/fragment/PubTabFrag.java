@@ -1,12 +1,13 @@
 package com.bracks.wanandroid.fragment;
 
-import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -15,6 +16,7 @@ import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.BaseVmProxyFrag;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
+import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.rx.RxBus;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.ChapterAdapter;
@@ -78,6 +80,7 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
         Disposable disposable = RxBus
                 .getDefault()
                 .toObservable(QueryEvent.class)
+                .as(RxAutoDispose.bindLifecycle(this))
                 .subscribe(queryEvent -> viewModel.queryHistory(id, page, PubFrag.search));
         return viewModel;
     }
