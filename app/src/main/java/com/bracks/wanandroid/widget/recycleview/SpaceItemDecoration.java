@@ -218,7 +218,7 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         int surplusCount = totalCount % layoutManager.getSpanCount();
         int childPosition = parent.getChildAdapterPosition(view);
         //竖直方向的
-        if (layoutManager.getOrientation() == GridLayoutManager.VERTICAL) {
+        if (layoutManager.getOrientation() == RecyclerView.VERTICAL) {
             if (surplusCount == 0 && childPosition > totalCount - layoutManager.getSpanCount() - 1) {
                 //后面几项需要bottom
                 outRect.bottom = topBottom;

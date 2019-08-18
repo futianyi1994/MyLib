@@ -14,6 +14,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BaseProxyFrag;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
+import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.rx.RxBus;
 import com.bracks.mylib.utils.bar.BarUtils;
 import com.bracks.mylib.utils.save.SPUtils;
@@ -31,7 +32,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.disposables.Disposable;
 
 @CreatePresenter(MyP.class)
 public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements MyFragContract.View {
@@ -77,9 +77,10 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        Disposable disposable = RxBus
+        RxBus
                 .getDefault()
                 .toObservable(LoginEvent.class)
+                .as(RxAutoDispose.bindLifecycle(this))
                 .subscribe(loginEvent -> {
                     getPresenter().fetch();
                     if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {

@@ -15,6 +15,7 @@ import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.BaseVmProxyFrag;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
+import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.rx.RxBus;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.ChapterAdapter;
@@ -29,7 +30,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.Disposable;
 
 /**
  * good programmer.
@@ -75,9 +75,10 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
                     }
                 });
         viewModel.queryHistory(id, page, PubFrag.search);
-        Disposable disposable = RxBus
+        RxBus
                 .getDefault()
                 .toObservable(QueryEvent.class)
+                .as(RxAutoDispose.bindLifecycle(this))
                 .subscribe(queryEvent -> viewModel.queryHistory(id, page, PubFrag.search));
         return viewModel;
     }
