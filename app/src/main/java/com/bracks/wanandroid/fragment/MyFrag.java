@@ -33,7 +33,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.disposables.Disposable;
 
 @CreatePresenter(MyP.class)
 public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements MyFragContract.View {
@@ -79,7 +78,7 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        Disposable disposable = RxBus
+        RxBus
                 .getDefault()
                 .toObservable(LoginEvent.class)
                 .as(RxAutoDispose.bindLifecycle(this))

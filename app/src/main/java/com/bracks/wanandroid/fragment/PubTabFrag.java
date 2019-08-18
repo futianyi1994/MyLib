@@ -31,7 +31,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.Disposable;
 
 /**
  * good programmer.
@@ -77,7 +76,7 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
                     }
                 });
         viewModel.queryHistory(id, page, PubFrag.search);
-        Disposable disposable = RxBus
+        RxBus
                 .getDefault()
                 .toObservable(QueryEvent.class)
                 .as(RxAutoDispose.bindLifecycle(this))

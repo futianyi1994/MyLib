@@ -37,17 +37,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    configurations.all {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            def requested = details.requested
-            if (requested.group == 'com.android.support') {
-                if (!requested.name.startsWith("multidex")) {
-                    details.useVersion rootProject.ext.android["androidSupportSdkVersion"]
-                }
-            }
-        }
-    }
-
     // 打包源码jar
     task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.srcDirs
