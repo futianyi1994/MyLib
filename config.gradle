@@ -11,7 +11,7 @@ ext {
             androidSupportSdkVersion: "28.0.0",
             espressoSdkVersion      : "3.0.2",
 
-            mylibVersion            : "2.0.1",
+            mylibVersion            : "2.0.3",
             dagger2SdkVersion       : "2.22.1",
             retrofitSdkVersion      : "2.6.1",
             autodisposeVersion      : "1.0.0-RC3",
@@ -21,20 +21,20 @@ ext {
     dependencies = [
             /**********android**********/
             "multidex"                             : "com.android.support:multidex:1.0.3",
-            "constraint-layout"                    : "com.android.support.constraint:constraint-layout:1.1.3",
             "percent"                              : "com.android.support:percent:${android["androidSupportSdkVersion"]}",
             "support-v4"                           : "com.android.support:support-v4:${android["androidSupportSdkVersion"]}",
             "annotations"                          : "com.android.support:support-annotations:${android["androidSupportSdkVersion"]}",
             "cardview-v7"                          : "com.android.support:cardview-v7:${android["androidSupportSdkVersion"]}",
             "appcompat-v7"                         : "com.android.support:appcompat-v7:${android["androidSupportSdkVersion"]}",
             "recyclerview-v7"                      : "com.android.support:recyclerview-v7:${android["androidSupportSdkVersion"]}",
+            "constraint-layout"                    : "com.android.support.constraint:constraint-layout:1.1.3",
             //test
             "junit"                                : "junit:junit:4.12",
-            "androidJUnitRunner"                   : "android.support.test.runner.AndroidJUnitRunner",
             "runner"                               : "com.android.support.test:runner:1.0.2",
             "espresso-core"                        : "com.android.support.test.espresso:espresso-core:${android["espressoSdkVersion"]}",
             "espresso-contrib"                     : "com.android.support.test.espresso:espresso-contrib:${android["espressoSdkVersion"]}",
             "espresso-intents"                     : "com.android.support.test.espresso:espresso-intents:${android["espressoSdkVersion"]}",
+            "androidJUnitRunner"                   : "android.support.test.runner.AndroidJUnitRunner",
             //architecture components
             "room"                                 : "android.arch.persistence.room:runtime:${android["archVersion"]}",
             "room-rxjava2"                         : "android.arch.persistence.room:rxjava2:${android["archVersion"]}",
@@ -74,6 +74,8 @@ ext {
             "rxbinding"                            : "com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2",
             "rxbinding-material"                   : "com.jakewharton.rxbinding3:rxbinding-material:3.0.0-alpha2",
             "autodispose"                          : "com.uber.autodispose:autodispose:${android["autodisposeVersion"]}",
+            "autodispose-android"                  : "com.uber.autodispose:autodispose-android:${android["autodisposeVersion"]}",
+            "autodispose-lifecycle"                : "com.uber.autodispose:autodispose-lifecycle:${android["autodisposeVersion"]}",
             "autodispose-android-archcomponents"   : "com.uber.autodispose:autodispose-android-archcomponents:${android["autodisposeVersion"]}",
             //retrofit
             "retrofit2"                            : "com.squareup.retrofit2:retrofit:${android["retrofitSdkVersion"]}",
@@ -93,8 +95,6 @@ ext {
             "picasso"                              : "com.squareup.picasso:picasso:2.5.2",
             "picasso2-okhttp3-downloader"          : "com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0",
             //widget
-            "smartrefreshlayout"                   : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21",
-            "smartrefreshheader"                   : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21",
             "banner"                               : "com.youth.banner:banner:1.4.10",
             "dialog"                               : "com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar",
             "photoView"                            : "com.github.chrisbanes:PhotoView:1.2.6",
@@ -106,6 +106,8 @@ ext {
             "material-dialogs"                     : "com.afollestad.material-dialogs:core:2.0.0-rc4",
             "bottom-navigation-bar"                : "com.ashokvarma.android:bottom-navigation-bar:2.1.0",
             "subsampling-scale-imageview"          : "com.davemorrissey.labs:subsampling-scale-image-view:3.10.0",
+            "smartrefreshlayout"                   : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21",
+            "smartrefreshheader"                   : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21",
             //adapter
             "multitype"                            : "me.drakeet.multitype:multitype:3.4.4",
             "baseRecyclerViewAdapterHelper"        : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30",
@@ -122,19 +124,19 @@ ext {
             "statusbarutil"                        : "com.jaeger.statusbarutil:library:1.4.0",
             "eventbus"                             : "org.greenrobot:eventbus:3.0.0",
             "eventbus-annotation-processor"        : "org.greenrobot:eventbus-annotation-processor:3.0.1",
+            "butterknife"                          : "com.jakewharton:butterknife:8.8.1",
+            "butterknife-compiler"                 : "com.jakewharton:butterknife-compiler:8.8.1",
             "fragmentation"                        : "me.yokeyword:fragmentation:1.3.6",
             "fragmentation-eventbus"               : "me.yokeyword:eventbus-activity-scope:1.1.0",
             "fragmentation-swipeback"              : "me.yokeyword:fragmentation-swipeback:1.3.6",
-            "butterknife"                          : "com.jakewharton:butterknife:8.8.1",
-            "butterknife-compiler"                 : "com.jakewharton:butterknife-compiler:8.8.1",
             //test-update
-            "leakcanary-android"                   : "com.squareup.leakcanary:leakcanary-android:1.6.3",
-            "leakcanary-android-no-op"             : "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3",
             "tencent-bugly"                        : "com.tencent.bugly:crashreport:latest.release",
             "tencent-bugly-upgrade"                : "com.tencent.bugly:crashreport_upgrade:latest.release",
             "tencent-bugly-nativecrashreport"      : "com.tencent.bugly:nativecrashreport:latest.release",
             "tinker-android-lib"                   : "com.tencent.tinker:tinker-android-lib:1.9.9",
             "tinker-android-anno"                  : "com.tencent.tinker:tinker-android-anno:1.9.8",
+            "leakcanary-android"                   : "com.squareup.leakcanary:leakcanary-android:1.6.3",
+            "leakcanary-android-no-op"             : "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3",
             //other
             "getui-sdk"                            : "com.getui:sdk:2.12.5.0",
             "async-http"                           : "com.loopj.android:android-async-http:1.4.9",

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Looper;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ProcessUtils;
@@ -14,7 +13,6 @@ import com.blankj.utilcode.util.Utils;
 import com.bracks.mylib.utils.log.TLog;
 
 import java.security.Security;
-import java.util.List;
 
 
 /**
@@ -108,47 +106,6 @@ public class CommonUtils {
     }
 
     /*****************************************************************************************************************/
-
-    /**
-     * 判断当前线程是否在主线程
-     *
-     * @return true:主线程
-     */
-    public static boolean isMainThread() {
-        //return Thread.currentThread() == Looper.getMainLooper().getThread();
-        return Looper.myLooper() == Looper.getMainLooper();
-    }
-
-    /**
-     * 检查集合
-     *
-     * @param list
-     * @return true
-     */
-    public static boolean checkList(List list) {
-        if (list == null) {
-            return false;
-        }
-        return list.size() > 0;
-    }
-
-    /**
-     * 多次点击一定时间内取第一次点击事件
-     */
-    private static long lastClickTime;
-
-    public static boolean isFastDoubleClick() {
-        return isFastDoubleClick(500L);
-    }
-
-    public static boolean isFastDoubleClick(long clickDelayTime) {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastClickTime < clickDelayTime) {
-            return false;
-        }
-        lastClickTime = currentTime;
-        return true;
-    }
 
     /**
      * 双击退出函数

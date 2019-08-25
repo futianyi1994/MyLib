@@ -83,14 +83,11 @@ dependencies {
     implementation rootProject.ext.dependencies["banner"]
     //Glide
     implementation rootProject.ext.dependencies["glide"]
-    //Gson
-    implementation rootProject.ext.dependencies["gson"]
     //Multidex
     implementation rootProject.ext.dependencies["multidex"]
     //Utilcode
     implementation rootProject.ext.dependencies["utilcode"]
     //Autodispose
-    implementation rootProject.ext.dependencies["autodispose"]
     implementation rootProject.ext.dependencies["autodispose-android-archcomponents"]
     //Room
     implementation rootProject.ext.dependencies["room"]

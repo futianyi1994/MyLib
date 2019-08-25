@@ -6,8 +6,8 @@ android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
-        versionCode 201
-        versionName "2.0.1"
+        versionCode 203
+        versionName "2.0.3"
     }
     buildTypes {
         release {
@@ -102,9 +102,21 @@ dependencies {
     //已经启用，改用官方Retrofit支持Rxjava的支持库
     //api rootProject.ext.dependencies["retrofit2-adapter-rxjava2-jakewharton"]
 
-    //Lifecycles： Only (no ViewModel or LiveData)
+    //Autodispose
+    //api rootProject.ext.dependencies["autodispose"]
+    //api rootProject.ext.dependencies["autodispose-android"]
+    //api rootProject.ext.dependencies["autodispose-lifecycle"]
+    //Autodispose：包括以上三个包
+    api rootProject.ext.dependencies["autodispose-android-archcomponents"]
+
+    //Butterknife
+    api rootProject.ext.dependencies["butterknife"]
+    //需要在App的build.gradle中添加，这里添加无效
+    //annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+
+    //Lifecycles：Only (no ViewModel or LiveData)
     //api rootProject.ext.dependencies["lifecycle-runtime"]
-    //Lifecycles:：Just LiveData
+    //Lifecycles：Just LiveData
     //api rootProject.ext.dependencies["lifecycle-livedata"]
     //Lifecycles：Just ViewModel
     //api rootProject.ext.dependencies["lifecycle-viewmodel"]
@@ -121,6 +133,12 @@ dependencies {
     //api rootProject.ext.dependencies["fragmentation-eventbus"]
     //api rootProject.ext.dependencies["fragmentation-swipeback"]
 
+    //Gson
+    api rootProject.ext.dependencies["gson"]
+    //Multidex
+    api rootProject.ext.dependencies["multidex"]
+    //Utilcode
+    api rootProject.ext.dependencies["utilcode"]
     //Retrofit-url-manager
     api rootProject.ext.dependencies["retrofit-url-manager"]
     //PersistentCookieJar for OkHttp 3
@@ -151,15 +169,6 @@ dependencies {
     //需要在App的build.gradle中添加，这里添加无效
     //annotationProcessor rootProject.ext.dependencies["room-compiler"]
 
-    //Butterknife
-    compileOnly rootProject.ext.dependencies["butterknife"]
-    //需要在App的build.gradle中添加，这里添加无效
-    //annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
-
-    //Autodispose
-    compileOnly rootProject.ext.dependencies["autodispose"]
-    compileOnly rootProject.ext.dependencies["autodispose-android-archcomponents"]
-
     //Rxbinding
     compileOnly rootProject.ext.dependencies["rxbinding"]
     //compileOnly rootProject.ext.dependencies["rxbinding-material"]
@@ -178,18 +187,12 @@ dependencies {
     releaseCompileOnly rootProject.ext.dependencies["leakcanary-android"]
     debugCompileOnly rootProject.ext.dependencies["leakcanary-android-no-op"]
 
-    //Gson
-    compileOnly rootProject.ext.dependencies["gson"]
     //Guava
     compileOnly rootProject.ext.dependencies["guava"]
     //Logger
     compileOnly rootProject.ext.dependencies["logger"]
-    //Multidex
-    compileOnly rootProject.ext.dependencies["multidex"]
     //Rxrelay2
     compileOnly rootProject.ext.dependencies["rxrelay2"]
-    //Utilcode
-    compileOnly rootProject.ext.dependencies["utilcode"]
     //Immersionbar
     compileOnly rootProject.ext.dependencies["immersionbar"]
     //RxPermissions
