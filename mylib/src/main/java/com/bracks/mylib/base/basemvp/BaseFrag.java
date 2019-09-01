@@ -24,11 +24,13 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
         //创建Presenter
         if (presenter == null) {
             presenter = creatPresenter();
-            getLifecycle().addObserver(presenter);
+            if (presenter == null) {
+                presenter = (P) new BasePresenter<V>();
+            }
         }
-        if (presenter == null) {
-            throw new NullPointerException("presenter 不能为空!");
-        }
+        presenter.onAttchView((V) this);
+        presenter.setLifecycleOwner(this);
+        getLifecycle().addObserver(presenter);
         initData(savedInstanceState);
     }
 

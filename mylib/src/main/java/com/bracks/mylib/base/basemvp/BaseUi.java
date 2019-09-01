@@ -24,14 +24,13 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
         //创建Presenter
         if (presenter == null) {
             presenter = creatPresenter();
-            presenter.setLifecycleOwner(this);
-            getLifecycle().addObserver(presenter);
-        }
-
-        if (presenter == null) {
-            throw new NullPointerException("presenter 不能为空!");
+            if (presenter == null) {
+                presenter = (P) new BasePresenter<V>();
+            }
         }
         presenter.onAttchView((V) this);
+        presenter.setLifecycleOwner(this);
+        getLifecycle().addObserver(presenter);
         initData(savedInstanceState);
         initView(savedInstanceState);
     }
