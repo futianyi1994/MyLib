@@ -11,7 +11,7 @@ ext {
             androidSupportSdkVersion: "28.0.0",
             espressoSdkVersion      : "3.0.2",
 
-            mylibVersion            : "2.0.4",
+            mylibVersion            : "2.0.5",
             dagger2SdkVersion       : "2.24",
             retrofitSdkVersion      : "2.6.1",
             autodisposeVersion      : "1.0.0-RC3",
