@@ -8,7 +8,7 @@ package com.bracks.mylib.base.basemvp;
  * @email : futianyi1994@126.com
  * @description : Presenter工厂实现类
  */
-public class PresenterFactoryImpl<V extends BaseView, P extends BasePresenter<V>> implements PresenterFactory<V, P> {
+public class PresenterFactoryImpl<P extends BasePresenter> implements PresenterFactory<P> {
 
     /**
      * 需要创建的Presenter的类型
@@ -20,11 +20,10 @@ public class PresenterFactoryImpl<V extends BaseView, P extends BasePresenter<V>
      * 根据注解创建Presenter的工厂实现类
      *
      * @param viewClazz 需要创建Presenter的V层实现类
-     * @param <V>       当前View实现的接口类型
      * @param <P>       当前要创建的Presenter类型
      * @return 工厂类
      */
-    public static <V extends BaseView, P extends BasePresenter<V>> PresenterFactoryImpl<V, P> createFactory(Class<?> viewClazz) {
+    public static <P extends BasePresenter> PresenterFactoryImpl<P> createFactory(Class<?> viewClazz) {
         CreatePresenter annotation = viewClazz.getAnnotation(CreatePresenter.class);
         Class<P> aClass = null;
         if (annotation != null) {
@@ -33,7 +32,7 @@ public class PresenterFactoryImpl<V extends BaseView, P extends BasePresenter<V>
         if (aClass == null) {
             throw new RuntimeException("Presenter创建失败!，检查是否声明了@CreatePresenter(xx.class)注解");
         } else {
-            return new PresenterFactoryImpl<V, P>(aClass);
+            return new PresenterFactoryImpl<>(aClass);
         }
     }
 

@@ -101,4 +101,8 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
             }
         }
     }
+
+    public void selectTab(int selectTab) {
+        bottomNavigationBar.selectTab(selectTab);
+    }
 }

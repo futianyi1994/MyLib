@@ -11,8 +11,8 @@ ext {
             androidSupportSdkVersion: "28.0.0",
             espressoSdkVersion      : "3.0.2",
 
-            mylibVersion            : "2.0.3",
-            dagger2SdkVersion       : "2.22.1",
+            mylibVersion            : "2.0.4",
+            dagger2SdkVersion       : "2.24",
             retrofitSdkVersion      : "2.6.1",
             autodisposeVersion      : "1.0.0-RC3",
             rxlifecycleSdkVersion   : "1.0",
@@ -48,9 +48,9 @@ ext {
 
             /***********google***********/
             "gson"                                 : "com.google.code.gson:gson:2.8.5",
-            "guava"                                : "com.google.guava:guava:27.1-android",
+            "guava"                                : "com.google.guava:guava:28.1-android",
             "design"                               : "com.android.support:design:28.0.0",
-            "flexboxLayout"                        : "com.google.android:flexbox:1.0.0",
+            "flexboxLayout"                        : "com.google.android:flexbox:1.1.0",
             //dagger
             "dagger"                               : "com.google.dagger:dagger:${android["dagger2SdkVersion"]}",
             "dagger-android"                       : "com.google.dagger:dagger-android:${android["dagger2SdkVersion"]}",
@@ -62,7 +62,7 @@ ext {
             "mylib"                                : "com.github.futianyi1994:MyLib:${android["mylibVersion"]}",
             //rxjava
             "rxjava"                               : "io.reactivex:rxjava:1.3.8",
-            "rxjava2"                              : "io.reactivex.rxjava2:rxjava:2.2.11",
+            "rxjava2"                              : "io.reactivex.rxjava2:rxjava:2.2.12",
             "rxjava3"                              : "io.reactivex.rxjava3:rxjava:3.0.0-RC1",
             "rxandroid"                            : "io.reactivex:rxandroid:1.2.1",
             "rxandroid2"                           : "io.reactivex.rxjava2:rxandroid:2.1.1",
@@ -71,8 +71,8 @@ ext {
             "rxlifecycle-components"               : "com.trello:rxlifecycle-components:${android["rxlifecycleSdkVersion"]}",
             "rxlifecycle2-components"              : "com.trello.rxlifecycle2:rxlifecycle-components:${android["rxlifecycle2SdkVersion"]}",
             "rxrelay2"                             : "com.jakewharton.rxrelay2:rxrelay:2.1.0",
-            "rxbinding"                            : "com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2",
-            "rxbinding-material"                   : "com.jakewharton.rxbinding3:rxbinding-material:3.0.0-alpha2",
+            "rxbinding"                            : "com.jakewharton.rxbinding3:rxbinding:3.0.0",
+            "rxbinding-material"                   : "com.jakewharton.rxbinding3:rxbinding-material:3.0.0",
             "autodispose"                          : "com.uber.autodispose:autodispose:${android["autodisposeVersion"]}",
             "autodispose-android"                  : "com.uber.autodispose:autodispose-android:${android["autodisposeVersion"]}",
             "autodispose-lifecycle"                : "com.uber.autodispose:autodispose-lifecycle:${android["autodisposeVersion"]}",
@@ -87,7 +87,7 @@ ext {
             "retrofit-url-manager"                 : "me.jessyan:retrofit-url-manager:1.4.0",
             //okhttp
             "persistent-cookiejar"                 : "com.github.franmontiel:PersistentCookieJar:v1.0.1",
-            "okhttp3-logging-interceptor"          : "com.squareup.okhttp3:logging-interceptor:3.8.0",
+            "okhttp3-logging-interceptor"          : "com.squareup.okhttp3:logging-interceptor:3.12.0",
             //image
             "glide"                                : "com.github.bumptech.glide:glide:4.9.0",
             "glide-compiler"                       : "com.github.bumptech.glide:compiler:4.9.0",
@@ -118,7 +118,7 @@ ext {
             "timer"                                : "com.jakewharton.timber:timber:4.5.1",
             "logger"                               : "com.orhanobut:logger:2.2.0",
             "fastjson"                             : "com.alibaba:fastjson:1.2.31",
-            "utilcode"                             : "com.blankj:utilcode:1.25.8",
+            "utilcode"                             : "com.blankj:utilcode:1.25.9",
             "jsbridge"                             : "com.github.lzyzsd:jsbridge:1.0.4",
             "immersionbar"                         : "com.gyf.immersionbar:immersionbar:2.3.3",
             "statusbarutil"                        : "com.jaeger.statusbarutil:library:1.4.0",

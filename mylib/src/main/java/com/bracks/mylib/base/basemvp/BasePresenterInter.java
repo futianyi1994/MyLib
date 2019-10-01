@@ -15,13 +15,12 @@ import com.bracks.mylib.base.interf.BaseLifecycleObserver;
  * @description :
  */
 public interface BasePresenterInter<V extends BaseView> extends BaseLifecycleObserver {
-
     /**
-     * Presenter被创建后调用
+     * Presenter被创建时调用
      *
-     * @param savedState 被意外销毁后重建后的Bundle
+     * @param savedInstanceState 意外销毁后恢复保存的Bundle
      */
-    void onCreatePersenter(@Nullable Bundle savedState);
+    void onCreatePersenter(@Nullable Bundle savedInstanceState);
 
     /**
      * Presenter被销毁时调用
@@ -29,29 +28,29 @@ public interface BasePresenterInter<V extends BaseView> extends BaseLifecycleObs
     void onDestroyPersenter();
 
     /**
-     * 在Presenter意外销毁的时候被调用，它的调用时机和Activity、Fragment、View中的onSaveInstanceState
-     * 时机相同
+     * Presenter意外销毁的时调用，它的调用时机和Activity、Fragment、View中的onSaveInstanceState时机相同
      *
-     * @param outState
+     * @param outState 在return前可以在outState做一些数据保存工作
+     * @return 意外销毁时保存的Bundle
      */
-    void onSaveInstanceState(Bundle outState);
+    Bundle onSaveInstanceState(Bundle outState);
 
     /**
-     * 进行绑定
+     * Presenter绑定View时调用
      *
-     * @param view
+     * @param v mvpView
      */
-    void onAttchView(V view);
+    void onAttchView(V v);
 
     /**
-     * 进行解绑
+     * Presenter解绑View时调用
      */
     void onDetachView();
 
     /**
-     * 获取V层
+     * 获取VIew时调用
      *
-     * @return
+     * @return mvpView
      */
     V getView();
 }

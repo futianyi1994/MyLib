@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +28,7 @@ import com.bracks.mylib.base.basevm.BaseVmProxyFrag;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.mylib.rx.RxBus;
 import com.bracks.wanandroid.R;
+import com.bracks.wanandroid.activity.HomeUi;
 import com.bracks.wanandroid.adapter.TabPagerAdapter;
 import com.bracks.wanandroid.model.bean.PublicList;
 import com.bracks.wanandroid.model.evenbus.QueryEvent;
@@ -128,6 +128,9 @@ public class PubFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView>> 
                     e.printStackTrace();
                 }
             } else {
+                if (getActivity() instanceof HomeUi) {
+                    ((HomeUi) getActivity()).selectTab(0);
+                }
             }
         });
     }

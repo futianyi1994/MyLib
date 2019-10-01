@@ -43,9 +43,9 @@ import io.reactivex.disposables.Disposable;
  * @description :
  */
 public class ChapterAdapter extends BaseRecyclerViewAdapter<Chapter.DataBean.DatasBean> {
-    public static final int BANNER_VIEW = 0;
-    public static final int ITEM_VIEW = 1;
-    public static final int EMPTY_VIEW = 2;
+    private static final int BANNER_VIEW = 0;
+    private static final int ITEM_VIEW = 1;
+    private static final int EMPTY_VIEW = 2;
 
 
     private List<com.bracks.wanandroid.model.bean.Banner.DataBean> bannerData;
@@ -61,7 +61,7 @@ public class ChapterAdapter extends BaseRecyclerViewAdapter<Chapter.DataBean.Dat
 
     @Override
     public int getItemCount() {
-        return getData().size() == 0 ? 1 : bannerData == null ? super.getItemCount() : super.getItemCount() + 1;
+        return super.getItemCount() == 0 ? 1 : bannerData == null ? super.getItemCount() : super.getItemCount() + 1;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ChapterAdapter extends BaseRecyclerViewAdapter<Chapter.DataBean.Dat
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        super.onBindViewHolder(holder, holder.getViewType() != BANNER_VIEW ? position : position == 0 ? 0 : position - 1);
+        super.onBindViewHolder(holder, holder.getViewType() == EMPTY_VIEW ? position : bannerData == null ? position : position == 0 ? 0 : position - 1);
     }
 
     @Override

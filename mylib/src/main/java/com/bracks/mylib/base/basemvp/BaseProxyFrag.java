@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.bracks.mylib.base.BaseFragment;
 
+import org.jetbrains.annotations.NotNull;
+
 import butterknife.ButterKnife;
 
 /**
@@ -16,17 +18,12 @@ import butterknife.ButterKnife;
  * @date : 2019-01-25 上午 11:10
  * @author: futia
  * @email : futianyi1994@126.com
- * @description :使用代理模式来代理Presenter的创建、销毁、绑定、解绑以及Presenter的状态保存,其实就是管理Presenter的生命周期
+ * @description :代理对象类（这里同时也是客户端）：代理Presenter的创建、销毁、绑定、解绑以及Presenter的状态保存,其实就是管理Presenter的生命周期
  */
-public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<V>> extends BaseFragment implements PresenterProxy, BaseView {
+public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<V>> extends BaseFragment implements PresenterProxy<V, P>, BaseView {
 
     private static final String PRESENTER_SAVE_KEY = "presenter_save_key";
-
-    /**
-     * 创建被代理对象,传入默认Presenter的工厂
-     */
-    private PresenterProxyImpl<V, P> mProxy = new PresenterProxyImpl<>(getClass());
-
+    private PresenterProxyImpl<V, P> mProxy = new PresenterProxyImpl<>();
     private P presenter;
 
 
@@ -34,7 +31,7 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mProxy.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_SAVE_KEY));
+            onRestoreInstanceState(savedInstanceState);
         }
         initData(savedInstanceState);
     }
@@ -45,8 +42,8 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
             rootView = inflater.inflate(getLayoutId(), container, false);
             mUnbinder = ButterKnife.bind(this, rootView);
             rootView.setOnTouchListener(this);
-            mProxy.onCreate((V) this);
-            presenter = mProxy.getPresenter();
+            createPresenterFactory(PresenterFactoryImpl.createFactory(getClass()));
+            presenter = createPresenter((V) this);
             presenter.setLifecycleOwner(this);
             getLifecycle().addObserver(presenter);
             initView(rootView, savedInstanceState);
@@ -62,51 +59,51 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mProxy.onDestroy();
+        destroyPresenter();
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
     }
 
-    /**
-     * 意外销毁的时候调用
-     *
-     * @param outState
-     */
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBundle(PRESENTER_SAVE_KEY, mProxy.onSaveInstanceState());
+        outState.putBundle(PRESENTER_SAVE_KEY, onSaveInstanceState());
     }
 
-    /**
-     * 可以在子类中重写自己的Presenter工厂覆盖默认的，如果你想自定义的话（注意需要在getPresenter()调用前设置）
-     *
-     * @param presenterFactory PresenterFactory类型
-     */
     @Override
-    public void setPresenterFactory(PresenterFactory presenterFactory) {
-        mProxy.setPresenterFactory(presenterFactory);
+    public void createPresenterFactory(PresenterFactory<P> presenterFactory) {
+        mProxy.createPresenterFactory(presenterFactory);
     }
 
-    /**
-     * 得到Presenter工厂
-     *
-     * @return
-     */
     @Override
-    public PresenterFactory<V, P> getPresenterFactory() {
+    public PresenterFactory<P> getPresenterFactory() {
         return mProxy.getPresenterFactory();
     }
 
-    /**
-     * 获取Presenter
-     *
-     * @return 返回子类创建的Presenter
-     */
+    @Override
+    public P createPresenter(V v) {
+        return mProxy.createPresenter(v);
+    }
+
     @Override
     public P getPresenter() {
-        return presenter;
+        return mProxy.getPresenter();
+    }
+
+    @Override
+    public void destroyPresenter() {
+        mProxy.destroyPresenter();
+    }
+
+    @Override
+    public Bundle onSaveInstanceState() {
+        return mProxy.onSaveInstanceState();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        mProxy.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_SAVE_KEY));
     }
 }

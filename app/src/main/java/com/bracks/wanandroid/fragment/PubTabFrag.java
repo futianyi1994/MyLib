@@ -79,7 +79,7 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
                 .getDefault()
                 .toObservable(QueryEvent.class)
                 .as(RxAutoDispose.bindLifecycle(this))
-                .subscribe(queryEvent -> viewModel.queryHistory(id, page, PubFrag.search));
+                .subscribe(queryEvent -> viewModel.queryHistory(id, page = 1, PubFrag.search));
         return viewModel;
     }
 

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.bracks.mylib.rx.RxAutoDispose;
+import com.bracks.mylib.utils.log.TLog;
 import com.uber.autodispose.AutoDisposeConverter;
 
 import java.lang.ref.WeakReference;
@@ -20,67 +21,40 @@ import java.lang.ref.WeakReference;
  * @description : 所有Presenter的基类，并不强制实现这些方法，有需要在重写
  */
 public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> {
+    private static final String TAG = "BasePresenter";
 
     private LifecycleOwner lifecycleOwner;
-
-    /**
-     * V层view
-     */
     private WeakReference<V> mViewRef;
 
     public BasePresenter() {
     }
 
-    /**
-     * Presenter被创建后调用
-     *
-     * @param savedState 被意外销毁后重建后的Bundle
-     */
     @Override
-    public void onCreatePersenter(@Nullable Bundle savedState) {
+    public void onCreatePersenter(@Nullable Bundle savedInstanceState) {
+        TLog.i(TAG, "onCreatePersenter savedInstanceState = " + savedInstanceState);
     }
 
-
-    /**
-     * Presenter被销毁时调用
-     */
     @Override
     public void onDestroyPersenter() {
+        TLog.i(TAG, "onDestroyPersenter");
     }
 
-    /**
-     * 在Presenter意外销毁的时候被调用，它的调用时机和Activity、Fragment、View中的onSaveInstanceState
-     * 时机相同
-     *
-     * @param outState
-     */
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public Bundle onSaveInstanceState(Bundle outState) {
+        TLog.i(TAG, "onSaveInstanceState outState = " + outState);
+        return outState;
     }
 
-    /**
-     * 进行绑定
-     *
-     * @param view
-     */
     @Override
-    public void onAttchView(V view) {
-        mViewRef = new WeakReference<>(view);
+    public void onAttchView(V v) {
+        mViewRef = new WeakReference<>(v);
     }
 
-    /**
-     * 进行解绑
-     */
     @Override
     public void onDetachView() {
         mViewRef.clear();
     }
 
-    /**
-     * 获取V层
-     *
-     * @return
-     */
     @Override
     public V getView() {
         return mViewRef == null ? null : mViewRef.get();

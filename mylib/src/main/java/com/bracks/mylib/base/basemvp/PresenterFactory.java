@@ -8,7 +8,7 @@ package com.bracks.mylib.base.basemvp;
  * @email : futianyi1994@126.com
  * @description : Presenter工厂接口
  */
-public interface PresenterFactory<V extends BaseView, P extends BasePresenter<V>> {
+public interface PresenterFactory<P extends BasePresenter> {
     /**
      * 创建Presenter的接口方法
      *
