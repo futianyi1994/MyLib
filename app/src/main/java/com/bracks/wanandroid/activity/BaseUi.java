@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.blankj.utilcode.util.SnackbarUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseView;
@@ -31,7 +32,16 @@ public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> ext
     @Override
     public void onBackPressed() {
         if (isTaskRoot()) {
-            CommonUtils.exitBy2Click();
+            SnackbarUtils
+                    .with(getWindow().getDecorView())
+                    .setMessage("再按一次退出程序")
+                    .setAction("知道了", v -> {
+                        CommonUtils.clearExitFlag();
+                        SnackbarUtils.dismiss();
+                    })
+                    .show()
+            ;
+            CommonUtils.exitBy2ClickNoTip();
         } else {
             super.onBackPressed();
         }

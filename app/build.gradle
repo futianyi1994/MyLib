@@ -73,8 +73,6 @@ dependencies {
     implementation rootProject.ext.dependencies["constraint-layout"]
     //Smartrefreshlayout
     implementation rootProject.ext.dependencies["smartrefreshlayout"]
-    //Bottom-navigation-bar
-    implementation rootProject.ext.dependencies["bottom-navigation-bar"]
     //Rxbinding
     implementation rootProject.ext.dependencies["rxbinding"]
     //Rxrelay2

@@ -129,7 +129,7 @@ public class PubFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView>> 
                 }
             } else {
                 if (getActivity() instanceof HomeUi) {
-                    ((HomeUi) getActivity()).selectTab(0);
+                    ((HomeUi) getActivity()).selectTab(R.id.tab_home);
                 }
             }
         });

@@ -14,6 +14,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BaseProxyFrag;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
+import com.bracks.mylib.rx.RxBus;
 import com.bracks.mylib.utils.bar.BarUtils;
 import com.bracks.mylib.utils.widget.DialogUtils;
 import com.bracks.wanandroid.R;
@@ -21,6 +22,7 @@ import com.bracks.wanandroid.adapter.ChapterAdapter;
 import com.bracks.wanandroid.contract.HomeFragContract;
 import com.bracks.wanandroid.model.bean.Banner;
 import com.bracks.wanandroid.model.bean.Chapter;
+import com.bracks.wanandroid.model.evenbus.ScrollEvent;
 import com.bracks.wanandroid.presenter.HomeFragP;
 import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -74,6 +76,15 @@ public class HomeFrag extends BaseProxyFrag<HomeFragContract.View, HomeFragP> im
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 page = 0;
                 getPresenter().refresh();
+            }
+        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                RxBus
+                        .getDefault()
+                        .post(new ScrollEvent(dy));
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

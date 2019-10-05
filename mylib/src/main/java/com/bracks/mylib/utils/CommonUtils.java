@@ -111,21 +111,34 @@ public class CommonUtils {
      * 双击退出函数
      */
     private static Boolean isExit = false;
+    private static Runnable runnable;
+    private static Handler handler = new Handler();
+
+    public static void clearExitFlag() {
+        isExit = false;
+        handler.removeCallbacks(runnable);
+    }
 
     public static void exitBy2Click() {
         exitBy2Click("再按一次退出程序");
     }
 
     public static void exitBy2Click(String exitText) {
+        exitBy2Click(exitText, true, 2000);
+    }
+
+    public static void exitBy2ClickNoTip() {
+        exitBy2Click("", false, 2000);
+    }
+
+    public static void exitBy2Click(String exitText, boolean isToast, long delayMillis) {
         if (!isExit) {
             isExit = true;
-            // 准备退出
-            ToastUtils.showLong(exitText);
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                // 取消退出 .如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
-                isExit = false;
-            }, 2000);
+            if (isToast) {
+                ToastUtils.showLong(exitText);
+            }
+            runnable = () -> isExit = false;
+            handler.postDelayed(runnable, delayMillis);
         } else {
             AppUtils.exitApp();
         }

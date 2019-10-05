@@ -21,6 +21,7 @@ import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.ChapterAdapter;
 import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.model.evenbus.QueryEvent;
+import com.bracks.wanandroid.model.evenbus.ScrollEvent;
 import com.bracks.wanandroid.viewmodel.HistoryViewModel;
 import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -42,10 +43,10 @@ import butterknife.BindView;
 @CreatePresenter(BasePresenter.class)
 public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView>> {
 
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
 
     private HistoryViewModel viewModel;
@@ -97,6 +98,15 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
     public void initView(View view, @Nullable Bundle savedInstanceState) {
         id = getArguments().getInt("id");
         recyclerView.addItemDecoration(new SpaceItemDecoration(ConvertUtils.dp2px(10)));
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                RxBus
+                        .getDefault()
+                        .post(new ScrollEvent(dy));
+            }
+        });
     }
 
     public void showDatas(List<Chapter.DataBean.DatasBean> data) {
