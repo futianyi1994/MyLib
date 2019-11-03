@@ -1,11 +1,13 @@
 package com.bracks.mylib.rx;
 
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 
 /**
  * good programmer.
@@ -21,6 +23,26 @@ public class RxAutoDispose {
     }
 
     public static <T> AutoDisposeConverter<T> bindLifecycle(LifecycleOwner lifecycleOwner) {
-        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner));
+        return bindLifecycle(lifecycleOwner.getLifecycle());
+    }
+
+    public static <T> AutoDisposeConverter<T> bindLifecycle(Lifecycle lifecycle) {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle));
+    }
+
+    public static <T> AutoDisposeConverter<T> bindLifecycle(LifecycleOwner lifecycleOwner, Lifecycle.Event untilEvent) {
+        return bindLifecycle(lifecycleOwner.getLifecycle(), untilEvent);
+    }
+
+    public static <T> AutoDisposeConverter<T> bindLifecycle(Lifecycle lifecycle, Lifecycle.Event untilEvent) {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, untilEvent));
+    }
+
+    public static <T> AutoDisposeConverter<T> bindLifecycle(LifecycleOwner lifecycleOwner, CorrespondingEventsFunction<Lifecycle.Event> boundaryResolver) {
+        return bindLifecycle(lifecycleOwner.getLifecycle(), boundaryResolver);
+    }
+
+    public static <T> AutoDisposeConverter<T> bindLifecycle(Lifecycle lifecycle, CorrespondingEventsFunction<Lifecycle.Event> boundaryResolver) {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, boundaryResolver));
     }
 }

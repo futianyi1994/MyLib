@@ -136,7 +136,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null && view != null) {
+            if (mClickListener != null && view != null && mPosition < realDatas.size()) {
                 mClickListener.onItemClick(view, mPosition, realDatas.get(mPosition));
             }
         }

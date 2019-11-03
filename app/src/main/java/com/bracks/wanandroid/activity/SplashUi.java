@@ -11,6 +11,7 @@ import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.contract.SplashContract;
 import com.bracks.wanandroid.presenter.SplashP;
+import com.bracks.wanandroid.utils.SoundPlayUtils;
 
 import butterknife.BindView;
 
@@ -47,9 +48,12 @@ public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements Sp
     @BindView(R.id.ten_animation)
     LottieAnimationView mTenAnimation;
 
+    private SoundPlayUtils soundPlayUtils;
+
     @Override
     protected void onDestroy() {
         cancelAnimation();
+        soundPlayUtils.release();
         super.onDestroy();
     }
 
@@ -65,6 +69,9 @@ public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements Sp
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        soundPlayUtils = new SoundPlayUtils(this, 2)
+                .load("pika", R.raw.pika)
+                .load("ohuo", R.raw.ohuo);
         startAnimation(mOneAnimation, "W.json");
         startAnimation(mTwoAnimation, "A.json");
         startAnimation(mThreeAnimation, "N.json");
@@ -80,6 +87,7 @@ public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements Sp
 
     @Override
     public void jumpToMain() {
+        soundPlayUtils.playRadom();
         ActivityUtils.startActivity(new Intent(this, HomeUi.class), android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }

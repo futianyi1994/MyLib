@@ -1,5 +1,6 @@
 package com.bracks.wanandroid.fragment;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -79,7 +80,7 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
         RxBus
                 .getDefault()
                 .toObservable(QueryEvent.class)
-                .as(RxAutoDispose.bindLifecycle(this))
+                .as(RxAutoDispose.bindLifecycle(this, Lifecycle.Event.ON_DESTROY))
                 .subscribe(queryEvent -> viewModel.queryHistory(id, page = 1, PubFrag.search));
         return viewModel;
     }
