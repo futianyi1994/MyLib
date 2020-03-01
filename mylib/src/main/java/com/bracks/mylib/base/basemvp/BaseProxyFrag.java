@@ -1,14 +1,12 @@
 package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bracks.mylib.base.BaseFragment;
-
-import org.jetbrains.annotations.NotNull;
 
 import butterknife.ButterKnife;
 
@@ -63,11 +61,11 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initData(@NonNull Bundle savedInstanceState) {
     }
 
     @Override
-    public void onSaveInstanceState(@NotNull Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBundle(PRESENTER_SAVE_KEY, onSaveInstanceState());
     }

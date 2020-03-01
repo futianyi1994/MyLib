@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +14,9 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BaseProxyFrag;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.rx.RxBus;
-import com.bracks.mylib.utils.bar.BarUtils;
-import com.bracks.mylib.utils.widget.DialogUtils;
+import com.bracks.mylib.utils.BarUtils;
+import com.bracks.mylib.utils.DialogUtils;
+import com.bracks.utils.widget.recycleView.SpaceItemDecoration;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.ChapterAdapter;
 import com.bracks.wanandroid.contract.HomeFragContract;
@@ -24,7 +24,6 @@ import com.bracks.wanandroid.model.bean.Banner;
 import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.model.evenbus.ScrollEvent;
 import com.bracks.wanandroid.presenter.HomeFragP;
-import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -62,7 +61,7 @@ public class HomeFrag extends BaseProxyFrag<HomeFragContract.View, HomeFragP> im
     }
 
     @Override
-    public void initView(View view, @Nullable Bundle savedInstanceState) {
+    public void initView(View view, @NonNull Bundle savedInstanceState) {
         adapter = new ChapterAdapter(getActivity());
         refreshLayout.setEnableOverScrollDrag(true);
         refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {

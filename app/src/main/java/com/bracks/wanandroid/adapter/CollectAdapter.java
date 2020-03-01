@@ -18,7 +18,7 @@ import com.bracks.wanandroid.activity.ArticleUi;
 import com.bracks.wanandroid.model.CollectM;
 import com.bracks.wanandroid.model.bean.Collect;
 import com.bracks.wanandroid.model.bean.Result;
-import com.jakewharton.rxbinding3.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;

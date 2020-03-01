@@ -1,7 +1,7 @@
 package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.bracks.mylib.base.BaseFragment;
 
@@ -43,7 +43,7 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initData(@NonNull Bundle savedInstanceState) {
     }
 
     /**

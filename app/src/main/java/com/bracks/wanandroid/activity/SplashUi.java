@@ -3,15 +3,15 @@ package com.bracks.wanandroid.activity;
 import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
+import com.bracks.utils.util.SoundPlayUtils;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.contract.SplashContract;
 import com.bracks.wanandroid.presenter.SplashP;
-import com.bracks.wanandroid.utils.SoundPlayUtils;
 
 import butterknife.BindView;
 
@@ -68,10 +68,12 @@ public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements Sp
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
-        soundPlayUtils = new SoundPlayUtils(this, 2)
+    public void initData(@NonNull Bundle savedInstanceState) {
+        soundPlayUtils = new SoundPlayUtils
+                .Builder(this, 2)
                 .load("pika", R.raw.pika)
-                .load("ohuo", R.raw.ohuo);
+                .load("ohuo", R.raw.ohuo)
+                .build();
         startAnimation(mOneAnimation, "W.json");
         startAnimation(mTwoAnimation, "A.json");
         startAnimation(mThreeAnimation, "N.json");

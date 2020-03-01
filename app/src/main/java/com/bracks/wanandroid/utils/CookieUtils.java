@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.bracks.mylib.Constants;
-import com.bracks.mylib.utils.save.SPUtils;
 import com.tencent.smtt.sdk.CookieManager;
 import com.tencent.smtt.sdk.CookieSyncManager;
 

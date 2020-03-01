@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,15 +18,16 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.Utils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
+import com.bracks.utils.widget.recycleView.SpaceItemDecoration;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.ChapterAdapter;
 import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.viewmodel.HistoryViewModel;
-import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -36,8 +36,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import butterknife.BindView;
-
-import static com.bracks.mylib.utils.CommonUtils.getContext;
 
 /**
  * good programmer.
@@ -100,7 +98,7 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initData(@NonNull Bundle savedInstanceState) {
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getIntExtra(EXTRA_ID, 0);
@@ -210,7 +208,7 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     public void showDatas(List<Chapter.DataBean.DatasBean> data) {
         if (adapter == null) {
             adapter = new ChapterAdapter(this);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setLayoutManager(new LinearLayoutManager(Utils.getApp()));
             recyclerView.setAdapter(adapter);
             refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
                 @Override

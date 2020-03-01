@@ -8,13 +8,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.bracks.mylib.base.adapter.MBaseRecyclerViewAdapter;
 import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.rx.RxDefaultObserver;
 import com.bracks.mylib.rx.RxObservHelper;
 import com.bracks.mylib.rx.RxSchedulersCompat;
-import com.bracks.mylib.utils.save.SPUtils;
-import com.bracks.mylib.widget.CustomAlertDialog;
+import com.bracks.utils.widget.CustomAlertDialog;
 import com.bracks.wanandroid.Contants;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.activity.CollectUi;

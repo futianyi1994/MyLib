@@ -2,7 +2,7 @@ package com.bracks.wanandroid.activity;
 
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,22 +10,22 @@ import android.support.v7.widget.Toolbar;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.Utils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
+import com.bracks.utils.widget.recycleView.SpaceItemDecoration;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.CollectAdapter;
 import com.bracks.wanandroid.model.bean.Collect;
 import com.bracks.wanandroid.viewmodel.CollectViewModel;
-import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-import static com.bracks.mylib.utils.CommonUtils.getContext;
 
 /**
  * good programmer.
@@ -77,7 +77,7 @@ public class CollectUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initData(@NonNull Bundle savedInstanceState) {
         toolbar.setTitle("收藏");
         setSupportActionBar(toolbar);
         //设置是否显示返回按钮
@@ -93,7 +93,7 @@ public class CollectUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     public void showDatas(List<Collect.DataBean.DatasBean> data) {
         if (adapter == null) {
             adapter = new CollectAdapter(this);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setLayoutManager(new LinearLayoutManager(Utils.getApp()));
             recyclerView.setAdapter(adapter);
         }
         adapter.clear();

@@ -2,7 +2,7 @@ package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
 
-import com.bracks.mylib.utils.log.TLog;
+import com.bracks.mylib.utils.TLog;
 
 /**
  * good programmer.

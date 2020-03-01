@@ -4,13 +4,13 @@ import android.app.Dialog;
 import android.arch.lifecycle.ViewModel;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseUi;
 import com.bracks.mylib.base.basemvp.BaseView;
-import com.bracks.mylib.utils.bar.BarUtils;
-import com.bracks.mylib.utils.widget.DialogUtils;
+import com.bracks.mylib.utils.BarUtils;
+import com.bracks.mylib.utils.DialogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public abstract class BaseVmUi<V extends BaseView, P extends BasePresenter<V>> e
 
 
     @Override
-    public void initView(@Nullable Bundle savedInstanceState) {
+    public void initView(@NonNull Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         initViewModelEvent();
     }

@@ -1,10 +1,10 @@
 package com.bracks.mylib.net.https;
 
+import com.blankj.utilcode.util.Utils;
 import com.bracks.mylib.Constants;
 import com.bracks.mylib.net.interceptor.HttpCacheInterceptor;
 import com.bracks.mylib.net.interceptor.LogInterceptor;
-import com.bracks.mylib.utils.CommonUtils;
-import com.bracks.mylib.utils.json.JsonUtil;
+import com.bracks.mylib.utils.JsonUtils;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -66,11 +66,11 @@ public class HttpManager {
         //ReceivedCookiesInterceptor receivedCookiesInterceptor = new ReceivedCookiesInterceptor();
 
 
-        File cacheFile = new File(CommonUtils.getContext().getExternalCacheDir(), Constants.HTTP_CACHE);
+        File cacheFile = new File(Utils.getApp().getExternalCacheDir(), Constants.HTTP_CACHE);
         int cacheSize = 100 * 1024 * 1024;
         Cache cache = new Cache(cacheFile, cacheSize);
 
-        cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(CommonUtils.getContext()));
+        cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(Utils.getApp()));
         if (okHttpClientBuilder == null) {
             synchronized (HttpManager.class) {
                 okHttpClientBuilder = new OkHttpClient
@@ -119,7 +119,7 @@ public class HttpManager {
                 retrofiitBuilder = new Retrofit.Builder()
                         .client(okHttpClient)
                         .baseUrl(baseUrl)
-                        .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
+                        .addConverterFactory(GsonConverterFactory.create(JsonUtils.getGsonBuilder().create()))
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
                 //不使用多域名

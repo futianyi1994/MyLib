@@ -2,7 +2,7 @@ package com.bracks.mylib.net.download;
 
 import com.bracks.mylib.Constants;
 import com.bracks.mylib.net.https.ProgressListener;
-import com.bracks.mylib.utils.json.JsonUtil;
+import com.bracks.mylib.utils.JsonUtils;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -37,7 +37,7 @@ public class DownloadManager {
                 retrofit = new Retrofit
                         .Builder()
                         .baseUrl(host)
-                        .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
+                        .addConverterFactory(GsonConverterFactory.create(JsonUtils.getGsonBuilder().create()))
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .client(DownloadHelper.addDownloadListener(builder, callback))
                         .build();

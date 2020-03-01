@@ -2,7 +2,7 @@ package com.bracks.wanandroid.activity;
 
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -63,7 +63,7 @@ public class LoginUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initData(@NonNull Bundle savedInstanceState) {
 
     }
 

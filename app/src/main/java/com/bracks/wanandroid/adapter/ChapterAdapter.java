@@ -21,7 +21,7 @@ import com.bracks.wanandroid.model.CollectM;
 import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.model.bean.Result;
 import com.bumptech.glide.Glide;
-import com.jakewharton.rxbinding3.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;

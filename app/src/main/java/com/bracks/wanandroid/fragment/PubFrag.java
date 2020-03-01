@@ -2,7 +2,7 @@ package com.bracks.wanandroid.fragment;
 
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -110,7 +110,7 @@ public class PubFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView>> 
     }
 
     @Override
-    public void initView(View view, @Nullable Bundle savedInstanceState) {
+    public void initView(View view, @NonNull Bundle savedInstanceState) {
         coordinatorLayout.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
         toolbar.setTitle("公众号");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);

@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner rootProject.ext.android["androidJUnitRunner"]
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    testImplementation rootProject.ext.dependencies["junit"]
+    androidTestImplementation rootProject.ext.dependencies["runner"]
+    androidTestImplementation rootProject.ext.dependencies["espresso-core"]
+
+    compileOnly rootProject.ext.dependencies["support-v4"]
+    compileOnly rootProject.ext.dependencies["appcompat-v7"]
+    compileOnly rootProject.ext.dependencies["annotations"]
+    compileOnly rootProject.ext.dependencies["design"]
+
+    //Utilcode
+    compileOnly rootProject.ext.dependencies["utilcode"]
+    //Gson
+    compileOnly rootProject.ext.dependencies["gson"]
+    //RxPermissions
+    compileOnly rootProject.ext.dependencies["rxpermissions"]
+    //AndPermission
+    compileOnly rootProject.ext.dependencies["andpermission"]
+    //Glide
+    compileOnly rootProject.ext.dependencies["glide"]
+    compileOnly rootProject.ext.dependencies["glide-transformations"]
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+}

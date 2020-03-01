@@ -1,0 +1,197 @@
+package com.bracks.utils.util;
+
+
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * good programmer.
+ *
+ * @date : 2019-02-22 上午 09:25
+ * @author: futia
+ * @email : futianyi1994@126.com
+ * @description : 需要导入poi：https://github.com/ljliu1985/AndroidPoiForReadExcelXlsx
+ */
+public class PoiExcelUtils {
+    public static final String TAG = "PoiExcelUtils";
+    private static Workbook wb;
+    private static Sheet sheet;
+    private static Row row;
+
+    /**
+     * 读取Excel文件第一行表头的标题
+     *
+     * @param fileName Excel文件路径
+     * @return String[]：第一行表头标题数组
+     */
+    public static String[] readExcelTitle(String fileName) throws IOException {
+        InputStream is;
+        is = new FileInputStream(fileName);
+        String postfix = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        if (postfix.equals(".xls")) {
+            //针对2003Excel 文件
+            wb = new HSSFWorkbook(new POIFSFileSystem(is));
+            sheet = wb.getSheetAt(0);
+        } else {
+            //针对2007Excel文件
+            wb = new XSSFWorkbook(is);
+            sheet = wb.getSheetAt(0);
+        }
+        sheet = wb.getSheetAt(0);
+        //获取第一行（约定第一行是标题行）
+        row = sheet.getRow(0);
+        //获取行的列数
+        int colNum = row.getPhysicalNumberOfCells();
+        String[] titles = new String[colNum];
+        for (int i = 0; i < titles.length; i++) {
+            titles[i] = getCellFormatValue(row.getCell(i));
+        }
+        return titles;
+    }
+
+    /**
+     * 读取Excel内容(除去第一行内容)
+     *
+     * @param fileName Excel文件路径
+     * @return
+     */
+    public static List<Map<String, String>> readExcelContent(String fileName) throws IOException {
+        List<Map<String, String>> list = new ArrayList<>();
+        //key为列标题，value为列的内容
+        Map<String, String> content = null;
+        InputStream is;
+        is = new FileInputStream(fileName);
+        String postfix = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        if (".xls".equals(postfix)) {
+            //针对2003Excel文件
+            wb = new HSSFWorkbook(new POIFSFileSystem(is));
+            sheet = wb.getSheetAt(0);
+        } else {
+            //针对2007Excel文件
+            wb = new XSSFWorkbook(is);
+            sheet = wb.getSheetAt(0);
+        }
+        sheet = wb.getSheetAt(0);
+        //得到总行数
+        int rowNum = sheet.getLastRowNum();
+        TLog.i(TAG, "rowNum: " + rowNum);
+        //获取第一行（约定第一行是标题行）
+        row = sheet.getRow(0);
+        //获取行的列数
+        int colNum = row.getPhysicalNumberOfCells();
+
+        //获取第一行表头标题数组
+        String titles[] = new String[colNum];
+        for (int i = 0; i < titles.length; i++) {
+            titles[i] = getCellFormatValue(row.getCell(i));
+        }
+        //titles = readExcelTitle(fileName);
+
+        //正文内容应该从第二行开始,第一行为表头的标题
+        for (int i = 1; i <= rowNum; i++) {
+            int j = 0;
+            row = sheet.getRow(i);
+            content = new LinkedHashMap<>();
+            do {
+                content.put(titles[j], getCellFormatValue(row.getCell(j)).trim());
+                j++;
+            } while (j < colNum);
+            list.add(content);
+        }
+        return list;
+    }
+
+    /**
+     * 根据Cell类型设置数据
+     *
+     * @param cell
+     * @return
+     */
+    private static String getCellFormatValue(Cell cell) {
+        String cellvalue = "";
+        if (cell != null) {
+            //判断当前Cell的Type
+            switch (cell.getCellTypeEnum()) {
+                //如果当前Cell的Type为NUMERIC
+                case NUMERIC:
+                case FORMULA: {
+                    //判断当前的cell是否为Date
+                    if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                        //方法2：这样子的data格式是不带带时分秒的：2011-10-12
+                        Date date = cell.getDateCellValue();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        cellvalue = sdf.format(date);
+                    } else {
+                        //如果是纯数字取得当前Cell的数值
+                        cellvalue = String.valueOf(cell.getNumericCellValue());
+                    }
+                    break;
+                }
+                //如果当前Cell的Type为STRIN
+                case STRING:
+                    //取得当前的Cell字符串
+                    cellvalue = cell.getRichStringCellValue().getString();
+                    break;
+                default:
+                    //默认的Cell值
+                    cellvalue = " ";
+            }
+        } else {
+            cellvalue = "";
+        }
+        return cellvalue;
+    }
+
+    /**
+     * 打印出excel内容（用来测试读取excel内容）
+     *
+     * @param filePath
+     */
+    public static void SoutExcel(String filePath) {
+        TLog.i(TAG, "filePath: " + filePath);
+        try {
+            Workbook wb = WorkbookFactory.create(new FileInputStream(new File(filePath)));
+            Sheet sheet = wb.getSheetAt(0);
+            int i = 0;
+            for (Row row : sheet) {
+                TLog.i(TAG, "row:" + i + "--->:");
+                i++;
+                String value = null;
+                for (Cell cell : row) {
+                    switch (cell.getCellTypeEnum()) {
+                        case STRING:
+                            value = cell.getStringCellValue();
+                            break;
+                        case NUMERIC:
+                            value = String.valueOf(cell.getNumericCellValue());
+                            break;
+                        default:
+                            continue;
+                    }
+                    TLog.i(TAG, value + ",");
+                }
+                System.out.println();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

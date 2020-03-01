@@ -170,7 +170,7 @@ dependencies {
     //annotationProcessor rootProject.ext.dependencies["room-compiler"]
 
     //Rxbinding
-    compileOnly rootProject.ext.dependencies["rxbinding"]
+    compileOnly rootProject.ext.dependencies["rxbinding2"]
     //compileOnly rootProject.ext.dependencies["rxbinding-material"]
 
     //Glide

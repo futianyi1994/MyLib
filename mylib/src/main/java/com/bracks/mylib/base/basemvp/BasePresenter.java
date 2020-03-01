@@ -4,10 +4,9 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.bracks.mylib.rx.RxAutoDispose;
-import com.bracks.mylib.utils.log.TLog;
+import com.bracks.mylib.utils.TLog;
 import com.uber.autodispose.AutoDisposeConverter;
 
 import java.lang.ref.WeakReference;
@@ -30,7 +29,7 @@ public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> 
     }
 
     @Override
-    public void onCreatePersenter(@Nullable Bundle savedInstanceState) {
+    public void onCreatePersenter(@NonNull Bundle savedInstanceState) {
         TLog.i(TAG, "onCreatePersenter savedInstanceState = " + savedInstanceState);
     }
 

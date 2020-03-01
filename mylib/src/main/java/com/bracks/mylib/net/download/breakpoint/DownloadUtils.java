@@ -4,7 +4,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.FileUtils;
-import com.bracks.mylib.utils.log.TLog;
+import com.bracks.mylib.utils.TLog;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package com.bracks.mylib.net.https;
 
-import com.bracks.mylib.utils.json.JsonUtil;
+import com.bracks.mylib.utils.JsonUtils;
 
 import java.io.File;
 
@@ -36,7 +36,7 @@ public abstract class OkHttpRequestBody extends RequestBody {
     }
 
     public static RequestBody createJson(Object object) {
-        return create(JSON, JsonUtil.toJson(object));
+        return create(JSON, JsonUtils.toJson(object));
     }
 
     public static RequestBody createMultipart(String content) {

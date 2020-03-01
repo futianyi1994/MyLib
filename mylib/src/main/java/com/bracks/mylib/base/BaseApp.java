@@ -3,8 +3,9 @@ package com.bracks.mylib.base;
 import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
 
+import com.blankj.utilcode.util.Utils;
 import com.bracks.mylib.utils.CommonUtils;
-import com.bracks.mylib.utils.log.TLog;
+import com.bracks.mylib.utils.TLog;
 
 
 /**
@@ -61,9 +62,9 @@ public abstract class BaseApp extends MultiDexApplication {
      * @param cls
      */
     public static void reInitApp(Class<?> cls) {
-        Intent intent = new Intent(CommonUtils.getContext(), cls);
+        Intent intent = new Intent(Utils.getApp(), cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intent);
+        Utils.getApp().startActivity(intent);
         TLog.i(TAG, "reInitApp");
     }
 

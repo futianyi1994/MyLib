@@ -1,7 +1,7 @@
 package com.bracks.mylib.rx;
 
 import com.bracks.mylib.Constants;
-import com.bracks.mylib.utils.log.TLog;
+import com.bracks.mylib.utils.TLog;
 
 import org.reactivestreams.Publisher;
 

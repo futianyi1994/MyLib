@@ -1,0 +1,23 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--app中文字大小设置成阶梯，方便以后全局修改-->
+    <!--超大-->
+    <dimen name="super_big_text_size">18sp</dimen>
+    <!--大-->
+    <dimen name="big_text_size">16sp</dimen>
+    <!--正常-->
+    <dimen name="normal_text_size">14sp</dimen>
+    <!--小-->
+    <dimen name="small_text_size">12sp</dimen>
+    <!--超小-->
+    <dimen name="super_small_text_size">10sp</dimen>
+
+    <!--padding_top,状态栏的高度-->
+    <dimen name="status_height">24dip</dimen>
+    <!--BottomNavigationBar文字和图标距离-->
+    <dimen name="fixed_height_bottom_padding">5dp</dimen>
+
+</resources>

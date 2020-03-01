@@ -6,8 +6,8 @@ import com.bracks.mylib.net.BaseService;
 import com.bracks.mylib.net.https.ProgressListener;
 import com.bracks.mylib.net.interceptor.DownloadInterceptor;
 import com.bracks.mylib.rx.RxRetryWithObservFunc;
-import com.bracks.mylib.utils.json.JsonUtil;
-import com.bracks.mylib.utils.log.TLog;
+import com.bracks.mylib.utils.JsonUtils;
+import com.bracks.mylib.utils.TLog;
 
 import java.io.File;
 import java.util.Locale;
@@ -191,7 +191,7 @@ public class DownloadManager {
                 retrofit = new Retrofit
                         .Builder()
                         .client(builder.build())
-                        .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
+                        .addConverterFactory(GsonConverterFactory.create(JsonUtils.getGsonBuilder().create()))
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .baseUrl(host)
                         .build();
@@ -208,7 +208,7 @@ public class DownloadManager {
      */
     private void downLoad() {
         download(
-                downloadInfo -> TLog.d(TAG, "onNext ：" + JsonUtil.toJson(downloadInfo))
+                downloadInfo -> TLog.d(TAG, "onNext ：" + JsonUtils.toJson(downloadInfo))
                 , throwable -> TLog.d(TAG, "onError ：" + throwable.toString())
                 , () -> TLog.d(TAG, "onCompleted ")
         );

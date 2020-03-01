@@ -2,8 +2,8 @@ package com.bracks.mylib.net.https;
 
 import android.support.annotation.NonNull;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.bracks.mylib.Constants;
-import com.bracks.mylib.utils.save.SPUtils;
 
 import java.io.IOException;
 

@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.R;
 import com.bracks.mylib.base.model.Result;
 import com.bracks.mylib.exception.ExceptionReason;
-import com.bracks.mylib.utils.log.TLog;
+import com.bracks.mylib.utils.TLog;
 import com.google.gson.JsonParseException;
 
 import org.json.JSONException;

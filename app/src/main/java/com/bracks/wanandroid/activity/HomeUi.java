@@ -3,7 +3,7 @@ package com.bracks.wanandroid.activity;
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.widget.FrameLayout;
@@ -13,12 +13,12 @@ import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.rx.RxBus;
+import com.bracks.utils.util.widget.TabFragmentUtils;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.fragment.HomeFrag;
 import com.bracks.wanandroid.fragment.MyFrag;
 import com.bracks.wanandroid.fragment.PubFrag;
 import com.bracks.wanandroid.model.evenbus.ScrollEvent;
-import com.bracks.wanandroid.utils.TabFragmentUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initData(@NonNull Bundle savedInstanceState) {
         fragments.add(HomeFrag.newInstance());
         fragments.add(PubFrag.newInstance());
         fragments.add(MyFrag.newInstance());

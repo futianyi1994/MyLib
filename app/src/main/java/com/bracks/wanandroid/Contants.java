@@ -1,5 +1,7 @@
 package com.bracks.wanandroid;
 
+import com.bracks.mylib.Constants;
+
 /**
  * good programmer.
  *
@@ -8,7 +10,7 @@ package com.bracks.wanandroid;
  * @email : futianyi1994@126.com
  * @description :
  */
-public class Contants {
+public class Contants implements Constants {
     public static final String BASE_URL = "https://www.wanandroid.com/";
 
 

@@ -1,7 +1,7 @@
 package com.bracks.mylib.net.https;
 
 
-import com.bracks.mylib.utils.CommonUtils;
+import com.blankj.utilcode.util.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,7 +79,7 @@ public class SslContextFactory {
      */
     public static SSLSocketFactory getSSLSocketFactoryForTwoWay(int pkcs12, int bks) {
         try {
-            InputStream certificate = CommonUtils.getContext().getResources().openRawResource(pkcs12);
+            InputStream certificate = Utils.getApp().getResources().openRawResource(pkcs12);
             KeyStore keyStore = KeyStore.getInstance(CLIENT_TRUST_KEY);
             keyStore.load(certificate, SELF_CERT_PWD.toCharArray());
             KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
@@ -93,7 +93,7 @@ public class SslContextFactory {
 
             //初始化keystore
             KeyStore clientKeyStore = KeyStore.getInstance(CLIENT_TRUST_KEYSTORE);
-            clientKeyStore.load(CommonUtils.getContext().getResources().openRawResource(bks), TRUST_CA_PWD.toCharArray());
+            clientKeyStore.load(Utils.getApp().getResources().openRawResource(bks), TRUST_CA_PWD.toCharArray());
 
             SSLContext sslContext = SSLContext.getInstance(CLIENT_AGREEMENT);
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());

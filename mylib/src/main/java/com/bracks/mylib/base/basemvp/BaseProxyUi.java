@@ -1,7 +1,7 @@
 package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.bracks.mylib.base.BaseActivity;
 
@@ -21,7 +21,7 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
@@ -41,7 +41,7 @@ public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>
     }
 
     @Override
-    public void initView(@Nullable Bundle savedInstanceState) {
+    public void initView(@NonNull Bundle savedInstanceState) {
     }
 
     @Override

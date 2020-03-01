@@ -4,7 +4,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,13 +17,13 @@ import com.bracks.mylib.base.basevm.BaseVmProxyFrag;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.rx.RxBus;
+import com.bracks.utils.widget.recycleView.SpaceItemDecoration;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.adapter.ChapterAdapter;
 import com.bracks.wanandroid.model.bean.Chapter;
 import com.bracks.wanandroid.model.evenbus.QueryEvent;
 import com.bracks.wanandroid.model.evenbus.ScrollEvent;
 import com.bracks.wanandroid.viewmodel.HistoryViewModel;
-import com.bracks.wanandroid.widget.recycleview.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -96,7 +95,7 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
     }
 
     @Override
-    public void initView(View view, @Nullable Bundle savedInstanceState) {
+    public void initView(View view, @NonNull Bundle savedInstanceState) {
         id = getArguments().getInt("id");
         recyclerView.addItemDecoration(new SpaceItemDecoration(ConvertUtils.dp2px(10)));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

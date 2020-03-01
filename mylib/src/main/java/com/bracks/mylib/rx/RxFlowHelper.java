@@ -9,8 +9,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.bracks.mylib.utils.bar.BarUtils;
-import com.bracks.mylib.utils.widget.DialogUtils;
+import com.bracks.mylib.utils.BarUtils;
+import com.bracks.mylib.utils.DialogUtils;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscription;

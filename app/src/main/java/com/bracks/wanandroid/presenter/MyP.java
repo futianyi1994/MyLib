@@ -1,7 +1,7 @@
 package com.bracks.wanandroid.presenter;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.utils.save.SPUtils;
 import com.bracks.wanandroid.Contants;
 import com.bracks.wanandroid.contract.MyFragContract;
 

@@ -1,7 +1,7 @@
 package com.bracks.wanandroid.manager;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.bracks.mylib.rx.RxBus;
-import com.bracks.mylib.utils.save.SPUtils;
 import com.bracks.wanandroid.Contants;
 import com.bracks.wanandroid.model.evenbus.LoginEvent;
 

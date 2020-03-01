@@ -1,0 +1,109 @@
+package com.bracks.utils.widget;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bracks.utils.R;
+
+
+/**
+ * good programmer.
+ *
+ * @date : 2019-01-02 上午 11:59
+ * @author: futia
+ * @email : futianyi1994@126.com
+ * @description :
+ */
+public class HCenterTitleBar extends Toolbar {
+
+    private ImageView ivLeft, ivRight;
+
+    private TextView tvTitle;
+
+    private int leftIconRes, rightIconRes, titleRes;
+
+    public HCenterTitleBar(Context context) {
+        super(context);
+        init(context);
+    }
+
+    public HCenterTitleBar(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.HCenterTitleBar);
+
+        if (array != null) {
+            leftIconRes = array.getResourceId(R.styleable.HCenterTitleBar_leftIcon, 0);
+            rightIconRes = array.getResourceId(R.styleable.HCenterTitleBar_rightIcon, 0);
+            titleRes = array.getResourceId(R.styleable.HCenterTitleBar_titleText, 0);
+            array.recycle();
+        }
+
+        init(context);
+    }
+
+    private void init(Context context) {
+        LayoutInflater.from(context).inflate(R.layout.common_toolbar_layout, this, true);
+
+        ivLeft = (ImageView) findViewById(R.id.iv_left);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        ivRight = (ImageView) findViewById(R.id.iv_right);
+
+        if (leftIconRes > 0) {
+            ivLeft.setImageResource(leftIconRes);
+        } else {
+            ivLeft.setVisibility(View.GONE);
+        }
+
+        if (rightIconRes > 0) {
+            ivRight.setImageResource(rightIconRes);
+        } else {
+            ivRight.setVisibility(View.GONE);
+        }
+
+        if (titleRes > 0) {
+            tvTitle.setText(titleRes);
+        } else {
+            tvTitle.setText("");
+        }
+    }
+
+    @Override
+    public void setTitle(@StringRes int titleRes) {
+        this.titleRes = titleRes;
+        tvTitle.setText(titleRes);
+    }
+
+    public void setLeftIcon(int leftIconRes) {
+        this.leftIconRes = leftIconRes;
+        if (leftIconRes > 0) {
+            this.ivLeft.setImageResource(leftIconRes);
+            this.ivLeft.setVisibility(View.VISIBLE);
+        } else {
+            this.ivLeft.setVisibility(View.GONE);
+        }
+    }
+
+    public void setRightIcon(int rightIconRes) {
+
+        this.rightIconRes = rightIconRes;
+        if (rightIconRes > 0) {
+            this.ivRight.setImageResource(rightIconRes);
+            this.ivRight.setVisibility(View.VISIBLE);
+        } else {
+            this.ivRight.setVisibility(View.GONE);
+        }
+    }
+
+    public void setListener(OnClickListener left, OnClickListener right) {
+        ivLeft.setOnClickListener(left);
+        ivRight.setOnClickListener(right);
+    }
+}

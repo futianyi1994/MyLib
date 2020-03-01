@@ -3,7 +3,7 @@ package com.bracks.mylib.net.upload;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.net.https.ProgressBean;
 import com.bracks.mylib.net.https.ProgressListener;
-import com.bracks.mylib.utils.log.TLog;
+import com.bracks.mylib.utils.TLog;
 
 import java.util.Locale;
 

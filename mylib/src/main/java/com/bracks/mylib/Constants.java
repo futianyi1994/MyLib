@@ -45,16 +45,15 @@ public interface Constants {
     /**
      * 本地文件目录名
      */
-    String LOCAL_FILE_DIR = "Bracks";
+    String LOCAL_DIR_NAME = "Bracks";
 
     /**
      * 本地文件根路径
      */
-    String LOCAL_FILE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separatorChar + LOCAL_FILE_DIR + File.separatorChar;
+    String LOCAL_FILE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separatorChar + LOCAL_DIR_NAME + File.separatorChar;
 
     /******************************************************公用SpKey************************************************************/
 
     String COOKIE = "cookie";
     String TOKEN = "token";
-    String LANGUAGE = "language";
 }

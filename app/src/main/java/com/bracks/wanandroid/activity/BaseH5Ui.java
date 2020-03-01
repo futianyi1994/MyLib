@@ -3,7 +3,7 @@ package com.bracks.wanandroid.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
@@ -43,7 +43,7 @@ public abstract class BaseH5Ui<V extends BaseView, P extends BasePresenter<V>> e
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initData(@NonNull Bundle savedInstanceState) {
         mWebView = addWebView();
         webViewContainer().addView(mWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         initWebView(mWebView);

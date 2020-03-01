@@ -3,7 +3,7 @@ package com.bracks.wanandroid.fragment;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,14 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BaseProxyFrag;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.rx.RxBus;
-import com.bracks.mylib.utils.bar.BarUtils;
-import com.bracks.mylib.utils.save.SPUtils;
-import com.bracks.mylib.utils.widget.DialogUtils;
+import com.bracks.mylib.utils.BarUtils;
+import com.bracks.mylib.utils.DialogUtils;
 import com.bracks.wanandroid.Contants;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.activity.LoginUi;
@@ -63,7 +63,7 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     }
 
     @Override
-    public void initView(View view, @Nullable Bundle savedInstanceState) {
+    public void initView(View view, @NonNull Bundle savedInstanceState) {
         getPresenter().fetch();
         if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {
             tvUserName.setText(SPUtils.getInstance().getString(Contants.SP_USER_NAME));
@@ -75,7 +75,7 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initData(@NonNull Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         RxBus
                 .getDefault()

@@ -1,0 +1,173 @@
+package com.bracks.utils.util;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+
+/**
+ * good programmer.
+ *
+ * @date : 2019-02-22 上午 09:25
+ * @author: futia
+ * @email : futianyi1994@126.com
+ * @description : 需要导入jxl：https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl
+ */
+public class JxlExcelUtils {
+
+    /**
+     * Sheet表, Excel表中的底部的表名
+     */
+    private static WritableSheet mWritableSheet;
+    /**
+     * Excel工作簿
+     */
+    private static WritableWorkbook mWritableWorkbook;
+
+    /**
+     * 测试创建excel
+     *
+     * @param filePath 文件路径: "E:/test.xls"
+     * @throws WriteException
+     * @throws IOException
+     */
+    public static void testCreateExcel(String filePath) throws WriteException, IOException {
+        WritableSheet excel = createExcel(filePath, "第一张工作表");
+        for (int i = 0; i < 10; i++) {
+            addString(0, i, "text" + i);
+            addString(1, i, "text" + i + "-1");
+            addString(2, i, "text" + i + "-2");
+        }
+        close();
+    }
+
+    /**
+     * 创建Sheet表
+     *
+     * @param filePath  文件路径: "E:/test.xls"
+     * @param sheetName 表名
+     * @return Sheet表
+     */
+    public static WritableSheet createExcel(String filePath, String sheetName) throws IOException {
+        //新建一个文件
+        OutputStream os = new FileOutputStream(filePath);
+        //创建Excel工作簿
+        mWritableWorkbook = Workbook.createWorkbook(os);
+        //创建Sheet表
+        mWritableSheet = mWritableWorkbook.createSheet(sheetName, 0);
+        return mWritableSheet;
+    }
+
+    /**
+     * 关闭工作簿
+     *
+     * @throws IOException
+     * @throws WriteException
+     */
+    public static void close() throws IOException, WriteException {
+        if (mWritableWorkbook == null) {
+            return;
+        }
+        //写入数据
+        mWritableWorkbook.write();
+        //关闭文件
+        mWritableWorkbook.close();
+    }
+
+    /**
+     * 添加单元格字符串
+     *
+     * @param col  列号
+     * @param row  行号
+     * @param text 文本
+     * @throws WriteException
+     */
+    public static void addString(int col, int row, String text) throws WriteException {
+        if (null == mWritableSheet) {
+            return;
+        }
+        Label label = new Label(col, row, text);
+        mWritableSheet.addCell(label);
+    }
+
+    /**
+     * 添加单元格数字
+     *
+     * @param col 列号
+     * @param row 行号
+     * @param num 数字
+     * @throws WriteException
+     */
+    public static void addInt(int col, int row, int num) throws WriteException {
+        if (null == mWritableSheet) {
+            return;
+        }
+        Number number = new Number(col, row, num);
+        mWritableSheet.addCell(number);
+    }
+
+    /**
+     * 读取excel
+     *
+     * @param filePath 文件路径："E:/test.xls"
+     */
+    public static List<String> readExcel(String filePath) throws IOException, BiffException {
+        //字符列表
+        List<String> list = new ArrayList<String>();
+        //输入流
+        InputStream is = null;
+        //Excel工作簿
+        Workbook workbook = null;
+
+        //加载Excel文件
+        is = new FileInputStream(filePath);
+        //获取workbook
+        workbook = Workbook.getWorkbook(is);
+
+        //获取sheet, 如果你的workbook里有多个sheet可以利用workbook.getSheets()方法来得到所有的，这里只取得第一个sheet的值，默认从0开始
+        Sheet sheet = workbook.getSheet(0);
+        //查看sheet的列
+        System.out.println(sheet.getColumns());
+        //查看sheet的行
+        System.out.println(sheet.getRows());
+        //单个单元格
+        Cell cell = null;
+        //开始循环，取得cell里的内容，按具体类型来取
+        //这里只取String类型
+        for (int j = 0; j < sheet.getColumns(); j++) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < sheet.getRows(); i++) {
+                //列,行
+                cell = sheet.getCell(j, i);
+                //获取单元格内容
+                sb.append(cell.getContents());
+                //将单元格的每行内容用逗号隔开
+                sb.append(",");
+            }
+            //将每行的字符串用一个String类型的集合保存
+            list.add(sb.toString());
+        }
+
+        //关闭工作簿
+        workbook.close();
+
+        //迭代集合查看每行的数据
+        for (String ss : list) {
+            System.out.println(ss);
+        }
+
+        return list;
+    }
+}

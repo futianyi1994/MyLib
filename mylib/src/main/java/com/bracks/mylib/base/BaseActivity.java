@@ -4,13 +4,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.bracks.mylib.R;
 import com.bracks.mylib.base.interf.BaseUiInterf;
+import com.bracks.mylib.utils.BarUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -30,7 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseUiIn
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getLayoutId() != 0) {
             setBackgroundColor(R.color.common_item_gray_bg);
@@ -42,7 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseUiIn
             com.blankj.utilcode.util.BarUtils.setStatusBarColor(this, Color.alpha(0));
         }
         if (isLightBarMode()) {
-            com.bracks.mylib.utils.bar.BarUtils.setLightStatusBar(this, true);
+            BarUtils.setLightStatusBar(this, true);
         }
     }
 

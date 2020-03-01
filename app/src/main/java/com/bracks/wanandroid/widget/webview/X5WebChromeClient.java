@@ -1,20 +1,21 @@
 package com.bracks.wanandroid.widget.webview;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.bracks.mylib.utils.widget.DialogUtils;
-import com.bracks.wanandroid.utils.CameraUtils;
-import com.bracks.wanandroid.utils.ImageSavaUtils;
+import com.bracks.mylib.utils.DialogUtils;
+import com.bracks.utils.util.CameraUtils;
+import com.bracks.utils.util.ImageSavaUtils;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
@@ -79,7 +80,7 @@ public class X5WebChromeClient extends WebChromeClient {
      * @return
      */
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
         if (X5WebChromeClient.this.filePathCallback != null) {
             X5WebChromeClient.this.filePathCallback.onReceiveValue(null);
@@ -129,13 +130,15 @@ public class X5WebChromeClient extends WebChromeClient {
                         //针对相机中选择的图片处理
                         File file = new File(ImageSavaUtils.mCameraFilePath);
 
+                        // TODO: 2020/3/1 Fty:旋转压缩保存可优化一步到位
                         //获取Bitmap
                         Bitmap bitmap = ImageUtils.getBitmap(ImageSavaUtils.mCameraFilePath);
                         int degree = CameraUtils.getInstance().readPictureDegree(ImageSavaUtils.mCameraFilePath);
                         //获得图片动态旋转角度然后缩放后保存
                         Bitmap bMapRotate = ImageUtils.rotate(bitmap, degree, 0, 0);
                         //质量压缩
-                        Bitmap compressBitmap = ImageUtils.compressByQuality(bMapRotate, 20);
+                        byte[] data = ImageUtils.compressByQuality(bMapRotate, 20);
+                        Bitmap compressBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                         //保存图片
                         ImageSavaUtils.saveImage(mContext, LOCAL_H5_TAKE_PHOTO, compressBitmap);
 

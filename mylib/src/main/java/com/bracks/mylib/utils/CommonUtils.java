@@ -10,7 +10,6 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ProcessUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
-import com.bracks.mylib.utils.log.TLog;
 
 import java.security.Security;
 

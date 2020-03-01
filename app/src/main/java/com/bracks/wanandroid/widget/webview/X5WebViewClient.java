@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
-import com.bracks.mylib.utils.CommonUtils;
+import com.blankj.utilcode.util.Utils;
 import com.bracks.wanandroid.utils.CookieUtils;
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
@@ -70,13 +70,13 @@ public class X5WebViewClient extends WebViewClient {
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         String requesetUrl = request.getUrl().toString();
-        CookieUtils.synCookies(CommonUtils.getContext(), requesetUrl);
+        CookieUtils.synCookies(Utils.getApp(), requesetUrl);
         return super.shouldInterceptRequest(view, requesetUrl);
     }
 
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView webView, String s) {
-        CookieUtils.synCookies(CommonUtils.getContext(), s);
+        CookieUtils.synCookies(Utils.getApp(), s);
         return super.shouldInterceptRequest(webView, s);
     }
 
