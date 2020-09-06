@@ -40,7 +40,13 @@ import java.util.List;
  */
 public class UpdateManager {
 
+    public static final int INSTALL_PERMISS_CODE = 20000;
     private static volatile UpdateManager instance = null;
+    public boolean stopFlag = false;
+    private int length;
+    private int progress;
+    private TextView progressTv;
+    private MyHandler handler = new MyHandler(this);
 
     /**
      * 单利构造器私有化
@@ -60,41 +66,6 @@ public class UpdateManager {
             }
         }
         return instance;
-    }
-
-    private int length;
-    private int progress;
-    public boolean stopFlag = false;
-    public static final int INSTALL_PERMISS_CODE = 20000;
-
-    private TextView progressTv;
-
-    private MyHandler handler = new MyHandler(this);
-
-    private static class MyHandler extends Handler {
-        private WeakReference<UpdateManager> weakReference;
-
-        private UpdateManager mActivity;
-
-        private MyHandler(UpdateManager mActivity) {
-            weakReference = new WeakReference<>(mActivity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            mActivity = weakReference.get();
-            if (weakReference == null || mActivity == null) {
-                return;
-            }
-            switch (msg.what) {
-                case 0:
-                    mActivity.progressTv.setText(mActivity.progress + "%");
-                    break;
-                default:
-                    break;
-            }
-            super.handleMessage(msg);
-        }
     }
 
     /**
@@ -223,5 +194,31 @@ public class UpdateManager {
             versionCode = info.versionCode;
         }
         return versionCode;
+    }
+
+    private static class MyHandler extends Handler {
+        private WeakReference<UpdateManager> weakReference;
+
+        private UpdateManager mActivity;
+
+        private MyHandler(UpdateManager mActivity) {
+            weakReference = new WeakReference<>(mActivity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            mActivity = weakReference.get();
+            if (weakReference == null || mActivity == null) {
+                return;
+            }
+            switch (msg.what) {
+                case 0:
+                    mActivity.progressTv.setText(mActivity.progress + "%");
+                    break;
+                default:
+                    break;
+            }
+            super.handleMessage(msg);
+        }
     }
 }

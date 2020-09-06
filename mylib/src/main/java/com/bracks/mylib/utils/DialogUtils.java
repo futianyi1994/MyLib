@@ -29,13 +29,6 @@ public class DialogUtils {
 
     private static Dialog loadingDialog;
 
-    public interface AfterShowListener {
-        /**
-         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
-         */
-        void onAfterShow();
-    }
-
     /**
      * 得到简单自定义的progressDialog（图片加文字）
      *
@@ -147,5 +140,12 @@ public class DialogUtils {
             }
             loadingDialog = null;
         }
+    }
+
+    public interface AfterShowListener {
+        /**
+         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
+         */
+        void onAfterShow();
     }
 }

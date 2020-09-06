@@ -2,6 +2,7 @@ package com.bracks.mylib.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -27,7 +28,12 @@ public class CommonUtils {
 
     @SuppressLint("StaticFieldLeak")
     private static Context mContext;
-
+    /**
+     * 双击退出函数
+     */
+    private static Boolean isExit = false;
+    private static Runnable runnable;
+    private static Handler handler = new Handler();
 
     private CommonUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -38,7 +44,7 @@ public class CommonUtils {
      *
      * @param context 上下文
      */
-    public static boolean init(Context context) {
+    public static boolean init(Application context) {
         Utils.init(context);
         mContext = context.getApplicationContext();
         return isAppCreate();
@@ -55,6 +61,8 @@ public class CommonUtils {
         }
         throw new NullPointerException("u should init first");
     }
+
+    /*****************************************************************************************************************/
 
     /**
      * Application单次初始化：防止多次调用
@@ -103,15 +111,6 @@ public class CommonUtils {
         Security.setProperty("networkaddress.cache.ttl", String.valueOf(10));
         Security.setProperty("networkaddress.cache.negative.ttl", String.valueOf(10));
     }
-
-    /*****************************************************************************************************************/
-
-    /**
-     * 双击退出函数
-     */
-    private static Boolean isExit = false;
-    private static Runnable runnable;
-    private static Handler handler = new Handler();
 
     public static void clearExitFlag() {
         isExit = false;

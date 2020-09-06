@@ -90,49 +90,7 @@ public class GlideUtils extends AppGlideModule {
                 .error(error == 0 ? ERROR : error)
                 //.priority(Priority.HIGH)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        if (object instanceof String) {
-            GlideApp
-                    .with(context)
-                    .load(((String) object))
-                    .apply(options)
-                    .into(imageView);
-        } else if (object instanceof File) {
-            GlideApp
-                    .with(context)
-                    .load(((File) object))
-                    .apply(options)
-                    .into(imageView);
-        } else if (object instanceof Bitmap) {
-            GlideApp
-                    .with(context)
-                    .load(((Bitmap) object))
-                    .apply(options)
-                    .into(imageView);
-        } else if (object instanceof Drawable) {
-            GlideApp
-                    .with(context)
-                    .load(((Drawable) object))
-                    .apply(options)
-                    .into(imageView);
-        } else if (object instanceof Uri) {
-            GlideApp
-                    .with(context)
-                    .load(((Uri) object))
-                    .apply(options)
-                    .into(imageView);
-        } else if (object instanceof Integer) {
-            GlideApp
-                    .with(context)
-                    .load(((Integer) object))
-                    .apply(options)
-                    .into(imageView);
-        } else {
-            GlideApp
-                    .with(context)
-                    .load((object))
-                    .apply(options)
-                    .into(imageView);
-        }
+        helper(context, object, imageView, options).into(imageView);
     }
 
     /**
@@ -141,12 +99,12 @@ public class GlideUtils extends AppGlideModule {
      * 如果你想加载一张图片的原始尺寸的话，可以使用Target.SIZE_ORIGINAL关键字----override(Target.SIZE_ORIGINAL)
      *
      * @param context
-     * @param url
+     * @param object
      * @param imageView
      * @param width
      * @param height
      */
-    public static void loadImageSize(Context context, String url, ImageView imageView, int width, int height) {
+    public static void loadImageSize(Context context, Object object, ImageView imageView, int width, int height) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 //占位图
@@ -156,13 +114,8 @@ public class GlideUtils extends AppGlideModule {
                 .override(width, height)
                 //.priority(Priority.HIGH)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        helper(context, object, imageView, options).into(imageView);
     }
-
 
     /**
      * 禁用内存缓存功能
@@ -174,8 +127,7 @@ public class GlideUtils extends AppGlideModule {
      * DiskCacheStrategy.ALL ： 表示既缓存原始图片，也缓存转换过后的图片。
      * DiskCacheStrategy.AUTOMATIC： 表示让Glide根据图片资源智能地选择使用哪一种缓存策略（默认选项）。
      */
-
-    public static void loadImageSizekipMemoryCache(Context context, String url, ImageView imageView) {
+    public static void loadImageSizekipMemoryCache(Context context, Object object, ImageView imageView) {
         RequestOptions options = new RequestOptions()
                 //占位图
                 .placeholder(PLACEHOLDER)
@@ -184,13 +136,8 @@ public class GlideUtils extends AppGlideModule {
                 //禁用掉Glide的内存缓存功能
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        helper(context, object, imageView, options).into(imageView);
     }
-
 
     /**
      * 禁用磁盘缓存功能
@@ -202,19 +149,14 @@ public class GlideUtils extends AppGlideModule {
      * DiskCacheStrategy.ALL ： 表示既缓存原始图片，也缓存转换过后的图片。
      * DiskCacheStrategy.AUTOMATIC： 表示让Glide根据图片资源智能地选择使用哪一种缓存策略（默认选项）。
      */
-
-    public static void loadImageSizekipDiskCache(Context context, String url, ImageView imageView) {
+    public static void loadImageSizekipDiskCache(Context context, Object object, ImageView imageView) {
         RequestOptions options = new RequestOptions()
                 //占位图
                 .placeholder(PLACEHOLDER)
                 //错误图
                 .error(ERROR)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        helper(context, object, imageView, options).into(imageView);
     }
 
     /**
@@ -227,8 +169,7 @@ public class GlideUtils extends AppGlideModule {
      * DiskCacheStrategy.ALL ： 表示既缓存原始图片，也缓存转换过后的图片。
      * DiskCacheStrategy.AUTOMATIC： 表示让Glide根据图片资源智能地选择使用哪一种缓存策略（默认选项）。
      */
-
-    public static void loadImageSizekipCache(Context context, String url, ImageView imageView) {
+    public static void loadImageSizekipCache(Context context, Object object, ImageView imageView) {
         RequestOptions options = new RequestOptions()
                 //占位图
                 .placeholder(PLACEHOLDER)
@@ -237,47 +178,42 @@ public class GlideUtils extends AppGlideModule {
                 //禁用掉Glide的内存缓存功能
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        helper(context, object, imageView, options).into(imageView);
     }
-
 
     /**
      * 加载圆形图片
      *
      * @param context
-     * @param url
+     * @param object
      * @param imageView
      */
-    public static void loadCircleImage(Context context, String url, ImageView imageView) {
-        loadCircleImage(context, url, 0, 0, imageView);
+    public static void loadCircleImage(Context context, Object object, ImageView imageView) {
+        loadCircleImage(context, object, 0, 0, imageView);
     }
 
     /**
      * 加载圆形图片(需要占位图和错误图)
      *
      * @param context
-     * @param url
+     * @param object
      * @param empty
      * @param imageView
      */
-    public static void loadCircleImage(Context context, String url, @DrawableRes int empty, ImageView imageView) {
-        loadCircleImage(context, url, empty, empty, imageView);
+    public static void loadCircleImage(Context context, Object object, @DrawableRes int empty, ImageView imageView) {
+        loadCircleImage(context, object, empty, empty, imageView);
     }
 
     /**
      * 加载圆形图片(需要占位图和错误图)
      *
      * @param context
-     * @param url
+     * @param object
      * @param placeholder
      * @param error
      * @param imageView
      */
-    public static void loadCircleImage(Context context, String url, @DrawableRes int placeholder, @DrawableRes int error, ImageView imageView) {
+    public static void loadCircleImage(Context context, Object object, @DrawableRes int placeholder, @DrawableRes int error, ImageView imageView) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 //设置圆形
@@ -286,11 +222,7 @@ public class GlideUtils extends AppGlideModule {
                 .error(error == 0 ? ERROR : error)
                 //.priority(Priority.HIGH)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        helper(context, object, imageView, options).into(imageView);
     }
 
     /**
@@ -309,35 +241,35 @@ public class GlideUtils extends AppGlideModule {
      * 加载圆角图片
      *
      * @param context
-     * @param url
+     * @param object
      * @param imageView
      */
-    public static void loadRoundCircleImage(Context context, String url, ImageView imageView) {
-        loadRoundCircleImage(context, url, 0, 0, imageView);
+    public static void loadRoundCircleImage(Context context, Object object, ImageView imageView) {
+        loadRoundCircleImage(context, object, 0, 0, imageView);
     }
 
     /**
      * 加载圆角图片(需要占位图和错误图)
      *
      * @param context
-     * @param url
+     * @param object
      * @param empty
      * @param imageView
      */
-    public static void loadRoundCircleImage(Context context, String url, @DrawableRes int empty, ImageView imageView) {
-        loadRoundCircleImage(context, url, empty, empty, imageView);
+    public static void loadRoundCircleImage(Context context, Object object, @DrawableRes int empty, ImageView imageView) {
+        loadRoundCircleImage(context, object, empty, empty, imageView);
     }
 
     /**
      * 加载圆角图片(需要占位图和错误图)
      *
      * @param context
-     * @param url
+     * @param object
      * @param placeholder
      * @param error
      * @param imageView
      */
-    public static void loadRoundCircleImage(Context context, String url, @DrawableRes int placeholder, @DrawableRes int error, ImageView imageView) {
+    public static void loadRoundCircleImage(Context context, Object object, @DrawableRes int placeholder, @DrawableRes int error, ImageView imageView) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 //设置圆形
@@ -349,23 +281,18 @@ public class GlideUtils extends AppGlideModule {
                 //.priority(Priority.HIGH)
                 .transform(new RoundedCornersTransformation(10, 0, RoundedCornersTransformation.CornerType.ALL))
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        helper(context, object, imageView, options).into(imageView);
     }
-
 
     /**
      * 加载圆角图片-指定任意部分圆角（图片上、下、左、右四个角度任意定义）
      *
      * @param context
-     * @param url
+     * @param object
      * @param imageView
      * @param type
      */
-    public static void loadCustRoundCircleImage(Context context, String url, ImageView imageView, RoundedCornersTransformation.CornerType type) {
+    public static void loadCustRoundCircleImage(Context context, Object object, ImageView imageView, RoundedCornersTransformation.CornerType type) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(PLACEHOLDER)
@@ -373,24 +300,18 @@ public class GlideUtils extends AppGlideModule {
                 //.priority(Priority.HIGH)
                 .transform(new RoundedCornersTransformation(45, 0, type))
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        helper(context, object, imageView, options).into(imageView);
     }
-
 
     /**
      * 加载模糊图片（自定义透明度）
      *
      * @param context
-     * @param url
+     * @param object
      * @param imageView
      * @param blur      模糊度，一般1-100够了，越大越模糊
      */
-    public static void loadBlurImage(Context context, String url, ImageView imageView, int blur) {
+    public static void loadBlurImage(Context context, Object object, ImageView imageView, int blur) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(PLACEHOLDER)
@@ -398,21 +319,17 @@ public class GlideUtils extends AppGlideModule {
                 //.priority(Priority.HIGH)
                 .transform(new BlurTransformation(blur))
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        helper(context, object, imageView, options).into(imageView);
     }
 
     /**
      * 加载灰度(黑白)图片（自定义透明度）
      *
      * @param context
-     * @param url
+     * @param object
      * @param imageView
      */
-    public static void loadBlackImage(Context context, String url, ImageView imageView) {
+    public static void loadBlackImage(Context context, Object object, ImageView imageView) {
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(PLACEHOLDER)
@@ -420,11 +337,7 @@ public class GlideUtils extends AppGlideModule {
                 //.priority(Priority.HIGH)
                 .transform(new GrayscaleTransformation())
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
-                .into(imageView);
+        helper(context, object, imageView, options).into(imageView);
     }
 
     /**
@@ -434,17 +347,14 @@ public class GlideUtils extends AppGlideModule {
      * 如果你传入的还是一张GIF图的话，Glide会展示这张GIF图的第一帧，而不会去播放它。
      *
      * @param context
-     * @param url       例如：https://image.niwoxuexi.com/blog/content/5c0d4b1972-loading.gif
+     * @param object    例如：https://image.niwoxuexi.com/blog/content/5c0d4b1972-loading.gif
      * @param imageView
      */
-    private static void loadGif(Context context, String url, ImageView imageView) {
+    private static void loadGif(Context context, Object object, ImageView imageView) {
         RequestOptions options = new RequestOptions()
                 .placeholder(PLACEHOLDER)
                 .error(ERROR);
-        GlideApp
-                .with(context)
-                .load(url)
-                .apply(options)
+        helper(context, object, imageView, options)
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -472,23 +382,20 @@ public class GlideUtils extends AppGlideModule {
                 1,
                 0L,
                 TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>(),
+                new LinkedBlockingQueue<>(),
                 new ThreadPoolExecutor.AbortPolicy());
-        singleThreadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    FutureTarget<File> target = GlideApp
-                            .with(context)
-                            .asFile()
-                            .load(url)
-                            .submit();
-                    File file = target.get();
-                    callback.success(file);
-                } catch (Exception e) {
-                    callback.fail(e);
-                    e.printStackTrace();
-                }
+        singleThreadPool.execute(() -> {
+            try {
+                FutureTarget<File> target = GlideApp
+                        .with(context)
+                        .asFile()
+                        .load(url)
+                        .submit();
+                File file = target.get();
+                callback.success(file);
+            } catch (Exception e) {
+                callback.fail(e);
+                e.printStackTrace();
             }
         });
         singleThreadPool.shutdown();
@@ -522,6 +429,51 @@ public class GlideUtils extends AppGlideModule {
                 .clear(view);
     }
 
+    private static GlideRequest<Drawable> helper(Context context, Object object, ImageView imageView, RequestOptions options) {
+        if (object instanceof String) {
+            return GlideApp
+                    .with(context)
+                    .load(((String) object))
+                    .apply(options)
+                    ;
+        } else if (object instanceof File) {
+            return GlideApp
+                    .with(context)
+                    .load(((File) object))
+                    .apply(options)
+                    ;
+        } else if (object instanceof Bitmap) {
+            return GlideApp
+                    .with(context)
+                    .load(((Bitmap) object))
+                    .apply(options)
+                    ;
+        } else if (object instanceof Drawable) {
+            return GlideApp
+                    .with(context)
+                    .load(((Drawable) object))
+                    .apply(options)
+                    ;
+        } else if (object instanceof Uri) {
+            return GlideApp
+                    .with(context)
+                    .load(((Uri) object))
+                    .apply(options)
+                    ;
+        } else if (object instanceof Integer) {
+            return GlideApp
+                    .with(context)
+                    .load(((Integer) object))
+                    .apply(options)
+                    ;
+        } else {
+            return GlideApp
+                    .with(context)
+                    .load((object))
+                    .apply(options)
+                    ;
+        }
+    }
 
     public interface Callback {
         /**

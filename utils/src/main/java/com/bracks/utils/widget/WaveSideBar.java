@@ -25,77 +25,64 @@ import java.util.Arrays;
  * @description :
  */
 public class WaveSideBar extends View {
+    public static final int POSITION_RIGHT = 0;
+    public static final int POSITION_LEFT = 1;
     // sp
     private final static int DEFAULT_TEXT_SIZE = 14;
     //dp
     private final static int DEFAULT_MAX_OFFSET = 80;
-
     private final static String[] DEFAULT_INDEX_ITEMS = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-
     private String[] mIndexItems;
-
     /**
      * the index in {@link #mIndexItems} of the current selected index item,
      * it's reset to -1 when the finger up
      */
     private int mCurrentIndex = -1;
-
     /**
      * Y coordinate of the point where finger is touching,
      * the baseline is top of {@link #mStartTouchingArea}
      * it's reset to -1 when the finger up
      */
     private float mCurrentY = -1;
-
     private Paint mPaint;
     private int mTextColor;
     private float mTextSize;
-
     /**
      * the height of each index item
      */
     private float mIndexItemHeight;
-
     /**
      * offset of the current selected index item
      */
     private float mMaxOffset;
-
     /**
      * {@link #mStartTouching} will be set to true when {@link MotionEvent#ACTION_DOWN}
      * happens in this area, and the side bar should start working.
      */
     private RectF mStartTouchingArea = new RectF();
-
     /**
      * height and width of {@link #mStartTouchingArea}
      */
     private float mBarHeight;
     private float mBarWidth;
-
     /**
      * Flag that the finger is starting touching.
      * If true, it means the {@link MotionEvent#ACTION_DOWN} happened but
      * {@link MotionEvent#ACTION_UP} not yet.
      */
     private boolean mStartTouching = false;
-
     /**
      * if true, the {@link OnSelectIndexItemListener#onSelectIndexItem(String)}
      * will not be called until the finger up.
      * if false, it will be called when the finger down, up and move.
      */
     private boolean mLazyRespond = false;
-
     /**
      * the position of the side bar, default is {@link #POSITION_RIGHT}.
      * You can set it to {@link #POSITION_LEFT} for people who use phone with left hand.
      */
     private int mSideBarPosition;
-    public static final int POSITION_RIGHT = 0;
-    public static final int POSITION_LEFT = 1;
-
     /**
      * observe the current selected index item
      */

@@ -21,13 +21,13 @@ public class HistoryViewModel extends BaseViewModel {
     private MutableLiveData<List<Chapter.DataBean.DatasBean>> liveData;
     private HistoryRepo historyRepo;
 
-    @Override
-    public void startLoading() {
-    }
-
     public HistoryViewModel() {
         liveData = new MutableLiveData<>();
         historyRepo = new HistoryRepo(new HistoryDataSource(this));
+    }
+
+    @Override
+    public void startLoading() {
     }
 
     public void queryHistory(int id, int page, String search) {

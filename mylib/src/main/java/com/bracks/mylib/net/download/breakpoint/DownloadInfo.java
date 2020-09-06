@@ -41,12 +41,6 @@ public class DownloadInfo {
      */
     private @DownloadState
     int state = STOP;
-
-    @IntDef({PAUSE, STOP, DOENLOADING})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface DownloadState {
-    }
-
     private BaseService service;
 
     public String getSavePath() {
@@ -95,5 +89,10 @@ public class DownloadInfo {
 
     public void setService(BaseService service) {
         this.service = service;
+    }
+
+    @IntDef({PAUSE, STOP, DOENLOADING})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DownloadState {
     }
 }

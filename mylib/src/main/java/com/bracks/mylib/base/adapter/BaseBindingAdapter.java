@@ -103,6 +103,12 @@ public abstract class BaseBindingAdapter<M, B extends ViewDataBinding> extends R
 
     protected abstract void onBindItem(B binding, M item, int position);
 
+    static class BaseBindingViewHolder extends RecyclerView.ViewHolder {
+        public BaseBindingViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
     class ListChangedCallback extends ObservableArrayList.OnListChangedCallback<ObservableArrayList<M>> {
         @Override
         public void onChanged(ObservableArrayList<M> newItems) {
@@ -127,12 +133,6 @@ public abstract class BaseBindingAdapter<M, B extends ViewDataBinding> extends R
         @Override
         public void onItemRangeRemoved(ObservableArrayList<M> sender, int positionStart, int itemCount) {
             BaseBindingAdapter.this.onItemRangeRemoved(sender, positionStart, itemCount);
-        }
-    }
-
-    class BaseBindingViewHolder extends RecyclerView.ViewHolder {
-        public BaseBindingViewHolder(View itemView) {
-            super(itemView);
         }
     }
 }

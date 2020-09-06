@@ -12,7 +12,7 @@ package com.bracks.wanandroid.model.bean;
 public class Result<T> extends com.bracks.mylib.base.model.Result<T> {
 
     @Override
-    public boolean OK() {
+    public boolean ok() {
         return code == 0;
     }
 

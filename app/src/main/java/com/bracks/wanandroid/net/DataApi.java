@@ -2,8 +2,8 @@ package com.bracks.wanandroid.net;
 
 
 import com.bracks.wanandroid.model.bean.Banner;
-import com.bracks.wanandroid.model.bean.Collect;
 import com.bracks.wanandroid.model.bean.Chapter;
+import com.bracks.wanandroid.model.bean.Collect;
 import com.bracks.wanandroid.model.bean.Login;
 import com.bracks.wanandroid.model.bean.PublicList;
 import com.bracks.wanandroid.model.bean.Result;

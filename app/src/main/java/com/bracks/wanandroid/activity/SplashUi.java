@@ -3,7 +3,7 @@ package com.bracks.wanandroid.activity;
 import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.blankj.utilcode.util.ActivityUtils;
@@ -68,7 +68,7 @@ public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements Sp
     }
 
     @Override
-    public void initData(@NonNull Bundle savedInstanceState) {
+    public void initData(@Nullable Bundle savedInstanceState) {
         soundPlayUtils = new SoundPlayUtils
                 .Builder(this, 2)
                 .load("pika", R.raw.pika)

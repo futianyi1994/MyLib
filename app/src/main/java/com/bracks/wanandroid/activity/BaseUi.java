@@ -2,7 +2,7 @@ package com.bracks.wanandroid.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.blankj.utilcode.util.SnackbarUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -22,7 +22,7 @@ import com.bracks.mylib.utils.CommonUtils;
  */
 public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> extends BaseVmProxyUi<V, P> {
     @Override
-    protected void onCreate(@NonNull Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             BarUtils.hideNavBar(this);

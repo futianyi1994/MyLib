@@ -1,6 +1,7 @@
 package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 /**
  * good programmer.
@@ -60,5 +61,5 @@ public interface PresenterProxy<V extends BaseView, P extends BasePresenter<V>> 
      * @param savedInstanceState Presenter意外销毁时存储的Bundle
      * @return
      */
-    void onRestoreInstanceState(Bundle savedInstanceState);
+    void onRestoreInstanceState(@Nullable Bundle savedInstanceState);
 }

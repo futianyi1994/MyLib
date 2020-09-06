@@ -31,6 +31,7 @@ import com.blankj.utilcode.util.ScreenUtils;
  */
 public class OverlayPermissionUtils {
 
+    public static final int REQUEST_CODE = 20000;
     private static final String TAG = "OverlayPermissionUtils";
     /**
      * 悬浮窗默认宽度
@@ -40,14 +41,10 @@ public class OverlayPermissionUtils {
      * 悬浮窗默认高度
      */
     private static final int HEIGHT = 150;
-
     /**
      * 状态栏高度
      */
     private static int statusbarHeight = BarUtils.getStatusBarHeight();
-
-    public static final int REQUEST_CODE = 20000;
-
     private static Dialog dialog;
 
     private static WindowManager.LayoutParams params;
@@ -78,6 +75,20 @@ public class OverlayPermissionUtils {
 
     public static WindowManager.LayoutParams getParams() {
         return params;
+    }
+
+    /**
+     * 判断是否有悬浮窗权限
+     *
+     * @param context
+     * @return
+     */
+    public static boolean canDrawOverlays(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.canDrawOverlays(context);
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -151,6 +162,114 @@ public class OverlayPermissionUtils {
      */
     public void updateViewLayout(View v) {
         windowManager.updateViewLayout(v, params);
+    }
+
+    /**
+     * 权限申请
+     *
+     * @param context
+     * @param result
+     */
+    public boolean applay(Context context, OnConfirmResult result) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(context)) {
+                showConfirmDialog(context, new OnConfirmResult() {
+                    @Override
+                    public void confirmResult(boolean confirm) {
+                        if (confirm) {
+                            try {
+                                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setData(Uri.parse("package:" + context.getPackageName()));
+                                context.startActivity(intent);
+                            } catch (Exception e) {
+                                Log.e(TAG, Log.getStackTraceString(e));
+                            }
+                        } else {
+                            Log.d(TAG, "user manually refuse OVERLAY_PERMISSION");
+                        }
+                        result.confirmResult(confirm);
+                    }
+                });
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 权限申请
+     *
+     * @param activity
+     * @param result
+     */
+    public boolean applayForResult(Activity activity, OnConfirmResult result) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(activity)) {
+                showConfirmDialog(activity, new OnConfirmResult() {
+                    @Override
+                    public void confirmResult(boolean confirm) {
+                        if (confirm) {
+                            try {
+                                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setData(Uri.parse("package:" + activity.getPackageName()));
+                                activity.startActivityForResult(intent, REQUEST_CODE);
+                            } catch (Exception e) {
+                                Log.e(TAG, Log.getStackTraceString(e));
+                            }
+                        } else {
+                            Log.d(TAG, "user manually refuse OVERLAY_PERMISSION");
+                        }
+                        result.confirmResult(confirm);
+                    }
+                });
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    private void showConfirmDialog(Context context, OnConfirmResult result) {
+        showConfirmDialog(context, "您的手机没有授予悬浮窗权限，请开启后再试", result);
+    }
+
+    private void showConfirmDialog(Context context, String message, final OnConfirmResult result) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+
+        dialog = new AlertDialog
+                .Builder(context)
+                .setCancelable(true)
+                .setTitle("")
+                .setMessage(message)
+                .setPositiveButton("现在去开启", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        result.confirmResult(true);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("暂不开启", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        result.confirmResult(false);
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
+    public interface OnConfirmResult {
+        void confirmResult(boolean confirm);
     }
 
     /**
@@ -229,127 +348,5 @@ public class OverlayPermissionUtils {
                     return false;
             }
         }
-    }
-
-    /**
-     * 权限申请
-     *
-     * @param context
-     * @param result
-     */
-    public boolean applay(Context context, OnConfirmResult result) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(context)) {
-                showConfirmDialog(context, new OnConfirmResult() {
-                    @Override
-                    public void confirmResult(boolean confirm) {
-                        if (confirm) {
-                            try {
-                                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.setData(Uri.parse("package:" + context.getPackageName()));
-                                context.startActivity(intent);
-                            } catch (Exception e) {
-                                Log.e(TAG, Log.getStackTraceString(e));
-                            }
-                        } else {
-                            Log.d(TAG, "user manually refuse OVERLAY_PERMISSION");
-                        }
-                        result.confirmResult(confirm);
-                    }
-                });
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * 权限申请
-     *
-     * @param activity
-     * @param result
-     */
-    public boolean applayForResult(Activity activity, OnConfirmResult result) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(activity)) {
-                showConfirmDialog(activity, new OnConfirmResult() {
-                    @Override
-                    public void confirmResult(boolean confirm) {
-                        if (confirm) {
-                            try {
-                                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.setData(Uri.parse("package:" + activity.getPackageName()));
-                                activity.startActivityForResult(intent, REQUEST_CODE);
-                            } catch (Exception e) {
-                                Log.e(TAG, Log.getStackTraceString(e));
-                            }
-                        } else {
-                            Log.d(TAG, "user manually refuse OVERLAY_PERMISSION");
-                        }
-                        result.confirmResult(confirm);
-                    }
-                });
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * 判断是否有悬浮窗权限
-     *
-     * @param context
-     * @return
-     */
-    public static boolean canDrawOverlays(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return Settings.canDrawOverlays(context);
-        } else {
-            return true;
-        }
-    }
-
-    private void showConfirmDialog(Context context, OnConfirmResult result) {
-        showConfirmDialog(context, "您的手机没有授予悬浮窗权限，请开启后再试", result);
-    }
-
-    private void showConfirmDialog(Context context, String message, final OnConfirmResult result) {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-
-        dialog = new AlertDialog
-                .Builder(context)
-                .setCancelable(true)
-                .setTitle("")
-                .setMessage(message)
-                .setPositiveButton("现在去开启", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        result.confirmResult(true);
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("暂不开启", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        result.confirmResult(false);
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        dialog.show();
-    }
-
-    public interface OnConfirmResult {
-        void confirmResult(boolean confirm);
     }
 }

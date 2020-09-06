@@ -18,13 +18,6 @@ import android.widget.Toast;
  * @description :
  */
 public class KeyboardUtils {
-    /**
-     * 计算软键盘高度的回调监听
-     */
-    public interface IKeyBoardVisibleListener {
-        void onSoftKeyBoardVisible(boolean visible, int windowBottom);
-    }
-
     static boolean isVisiableForLast = false;
 
     public static void addOnSoftKeyBoardVisibleListener(Activity activity, final IKeyBoardVisibleListener listener) {
@@ -62,5 +55,12 @@ public class KeyboardUtils {
         ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         clip.setText(string);
         Toast.makeText(context, "复制成功", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 计算软键盘高度的回调监听
+     */
+    public interface IKeyBoardVisibleListener {
+        void onSoftKeyBoardVisible(boolean visible, int windowBottom);
     }
 }

@@ -33,20 +33,18 @@ import static android.app.Activity.RESULT_OK;
  * @description :
  */
 public class X5WebChromeClient extends WebChromeClient {
-    private Context mContext;
-    private Activity mActivity;
-
-    private Dialog dialog;
-    private boolean isShowDialog;
-
-    private ValueCallback<Uri> uploadMsg;
-    public ValueCallback<Uri[]> filePathCallback;
     /**
      * 拍照保存h5照片的文件夹名
      */
     public static final String LOCAL_H5_TAKE_PHOTO = "h5Photo";
     public static final int REQUEST_SHOW_FILE = 100;
     private final static int REQUEST_OPEN_FILE = 2;
+    public ValueCallback<Uri[]> filePathCallback;
+    private Context mContext;
+    private Activity mActivity;
+    private Dialog dialog;
+    private boolean isShowDialog;
+    private ValueCallback<Uri> uploadMsg;
 
     public X5WebChromeClient(Context mContext, boolean isShowDialog) {
         this.mContext = mContext;

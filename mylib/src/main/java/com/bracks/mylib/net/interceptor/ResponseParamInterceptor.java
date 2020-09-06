@@ -24,10 +24,6 @@ import okio.BufferedSource;
 public abstract class ResponseParamInterceptor implements Interceptor {
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
-    protected interface ResponseParamCallback {
-        void onResult(String bodyString);
-    }
-
     protected abstract ResponseParamCallback responseParamCallback();
 
     @NonNull
@@ -60,5 +56,9 @@ public abstract class ResponseParamInterceptor implements Interceptor {
             }
         }*/
         return originalResponse;
+    }
+
+    protected interface ResponseParamCallback {
+        void onResult(String bodyString);
     }
 }

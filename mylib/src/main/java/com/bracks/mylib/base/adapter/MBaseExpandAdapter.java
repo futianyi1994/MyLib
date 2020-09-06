@@ -23,18 +23,18 @@ public abstract class MBaseExpandAdapter<G, C> extends BaseExpandableListAdapter
     private LayoutInflater inflater;
     private Context context;
 
+    public MBaseExpandAdapter(Context context) {
+        this.groupDatas = new ArrayList<G>();
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+    }
+
     public Context getContext() {
         return context;
     }
 
     public LayoutInflater getInflater() {
         return inflater;
-    }
-
-    public MBaseExpandAdapter(Context context) {
-        this.groupDatas = new ArrayList<G>();
-        this.context = context;
-        this.inflater = LayoutInflater.from(context);
     }
 
     @Override

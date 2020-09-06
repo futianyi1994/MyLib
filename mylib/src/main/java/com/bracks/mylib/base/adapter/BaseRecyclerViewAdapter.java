@@ -33,13 +33,22 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
     private OnItemClickListener<T> mClickListener;
     private OnItemLongClickListener<T> mCLickLongListener;
 
+    public BaseRecyclerViewAdapter(Context context) {
+        this.context = context;
+        realDatas = new ArrayList<>();
+    }
+
     protected Context getContext() {
         return context;
     }
 
-    public BaseRecyclerViewAdapter(Context context) {
-        this.context = context;
-        realDatas = new ArrayList<>();
+    /**
+     * 得到数据
+     *
+     * @return 数据
+     */
+    public List<T> getData() {
+        return realDatas;
     }
 
     /**
@@ -52,15 +61,6 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         this.realDatas = realDatas;
         notifyDataSetChanged();
         return this;
-    }
-
-    /**
-     * 得到数据
-     *
-     * @return 数据
-     */
-    public List<T> getData() {
-        return realDatas;
     }
 
     /**
@@ -127,60 +127,6 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         return realDatas == null ? 0 : realDatas.size();
     }
 
-    private class TimmyItemClickListener implements View.OnClickListener {
-        private int mPosition;
-
-        public TimmyItemClickListener(int position) {
-            this.mPosition = position;
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null && view != null && mPosition < realDatas.size()) {
-                mClickListener.onItemClick(view, mPosition, realDatas.get(mPosition));
-            }
-        }
-    }
-
-    private class TimmyItemLongClickListener implements View.OnLongClickListener {
-        private int mPosition;
-
-        public TimmyItemLongClickListener(int position) {
-            this.mPosition = position;
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            if (mCLickLongListener != null && view != null && mPosition < realDatas.size()) {
-                mCLickLongListener.onItemLongClick(view, mPosition, realDatas.get(mPosition));
-                return true;
-            }
-            return false;
-        }
-    }
-
-    public interface OnItemClickListener<T> {
-        /**
-         * Item的点击事件接口
-         *
-         * @param itemView
-         * @param position
-         * @param t
-         */
-        void onItemClick(View itemView, int position, T t);
-    }
-
-    public interface OnItemLongClickListener<T> {
-        /**
-         * Item的长按事件接口
-         *
-         * @param itemView
-         * @param position
-         * @param t
-         */
-        void onItemLongClick(View itemView, int position, T t);
-    }
-
     public void setOnItemClickListener(OnItemClickListener<T> listener) {
         this.mClickListener = listener;
     }
@@ -216,6 +162,60 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
     protected abstract void onItemClickListener(View itemView, int position, T t);
 
     protected void onItemLongClickListener(View itemView, int position, T t) {
+    }
+
+    public interface OnItemClickListener<T> {
+        /**
+         * Item的点击事件接口
+         *
+         * @param itemView
+         * @param position
+         * @param t
+         */
+        void onItemClick(View itemView, int position, T t);
+    }
+
+    public interface OnItemLongClickListener<T> {
+        /**
+         * Item的长按事件接口
+         *
+         * @param itemView
+         * @param position
+         * @param t
+         */
+        void onItemLongClick(View itemView, int position, T t);
+    }
+
+    private class TimmyItemClickListener implements View.OnClickListener {
+        private int mPosition;
+
+        public TimmyItemClickListener(int position) {
+            this.mPosition = position;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null && view != null && mPosition < realDatas.size()) {
+                mClickListener.onItemClick(view, mPosition, realDatas.get(mPosition));
+            }
+        }
+    }
+
+    private class TimmyItemLongClickListener implements View.OnLongClickListener {
+        private int mPosition;
+
+        public TimmyItemLongClickListener(int position) {
+            this.mPosition = position;
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (mCLickLongListener != null && view != null && mPosition < realDatas.size()) {
+                mCLickLongListener.onItemLongClick(view, mPosition, realDatas.get(mPosition));
+                return true;
+            }
+            return false;
+        }
     }
 
     /**

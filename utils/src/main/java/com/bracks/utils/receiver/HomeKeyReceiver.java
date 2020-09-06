@@ -22,6 +22,7 @@ public class HomeKeyReceiver extends BroadcastReceiver {
     public static final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
     public static final String SYSTEM_DIALOG_REASON_ASSIST = "assist";
     public static final String SYSTEM_DIALOG_REASON_LOCK = "lock";
+    private ReceiverCallback callback;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -48,8 +49,6 @@ public class HomeKeyReceiver extends BroadcastReceiver {
             }
         }
     }
-
-    private ReceiverCallback callback;
 
     public void registerReceiver(Context context, ReceiverCallback callback) {
         this.callback = callback;

@@ -40,13 +40,12 @@ import java.util.List;
  */
 public class FileUtils {
 
-    private static final String TAG = "FileUtils";
     public static final int CHOOSE_FILE_CODE = 1001;
-
     /**
      * configured android:authorities in AndroidManifest (https://developer.android.com/reference/android/support/v4/content/FileProvider)
      */
     public static final String AUTHORITY = "YOUR_AUTHORITY.provider";
+    private static final String TAG = "FileUtils";
 
     private FileUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");

@@ -43,42 +43,11 @@ import android.widget.PopupWindow;
  * </code></pre>
  */
 public class CustomPopupWindow extends PopupWindow {
+    private static CountDownTimer timer;
     private Context context;
     private Activity activity;
     private LayoutInflater inflater;
-    private static CountDownTimer timer;
     private PopupController controller;
-
-    public interface TimerFinishListener {
-        /**
-         * Timer计时回调
-         *
-         * @param millisUntilFinished
-         */
-        void onTick(long millisUntilFinished);
-
-        /**
-         * Timer结束时的回调
-         */
-        void onFinish();
-    }
-
-    public interface AfterShowListener {
-        /**
-         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(popupWindow.getContentView())
-         */
-        void onAfterShow();
-    }
-
-    public interface ViewInterface {
-        /**
-         * popwindow内的子视图
-         *
-         * @param view
-         * @param layoutResId
-         */
-        void getChildView(View view, int layoutResId);
-    }
 
     public CustomPopupWindow(Context context) {
         super(context);
@@ -169,7 +138,6 @@ public class CustomPopupWindow extends PopupWindow {
         showAsDropDown(anchor, 0, 0, listener);
     }
 
-
     /**
      * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(popupWindow.getContentView())
      *
@@ -239,6 +207,36 @@ public class CustomPopupWindow extends PopupWindow {
         controller.setBackGroundLevel(1.0f);
     }
 
+    public interface TimerFinishListener {
+        /**
+         * Timer计时回调
+         *
+         * @param millisUntilFinished
+         */
+        void onTick(long millisUntilFinished);
+
+        /**
+         * Timer结束时的回调
+         */
+        void onFinish();
+    }
+
+    public interface AfterShowListener {
+        /**
+         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(popupWindow.getContentView())
+         */
+        void onAfterShow();
+    }
+
+    public interface ViewInterface {
+        /**
+         * popwindow内的子视图
+         *
+         * @param view
+         * @param layoutResId
+         */
+        void getChildView(View view, int layoutResId);
+    }
 
     public static class Builder {
         private PopupController.PopupParams params;

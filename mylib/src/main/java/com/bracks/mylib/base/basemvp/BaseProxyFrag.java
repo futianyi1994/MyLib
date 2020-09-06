@@ -2,6 +2,7 @@ package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
@@ -35,7 +36,7 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), container, false);
             mUnbinder = ButterKnife.bind(this, rootView);
@@ -55,13 +56,14 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         destroyPresenter();
+        rootView = null;
     }
 
     @Override
-    public void initData(@NonNull Bundle savedInstanceState) {
+    public void initData(@Nullable Bundle savedInstanceState) {
     }
 
     @Override
@@ -101,7 +103,7 @@ public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        mProxy.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_SAVE_KEY));
+    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState) {
+        mProxy.onRestoreInstanceState(savedInstanceState == null ? null : savedInstanceState.getBundle(PRESENTER_SAVE_KEY));
     }
 }

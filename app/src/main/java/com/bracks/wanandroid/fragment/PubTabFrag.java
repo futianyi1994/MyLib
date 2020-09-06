@@ -4,6 +4,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -95,7 +96,7 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
     }
 
     @Override
-    public void initView(View view, @NonNull Bundle savedInstanceState) {
+    public void initView(View view, @Nullable Bundle savedInstanceState) {
         id = getArguments().getInt("id");
         recyclerView.addItemDecoration(new SpaceItemDecoration(ConvertUtils.dp2px(10)));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -107,27 +108,25 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
                         .post(new ScrollEvent(dy));
             }
         });
+        adapter = new ChapterAdapter(getActivity());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+        refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page++;
+                viewModel.queryHistory(id, page, PubFrag.search);
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                page = 1;
+                viewModel.queryHistory(id, page, PubFrag.search);
+            }
+        });
     }
 
     public void showDatas(List<Chapter.DataBean.DatasBean> data) {
-        if (adapter == null) {
-            adapter = new ChapterAdapter(getActivity());
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.setAdapter(adapter);
-            refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-                @Override
-                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                    page++;
-                    viewModel.queryHistory(id, page, PubFrag.search);
-                }
-
-                @Override
-                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                    page = 1;
-                    viewModel.queryHistory(id, page, PubFrag.search);
-                }
-            });
-        }
         adapter.setData(data);
         refreshLayout.finishRefresh();
     }

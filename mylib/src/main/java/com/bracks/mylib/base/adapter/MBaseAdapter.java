@@ -30,6 +30,12 @@ public abstract class MBaseAdapter<T> extends BaseAdapter {
     @SuppressLint("UseSparseArrays")
     private Map<Integer, Boolean> map = new HashMap<>();
 
+    public MBaseAdapter(Context context) {
+        this.datas = new ArrayList<T>();
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+    }
+
     public Context getContext() {
         return context;
     }
@@ -44,12 +50,6 @@ public abstract class MBaseAdapter<T> extends BaseAdapter {
 
     public Map<Integer, Boolean> getMap() {
         return map;
-    }
-
-    public MBaseAdapter(Context context) {
-        this.datas = new ArrayList<T>();
-        this.context = context;
-        this.inflater = LayoutInflater.from(context);
     }
 
     @Override

@@ -63,142 +63,10 @@ public class CommonTitleBar extends FrameLayout {
      * 标题右边点击监听事件（右边图标）
      */
     private TitleBarRightRightListener mTitleBarRightRightListener;
-
-    /**
-     * 左边点击事件接口
-     */
-    public interface TitleBarLeftListener {
-        void onClickTitleLeftListener(View v);
-    }
-
-    /**
-     * 中间点击事件接口
-     */
-    public interface TitleBarCenterListener {
-        void onClickTitleCenterListener(View v);
-    }
-
-    /**
-     * 右边点击事件接口
-     */
-    public interface TitleBarRightListener {
-        void onClickTitleRightListener(View v);
-    }
-
-    /**
-     * 右边点击事件接口(左边图标)
-     */
-    public interface TitleBarRightLeftListener {
-        void onClickTitleRightLeftListener(View v);
-    }
-
-    /**
-     * 右边点击事件接口(右边图标)
-     */
-    public interface TitleBarRightRightListener {
-        void onClickTitleRightRightListener(View v);
-    }
-
-    /**
-     * 设置左边点击事件
-     *
-     * @param mTitleBarLeftListener
-     * @return
-     */
-    public CommonTitleBar setmTitleBarLeftListener(TitleBarLeftListener mTitleBarLeftListener) {
-        this.mTitleBarLeftListener = mTitleBarLeftListener;
-        return this;
-    }
-
-    /**
-     * 设置中间点击事件
-     *
-     * @param mTitleBarCenterListener
-     * @return
-     */
-    public CommonTitleBar setmTitleBarCenterListener(TitleBarCenterListener mTitleBarCenterListener) {
-        this.mTitleBarCenterListener = mTitleBarCenterListener;
-        return this;
-    }
-
-    /**
-     * 设置右边点击事件
-     *
-     * @param mTitleBarRightListener
-     * @return
-     */
-    public CommonTitleBar setmTitleBarRightListener(TitleBarRightListener mTitleBarRightListener) {
-        this.mTitleBarRightListener = mTitleBarRightListener;
-        return this;
-    }
-
-    /**
-     * 设置右边点击事件(左边图标)
-     *
-     * @param mTitleBarRightLeftListener
-     * @return
-     */
-    public CommonTitleBar setmTitleBarRightLeftListener(TitleBarRightLeftListener mTitleBarRightLeftListener) {
-        this.mTitleBarRightLeftListener = mTitleBarRightLeftListener;
-        return this;
-    }
-
-    /**
-     * 设置右边点击事件(右边图标)
-     *
-     * @param mTitleBarRightRightListener
-     * @return
-     */
-    public CommonTitleBar setmTitleBarRightRightListener(TitleBarRightRightListener mTitleBarRightRightListener) {
-        this.mTitleBarRightRightListener = mTitleBarRightRightListener;
-        return this;
-    }
-
-    /**
-     * 获得左边点击事件接口
-     *
-     * @return
-     */
-    public TitleBarLeftListener getmTitleBarLeftListener() {
-        return mTitleBarLeftListener;
-    }
-
-    /**
-     * 获得中间点击事件接口
-     *
-     * @return
-     */
-    public TitleBarCenterListener getmTitleBarCenterListener() {
-        return mTitleBarCenterListener;
-    }
-
-    /**
-     * 获得右边点击事件接口
-     *
-     * @return
-     */
-    public TitleBarRightListener getmTitleBarRightListener() {
-        return mTitleBarRightListener;
-    }
-
-    /**
-     * 获得右边点击事件接口(左边图标)
-     *
-     * @return
-     */
-    public TitleBarRightLeftListener getmTitleBarRightLeftListener() {
-        return mTitleBarRightLeftListener;
-    }
-
-    /**
-     * 获得右边点击事件接口(右边图标)
-     *
-     * @return
-     */
-    public TitleBarRightRightListener getmTitleBarRightRightListener() {
-        return mTitleBarRightRightListener;
-    }
-
+    private Drawable mDrawLeft;
+    private Drawable mDrawCenter;
+    private Drawable mDrawRightLeft;
+    private Drawable mDrawRight;
 
     public CommonTitleBar(Context context) {
         this(context, null);
@@ -279,6 +147,106 @@ public class CommonTitleBar extends FrameLayout {
         //setTitleBgColor(SkinUtils.getInstance(context).getSkinColor());
     }
 
+    /**
+     * 获得左边点击事件接口
+     *
+     * @return
+     */
+    public TitleBarLeftListener getmTitleBarLeftListener() {
+        return mTitleBarLeftListener;
+    }
+
+    /**
+     * 设置左边点击事件
+     *
+     * @param mTitleBarLeftListener
+     * @return
+     */
+    public CommonTitleBar setmTitleBarLeftListener(TitleBarLeftListener mTitleBarLeftListener) {
+        this.mTitleBarLeftListener = mTitleBarLeftListener;
+        return this;
+    }
+
+    /**
+     * 获得中间点击事件接口
+     *
+     * @return
+     */
+    public TitleBarCenterListener getmTitleBarCenterListener() {
+        return mTitleBarCenterListener;
+    }
+
+    /**
+     * 设置中间点击事件
+     *
+     * @param mTitleBarCenterListener
+     * @return
+     */
+    public CommonTitleBar setmTitleBarCenterListener(TitleBarCenterListener mTitleBarCenterListener) {
+        this.mTitleBarCenterListener = mTitleBarCenterListener;
+        return this;
+    }
+
+    /**
+     * 获得右边点击事件接口
+     *
+     * @return
+     */
+    public TitleBarRightListener getmTitleBarRightListener() {
+        return mTitleBarRightListener;
+    }
+
+    /**
+     * 设置右边点击事件
+     *
+     * @param mTitleBarRightListener
+     * @return
+     */
+    public CommonTitleBar setmTitleBarRightListener(TitleBarRightListener mTitleBarRightListener) {
+        this.mTitleBarRightListener = mTitleBarRightListener;
+        return this;
+    }
+
+    /**
+     * 获得右边点击事件接口(左边图标)
+     *
+     * @return
+     */
+    public TitleBarRightLeftListener getmTitleBarRightLeftListener() {
+        return mTitleBarRightLeftListener;
+    }
+
+    /**
+     * 设置右边点击事件(左边图标)
+     *
+     * @param mTitleBarRightLeftListener
+     * @return
+     */
+    public CommonTitleBar setmTitleBarRightLeftListener(TitleBarRightLeftListener mTitleBarRightLeftListener) {
+        this.mTitleBarRightLeftListener = mTitleBarRightLeftListener;
+        return this;
+    }
+
+    /**
+     * 获得右边点击事件接口(右边图标)
+     *
+     * @return
+     */
+    public TitleBarRightRightListener getmTitleBarRightRightListener() {
+        return mTitleBarRightRightListener;
+    }
+
+    /**
+     * 设置右边点击事件(右边图标)
+     *
+     * @param mTitleBarRightRightListener
+     * @return
+     */
+    public CommonTitleBar setmTitleBarRightRightListener(TitleBarRightRightListener mTitleBarRightRightListener) {
+        this.mTitleBarRightRightListener = mTitleBarRightRightListener;
+        return this;
+    }
+
     public void init(Context c) {
         this.mContext = c;
         View rootView = LayoutInflater.from(mContext).inflate(R.layout.custom_titlebar, this, true);
@@ -357,60 +325,6 @@ public class CommonTitleBar extends FrameLayout {
     }
 
     /**
-     * 设置左边视图图标
-     *
-     * @return
-     */
-    public CommonTitleBar setImgLeft(Drawable drawLeft) {
-        if (null != drawLeft) {
-            ivTitleLeft.setImageDrawable(drawLeft);
-            ivTitleLeft.setVisibility(VISIBLE);
-        }
-        return this;
-    }
-
-    private Drawable mDrawLeft;
-
-    public CommonTitleBar setImgLeft(int resource) {
-        try {
-            mDrawLeft = mContext.getResources().getDrawable(resource);
-        } catch (Resources.NotFoundException e) {
-            mDrawLeft = null;
-            e.printStackTrace();
-        }
-        ivTitleLeft.setImageDrawable(mDrawLeft);
-        ivTitleLeft.setVisibility(VISIBLE);
-        return this;
-    }
-
-    /**
-     * 设置中间视图图标
-     *
-     * @return
-     */
-    public CommonTitleBar setImgCenter(Drawable drawCenter) {
-        if (null != drawCenter) {
-            ivTitleCenter.setImageDrawable(drawCenter);
-            ivTitleCenter.setVisibility(VISIBLE);
-        }
-        return this;
-    }
-
-    private Drawable mDrawCenter;
-
-    public CommonTitleBar setImgCenter(int resource) {
-        try {
-            mDrawCenter = mContext.getResources().getDrawable(resource);
-        } catch (Resources.NotFoundException e) {
-            mDrawCenter = null;
-            e.printStackTrace();
-        }
-        ivTitleCenter.setImageDrawable(mDrawCenter);
-        ivTitleCenter.setVisibility(VISIBLE);
-        return this;
-    }
-
-    /**
      * 设置右边视图图标(左边图标)
      *
      * @param drawRightLeft
@@ -424,8 +338,6 @@ public class CommonTitleBar extends FrameLayout {
         return this;
     }
 
-    private Drawable mDrawRightLeft;
-
     public CommonTitleBar setImgRightLeft(int resource) {
         try {
             mDrawRightLeft = mContext.getResources().getDrawable(resource);
@@ -435,34 +347,6 @@ public class CommonTitleBar extends FrameLayout {
         }
         ivTitleRightLeft.setImageDrawable(mDrawRightLeft);
         ivTitleRightLeft.setVisibility(VISIBLE);
-        return this;
-    }
-
-    /**
-     * 设置右边视图图标(右边图标)
-     *
-     * @param drawRight
-     * @return
-     */
-    public CommonTitleBar setImgRight(Drawable drawRight) {
-        if (null != drawRight) {
-            ivTitleRight.setImageDrawable(drawRight);
-            ivTitleRight.setVisibility(VISIBLE);
-        }
-        return this;
-    }
-
-    private Drawable mDrawRight;
-
-    public CommonTitleBar setImgRight(int resource) {
-        try {
-            mDrawRight = mContext.getResources().getDrawable(resource);
-        } catch (Resources.NotFoundException e) {
-            mDrawRight = null;
-            e.printStackTrace();
-        }
-        ivTitleRight.setImageDrawable(mDrawRight);
-        ivTitleRight.setVisibility(VISIBLE);
         return this;
     }
 
@@ -560,6 +444,31 @@ public class CommonTitleBar extends FrameLayout {
     }
 
     /**
+     * 设置左边视图图标
+     *
+     * @return
+     */
+    public CommonTitleBar setImgLeft(Drawable drawLeft) {
+        if (null != drawLeft) {
+            ivTitleLeft.setImageDrawable(drawLeft);
+            ivTitleLeft.setVisibility(VISIBLE);
+        }
+        return this;
+    }
+
+    public CommonTitleBar setImgLeft(int resource) {
+        try {
+            mDrawLeft = mContext.getResources().getDrawable(resource);
+        } catch (Resources.NotFoundException e) {
+            mDrawLeft = null;
+            e.printStackTrace();
+        }
+        ivTitleLeft.setImageDrawable(mDrawLeft);
+        ivTitleLeft.setVisibility(VISIBLE);
+        return this;
+    }
+
+    /**
      * 获取中间的图片
      *
      * @return
@@ -569,12 +478,63 @@ public class CommonTitleBar extends FrameLayout {
     }
 
     /**
+     * 设置中间视图图标
+     *
+     * @return
+     */
+    public CommonTitleBar setImgCenter(Drawable drawCenter) {
+        if (null != drawCenter) {
+            ivTitleCenter.setImageDrawable(drawCenter);
+            ivTitleCenter.setVisibility(VISIBLE);
+        }
+        return this;
+    }
+
+    public CommonTitleBar setImgCenter(int resource) {
+        try {
+            mDrawCenter = mContext.getResources().getDrawable(resource);
+        } catch (Resources.NotFoundException e) {
+            mDrawCenter = null;
+            e.printStackTrace();
+        }
+        ivTitleCenter.setImageDrawable(mDrawCenter);
+        ivTitleCenter.setVisibility(VISIBLE);
+        return this;
+    }
+
+    /**
      * 获取右边的图片
      *
      * @return
      */
     public ImageView getImgRight() {
         return ivTitleRight;
+    }
+
+    /**
+     * 设置右边视图图标(右边图标)
+     *
+     * @param drawRight
+     * @return
+     */
+    public CommonTitleBar setImgRight(Drawable drawRight) {
+        if (null != drawRight) {
+            ivTitleRight.setImageDrawable(drawRight);
+            ivTitleRight.setVisibility(VISIBLE);
+        }
+        return this;
+    }
+
+    public CommonTitleBar setImgRight(int resource) {
+        try {
+            mDrawRight = mContext.getResources().getDrawable(resource);
+        } catch (Resources.NotFoundException e) {
+            mDrawRight = null;
+            e.printStackTrace();
+        }
+        ivTitleRight.setImageDrawable(mDrawRight);
+        ivTitleRight.setVisibility(VISIBLE);
+        return this;
     }
 
     /**
@@ -744,5 +704,40 @@ public class CommonTitleBar extends FrameLayout {
     public CommonSearchView getSearchView() {
         searchView.setVisibility(VISIBLE);
         return searchView;
+    }
+
+    /**
+     * 左边点击事件接口
+     */
+    public interface TitleBarLeftListener {
+        void onClickTitleLeftListener(View v);
+    }
+
+    /**
+     * 中间点击事件接口
+     */
+    public interface TitleBarCenterListener {
+        void onClickTitleCenterListener(View v);
+    }
+
+    /**
+     * 右边点击事件接口
+     */
+    public interface TitleBarRightListener {
+        void onClickTitleRightListener(View v);
+    }
+
+    /**
+     * 右边点击事件接口(左边图标)
+     */
+    public interface TitleBarRightLeftListener {
+        void onClickTitleRightLeftListener(View v);
+    }
+
+    /**
+     * 右边点击事件接口(右边图标)
+     */
+    public interface TitleBarRightRightListener {
+        void onClickTitleRightRightListener(View v);
     }
 }

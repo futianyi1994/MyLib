@@ -43,6 +43,18 @@ public abstract class BaseApp extends MultiDexApplication {
      */
     public static int APP_STATUS = APP_STATUS_KILLED;
 
+    /**
+     * 重新初始化应用界面，清空当前Activity棧，并启动首页
+     *
+     * @param cls
+     */
+    public static void reInitApp(Class<?> cls) {
+        Intent intent = new Intent(Utils.getApp(), cls);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        Utils.getApp().startActivity(intent);
+        TLog.i(TAG, "reInitApp");
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -55,17 +67,5 @@ public abstract class BaseApp extends MultiDexApplication {
      * @param isAppCreate true: App进程启动；false：service进程启动等
      */
     protected abstract void onCreate(boolean isAppCreate);
-
-    /**
-     * 重新初始化应用界面，清空当前Activity棧，并启动首页
-     *
-     * @param cls
-     */
-    public static void reInitApp(Class<?> cls) {
-        Intent intent = new Intent(Utils.getApp(), cls);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        Utils.getApp().startActivity(intent);
-        TLog.i(TAG, "reInitApp");
-    }
 
 }

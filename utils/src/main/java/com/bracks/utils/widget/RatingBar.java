@@ -61,65 +61,6 @@ public class RatingBar extends LinearLayout {
     private StepSize stepSize;
 
     /**
-     * 设置半星的图片资源文件
-     *
-     * @param starHalfDrawable
-     */
-    public void setStarHalfDrawable(Drawable starHalfDrawable) {
-        this.starHalfDrawable = starHalfDrawable;
-    }
-
-    /**
-     * 设置满星的图片资源文件
-     *
-     * @param starFillDrawable
-     */
-    public void setStarFillDrawable(Drawable starFillDrawable) {
-        this.starFillDrawable = starFillDrawable;
-    }
-
-    /**
-     * 设置空白和默认的图片资源文件
-     *
-     * @param starEmptyDrawable
-     */
-    public void setStarEmptyDrawable(Drawable starEmptyDrawable) {
-        this.starEmptyDrawable = starEmptyDrawable;
-    }
-
-    /**
-     * 设置星星是否可以点击操作
-     *
-     * @param clickable
-     */
-    @Override
-    public void setClickable(boolean clickable) {
-        this.mClickable = clickable;
-    }
-
-    /**
-     * 设置星星点击事件
-     *
-     * @param onRatingChangeListener
-     */
-    public void setOnRatingChangeListener(OnRatingChangeListener onRatingChangeListener) {
-        this.onRatingChangeListener = onRatingChangeListener;
-    }
-
-    /**
-     * 设置星星的大小
-     *
-     * @param starImageSize
-     */
-    public void setStarImageSize(float starImageSize) {
-        this.starImageSize = starImageSize;
-    }
-
-    public void setStepSize(StepSize stepSize) {
-        this.stepSize = stepSize;
-    }
-
-    /**
      * 构造函数
      * 获取xml中设置的资源文件
      *
@@ -185,6 +126,65 @@ public class RatingBar extends LinearLayout {
     }
 
     /**
+     * 设置半星的图片资源文件
+     *
+     * @param starHalfDrawable
+     */
+    public void setStarHalfDrawable(Drawable starHalfDrawable) {
+        this.starHalfDrawable = starHalfDrawable;
+    }
+
+    /**
+     * 设置满星的图片资源文件
+     *
+     * @param starFillDrawable
+     */
+    public void setStarFillDrawable(Drawable starFillDrawable) {
+        this.starFillDrawable = starFillDrawable;
+    }
+
+    /**
+     * 设置空白和默认的图片资源文件
+     *
+     * @param starEmptyDrawable
+     */
+    public void setStarEmptyDrawable(Drawable starEmptyDrawable) {
+        this.starEmptyDrawable = starEmptyDrawable;
+    }
+
+    /**
+     * 设置星星是否可以点击操作
+     *
+     * @param clickable
+     */
+    @Override
+    public void setClickable(boolean clickable) {
+        this.mClickable = clickable;
+    }
+
+    /**
+     * 设置星星点击事件
+     *
+     * @param onRatingChangeListener
+     */
+    public void setOnRatingChangeListener(OnRatingChangeListener onRatingChangeListener) {
+        this.onRatingChangeListener = onRatingChangeListener;
+    }
+
+    /**
+     * 设置星星的大小
+     *
+     * @param starImageSize
+     */
+    public void setStarImageSize(float starImageSize) {
+        this.starImageSize = starImageSize;
+    }
+
+    public void setStepSize(StepSize stepSize) {
+        this.stepSize = stepSize;
+    }
+
+    /**
      * 设置每颗星星的参数
      *
      * @return
@@ -242,19 +242,6 @@ public class RatingBar extends LinearLayout {
     }
 
     /**
-     * 操作星星的点击事件
-     */
-    public interface OnRatingChangeListener {
-        /**
-         * 选中的星星的个数
-         *
-         * @param ratingCount
-         */
-        void onRatingChange(float ratingCount);
-
-    }
-
-    /**
      * 星星每次增加的方式整星还是半星，枚举类型
      * 类似于View.GONE
      */
@@ -274,5 +261,18 @@ public class RatingBar extends LinearLayout {
             }
             throw new IllegalArgumentException();
         }
+    }
+
+    /**
+     * 操作星星的点击事件
+     */
+    public interface OnRatingChangeListener {
+        /**
+         * 选中的星星的个数
+         *
+         * @param ratingCount
+         */
+        void onRatingChange(float ratingCount);
+
     }
 }

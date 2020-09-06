@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -98,7 +99,7 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    public void initData(@NonNull Bundle savedInstanceState) {
+    public void initData(@Nullable Bundle savedInstanceState) {
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getIntExtra(EXTRA_ID, 0);

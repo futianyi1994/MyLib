@@ -1,6 +1,7 @@
 package com.bracks.mylib.base;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 /**
  * good programmer.
@@ -22,7 +23,7 @@ public abstract class BaseLazyFragment extends BaseFragment {
 
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initPrepare();
     }

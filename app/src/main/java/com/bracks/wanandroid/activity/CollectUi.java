@@ -2,7 +2,7 @@ package com.bracks.wanandroid.activity;
 
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -77,7 +77,7 @@ public class CollectUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    public void initData(@NonNull Bundle savedInstanceState) {
+    public void initData(@Nullable Bundle savedInstanceState) {
         toolbar.setTitle("收藏");
         setSupportActionBar(toolbar);
         //设置是否显示返回按钮

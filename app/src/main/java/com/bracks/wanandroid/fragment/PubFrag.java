@@ -2,7 +2,7 @@ package com.bracks.wanandroid.fragment;
 
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -51,6 +51,7 @@ import butterknife.BindView;
 @CreatePresenter(BasePresenter.class)
 public class PubFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView>> {
 
+    public static String search = "";
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.toolbar)
@@ -61,18 +62,12 @@ public class PubFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView>> 
     AppBarLayout appBarLayout;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-
-
     private PubViewModel viewModel;
     private TabPagerAdapter pagerAdapter;
     private List<String> tabList = new ArrayList<>();
     private List<PublicList.DataBean> dataBeans;
-
     private SearchView searchView;
     private SearchView.SearchAutoComplete mSearchAutoComplete;
-
-    public static String search = "";
-
 
     public static PubFrag newInstance() {
         Bundle args = new Bundle();
@@ -110,7 +105,7 @@ public class PubFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView>> 
     }
 
     @Override
-    public void initView(View view, @NonNull Bundle savedInstanceState) {
+    public void initView(View view, @Nullable Bundle savedInstanceState) {
         coordinatorLayout.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
         toolbar.setTitle("公众号");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);

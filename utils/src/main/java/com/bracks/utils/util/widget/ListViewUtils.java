@@ -27,6 +27,16 @@ public class ListViewUtils {
     }
 
     /**
+     * 获取listView
+     *
+     * @param listView
+     * @return ListViewUtils
+     */
+    public static ListViewUtils with(ListView listView) {
+        return new ListViewUtils(listView);
+    }
+
+    /**
      * 设置groupitem是否可点击
      *
      * @param groupClickable true:可以点击
@@ -132,15 +142,5 @@ public class ListViewUtils {
         //加上底部分割线的高度
         int dividerHeight = listView.getDividerHeight();
         return totalHeight + (dividerHeight == 0 ? 1 : dividerHeight * mItemCount - 1);
-    }
-
-    /**
-     * 获取listView
-     *
-     * @param listView
-     * @return ListViewUtils
-     */
-    public static ListViewUtils with(ListView listView) {
-        return new ListViewUtils(listView);
     }
 }

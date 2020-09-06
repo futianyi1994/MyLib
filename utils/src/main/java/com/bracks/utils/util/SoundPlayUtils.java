@@ -36,12 +36,6 @@ public class SoundPlayUtils {
     public final static int TYPE_MUSIC = AudioManager.STREAM_MUSIC;
     public final static int TYPE_ALARM = AudioManager.STREAM_ALARM;
     public final static int TYPE_RING = AudioManager.STREAM_RING;
-
-    @IntDef({TYPE_MUSIC, TYPE_ALARM, TYPE_RING})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface TYPE {
-    }
-
     private Context context;
     private SoundPool soundPool;
     private int maxStream;
@@ -57,33 +51,6 @@ public class SoundPlayUtils {
     private MyHandler handler;
     private @TYPE
     int streamType;
-
-
-    private static class MyHandler extends Handler {
-        private WeakReference<SoundPlayUtils> weakReference;
-        private SoundPlayUtils playUtils;
-
-        private MyHandler(SoundPlayUtils mActivity, Looper looper) {
-            super(looper);
-            weakReference = new WeakReference<>(mActivity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            playUtils = weakReference.get();
-            if (weakReference == null || playUtils == null) {
-                return;
-            }
-            if (msg.what == 0) {
-                Bundle bundle = msg.getData();
-                String ringtoneName = bundle.getString("ringtoneName");
-                boolean isLoop = bundle.getBoolean("isLoop");
-                playUtils.play(ringtoneName, isLoop);
-            }
-            super.handleMessage(msg);
-        }
-    }
-
     private SoundPlayUtils(Builder builder) {
         context = builder.context;
         maxStream = builder.maxStream;
@@ -176,6 +143,36 @@ public class SoundPlayUtils {
         }
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
+        }
+    }
+
+    @IntDef({TYPE_MUSIC, TYPE_ALARM, TYPE_RING})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TYPE {
+    }
+
+    private static class MyHandler extends Handler {
+        private WeakReference<SoundPlayUtils> weakReference;
+        private SoundPlayUtils playUtils;
+
+        private MyHandler(SoundPlayUtils mActivity, Looper looper) {
+            super(looper);
+            weakReference = new WeakReference<>(mActivity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            playUtils = weakReference.get();
+            if (weakReference == null || playUtils == null) {
+                return;
+            }
+            if (msg.what == 0) {
+                Bundle bundle = msg.getData();
+                String ringtoneName = bundle.getString("ringtoneName");
+                boolean isLoop = bundle.getBoolean("isLoop");
+                playUtils.play(ringtoneName, isLoop);
+            }
+            super.handleMessage(msg);
         }
     }
 

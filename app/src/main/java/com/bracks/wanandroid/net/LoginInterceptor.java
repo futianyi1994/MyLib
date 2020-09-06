@@ -20,7 +20,7 @@ public class LoginInterceptor extends ResponseParamInterceptor {
     protected ResponseParamInterceptor.ResponseParamCallback responseParamCallback() {
         return (String bodyString) -> {
             Result result = JsonUtils.fromJson(bodyString, Result.class);
-            if (!result.OK()) {
+            if (!result.ok()) {
                 //重新登录
                 if (result.isExpired() || result.isRedirect()) {
                     ActivityUtils.startActivity(LoginUi.class);

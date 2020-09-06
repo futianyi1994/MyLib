@@ -26,10 +26,6 @@ public class RxBus {
         mStickyEventMap = new ConcurrentHashMap<>();
     }
 
-    private static class Holder {
-        private static final RxBus BUS = new RxBus();
-    }
-
     public static RxBus getDefault() {
         if (instance == null) {
             synchronized (RxBus.class) {
@@ -116,5 +112,9 @@ public class RxBus {
         synchronized (mStickyEventMap) {
             mStickyEventMap.clear();
         }
+    }
+
+    private static class Holder {
+        private static final RxBus BUS = new RxBus();
     }
 }

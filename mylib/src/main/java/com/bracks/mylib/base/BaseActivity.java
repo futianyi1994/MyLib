@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
@@ -31,7 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseUiIn
 
 
     @Override
-    protected void onCreate(@NonNull Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getLayoutId() != 0) {
             setBackgroundColor(R.color.common_item_gray_bg);

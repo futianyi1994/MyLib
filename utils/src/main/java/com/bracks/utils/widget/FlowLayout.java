@@ -15,6 +15,15 @@ import java.util.List;
  */
 public class FlowLayout extends ViewGroup {
 
+    /**
+     * 存储所有的View
+     */
+    private List<List<View>> mAllViews = new ArrayList<List<View>>();
+    /**
+     * 每一行的高度
+     */
+    private List<Integer> mLineHeight = new ArrayList<Integer>();
+
     public FlowLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
@@ -93,15 +102,6 @@ public class FlowLayout extends ViewGroup {
         );
 
     }
-
-    /**
-     * 存储所有的View
-     */
-    private List<List<View>> mAllViews = new ArrayList<List<View>>();
-    /**
-     * 每一行的高度
-     */
-    private List<Integer> mLineHeight = new ArrayList<Integer>();
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {

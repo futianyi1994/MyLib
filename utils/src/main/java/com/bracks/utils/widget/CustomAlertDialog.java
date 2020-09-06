@@ -68,14 +68,6 @@ public class CustomAlertDialog extends AlertDialog {
     public static final int CUSTOM_DIALOG1 = 3;
     public static final int CUSTOM_DIALOG2 = 4;
     public static final int CUSTOM_DIALOG3 = 5;
-
-    @IntDef({EMPTY_VIEW, DEFAULT_DIALOG, DEFAULT_PROMPT1, DEFAULT_PROMPT2, CUSTOM_DIALOG1, CUSTOM_DIALOG2, CUSTOM_DIALOG3})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface ViewStyle {
-        int style() default DEFAULT_PROMPT1;
-
-    }
-
     private Context context;
     private int iconId;
     private String title;
@@ -124,35 +116,10 @@ public class CustomAlertDialog extends AlertDialog {
     private OnClickListener neutralButtonClickListener;
     private View.OnClickListener positiveClickListener;
     private View.OnClickListener negativeClickListener;
-
-
-    public interface PostDelayListener {
-        /**
-         * 设置延迟消失
-         */
-        void delay();
-    }
-
-    public interface AfterShowListener {
-        /**
-         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
-         */
-        void onAfterShow(CustomAlertDialog dialog);
-    }
-
-    public interface ViewInterface {
-        /**
-         * popwindow内的子视图
-         *
-         * @param view
-         * @param layoutResId
-         */
-        void getChildView(View view, int layoutResId);
-    }
-
     private CustomAlertDialog(@NonNull Context context) {
         this(context, 0, null);
     }
+
 
     private CustomAlertDialog(@NonNull Context context, Builder builder) {
         this(context, 0, builder);
@@ -433,7 +400,6 @@ public class CustomAlertDialog extends AlertDialog {
         }
     }
 
-
     /**
      * 设置DialogWindow的参数
      *
@@ -518,6 +484,36 @@ public class CustomAlertDialog extends AlertDialog {
         }
     }
 
+    @IntDef({EMPTY_VIEW, DEFAULT_DIALOG, DEFAULT_PROMPT1, DEFAULT_PROMPT2, CUSTOM_DIALOG1, CUSTOM_DIALOG2, CUSTOM_DIALOG3})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ViewStyle {
+        int style() default DEFAULT_PROMPT1;
+
+    }
+
+    public interface PostDelayListener {
+        /**
+         * 设置延迟消失
+         */
+        void delay();
+    }
+
+    public interface AfterShowListener {
+        /**
+         * 处理一些在需要获取焦点前、显示popwind之后的操作：如隐藏导航栏需要在显示之前失去焦点显示之后重新获取焦点注意需要通过BarUtils.hideNavBar(dialog.getWindow().getDecorView());
+         */
+        void onAfterShow(CustomAlertDialog dialog);
+    }
+
+    public interface ViewInterface {
+        /**
+         * popwindow内的子视图
+         *
+         * @param view
+         * @param layoutResId
+         */
+        void getChildView(View view, int layoutResId);
+    }
 
     public static class Builder {
         private Context context;

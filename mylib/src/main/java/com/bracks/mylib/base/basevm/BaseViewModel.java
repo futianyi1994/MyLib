@@ -17,9 +17,8 @@ import android.support.annotation.NonNull;
  */
 public class BaseViewModel extends ViewModel implements BaseViewModelInter {
 
-    private MutableLiveData<BaseActionEvent> actionLiveData;
-
     protected LifecycleOwner lifecycleOwner;
+    private MutableLiveData<BaseActionEvent> actionLiveData;
 
 
     public BaseViewModel() {
@@ -67,11 +66,6 @@ public class BaseViewModel extends ViewModel implements BaseViewModelInter {
     }
 
     @Override
-    public void setLifecycleOwner(LifecycleOwner owner) {
-        lifecycleOwner = owner;
-    }
-
-    @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
     }
 
@@ -101,5 +95,10 @@ public class BaseViewModel extends ViewModel implements BaseViewModelInter {
 
     public LifecycleOwner getLifecycleOwner() {
         return lifecycleOwner;
+    }
+
+    @Override
+    public void setLifecycleOwner(LifecycleOwner owner) {
+        lifecycleOwner = owner;
     }
 }

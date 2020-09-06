@@ -47,6 +47,10 @@ public class SPUtils {
     private SharedPreferences sp;
 
 
+    private SPUtils(String spName, final int mode) {
+        sp = Utils.getApp().getSharedPreferences(spName, mode);
+    }
+
     public static SPUtils getInstance() {
         return getInstance("", Context.MODE_PRIVATE);
     }
@@ -74,10 +78,6 @@ public class SPUtils {
             }
         }
         return spUtils;
-    }
-
-    private SPUtils(String spName, final int mode) {
-        sp = Utils.getApp().getSharedPreferences(spName, mode);
     }
 
     /**
@@ -454,6 +454,33 @@ public class SPUtils {
     }
 
     /**
+     * 修改SharedPreferences默认保存路径
+     * 在Application初始化时调用该方法即可
+     *
+     * @param context
+     * @param pathname
+     */
+    public void changeSPPath(Context context, String pathname) {
+        try {
+            Field field;
+            //获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
+            field = ContextWrapper.class.getDeclaredField("mBase");
+            field.setAccessible(true);
+            //获取mBase变量
+            Object obj = field.get(context);
+            //获取ContextImpl。mPreferencesDir变量，该变量保存了数据文件的保存路径
+            field = obj.getClass().getDeclaredField("mPreferencesDir");
+            field.setAccessible(true);
+            //创建自定义路径
+            File file = new File(pathname);
+            //修改mPreferencesDir变量的值
+            field.set(obj, file);
+        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
      *
      * @author zhy
@@ -492,33 +519,6 @@ public class SPUtils {
                 e.printStackTrace();
             }
             return editor.commit();
-        }
-    }
-
-    /**
-     * 修改SharedPreferences默认保存路径
-     * 在Application初始化时调用该方法即可
-     *
-     * @param context
-     * @param pathname
-     */
-    public void changeSPPath(Context context, String pathname) {
-        try {
-            Field field;
-            //获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
-            field = ContextWrapper.class.getDeclaredField("mBase");
-            field.setAccessible(true);
-            //获取mBase变量
-            Object obj = field.get(context);
-            //获取ContextImpl。mPreferencesDir变量，该变量保存了数据文件的保存路径
-            field = obj.getClass().getDeclaredField("mPreferencesDir");
-            field.setAccessible(true);
-            //创建自定义路径
-            File file = new File(pathname);
-            //修改mPreferencesDir变量的值
-            field.set(obj, file);
-        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 }

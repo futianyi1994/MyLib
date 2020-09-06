@@ -210,7 +210,7 @@
 -keep public class * extends com.bracks.mylib.base.basemvp.BasePresenter
 
 #不要混淆Base所有子类的属性与方法
--keepclasseswithmembers class * extends com.bracks.mylib.base.model.Base{
+-keepclasseswithmembers class * extends com.bracks.mylib.base.model.BaseResult{
     <fields>;
     <methods>;
 }

@@ -22,6 +22,10 @@ public class RxAutoDispose {
         throw new IllegalStateException("Can't instance the RxAutoDispose");
     }
 
+    public static <T> AutoDisposeConverter<T> bindLifecycleDestroy(LifecycleOwner lifecycleOwner) {
+        return bindLifecycle(lifecycleOwner.getLifecycle(), Lifecycle.Event.ON_DESTROY);
+    }
+
     public static <T> AutoDisposeConverter<T> bindLifecycle(LifecycleOwner lifecycleOwner) {
         return bindLifecycle(lifecycleOwner.getLifecycle());
     }

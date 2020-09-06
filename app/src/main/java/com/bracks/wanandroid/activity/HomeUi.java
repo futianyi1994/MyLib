@@ -3,7 +3,7 @@ package com.bracks.wanandroid.activity;
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.widget.FrameLayout;
@@ -50,7 +50,7 @@ public class HomeUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    public void initData(@NonNull Bundle savedInstanceState) {
+    public void initData(@Nullable Bundle savedInstanceState) {
         fragments.add(HomeFrag.newInstance());
         fragments.add(PubFrag.newInstance());
         fragments.add(MyFrag.newInstance());

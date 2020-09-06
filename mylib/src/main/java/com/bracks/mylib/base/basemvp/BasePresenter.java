@@ -4,6 +4,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.utils.TLog;
@@ -22,14 +23,14 @@ import java.lang.ref.WeakReference;
 public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> {
     private static final String TAG = "BasePresenter";
 
-    private LifecycleOwner lifecycleOwner;
+    protected LifecycleOwner lifecycleOwner;
     private WeakReference<V> mViewRef;
 
     public BasePresenter() {
     }
 
     @Override
-    public void onCreatePersenter(@NonNull Bundle savedInstanceState) {
+    public void onCreatePersenter(@Nullable Bundle savedInstanceState) {
         TLog.i(TAG, "onCreatePersenter savedInstanceState = " + savedInstanceState);
     }
 
@@ -39,7 +40,7 @@ public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> 
     }
 
     @Override
-    public Bundle onSaveInstanceState(Bundle outState) {
+    public Bundle onSaveInstanceState(@Nullable Bundle outState) {
         TLog.i(TAG, "onSaveInstanceState outState = " + outState);
         return outState;
     }
@@ -97,5 +98,12 @@ public class BasePresenter<V extends BaseView> implements BasePresenterInter<V> 
             throw new NullPointerException("lifecycleOwner == null");
         }
         return RxAutoDispose.bindLifecycle(lifecycleOwner);
+    }
+
+    protected <T> AutoDisposeConverter<T> bindLifecycleDestroy() {
+        if (null == lifecycleOwner) {
+            throw new NullPointerException("lifecycleOwner == null");
+        }
+        return RxAutoDispose.bindLifecycleDestroy(lifecycleOwner);
     }
 }

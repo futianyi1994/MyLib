@@ -21,13 +21,13 @@ public class CollectViewModel extends BaseViewModel {
     private MutableLiveData<List<Collect.DataBean.DatasBean>> liveData;
     private CollectRepo collectRepo;
 
-    @Override
-    public void startLoading() {
-    }
-
     public CollectViewModel() {
         liveData = new MutableLiveData<>();
         collectRepo = new CollectRepo(new CollectDataSource(this));
+    }
+
+    @Override
+    public void startLoading() {
     }
 
     public void quertCollect(int page) {

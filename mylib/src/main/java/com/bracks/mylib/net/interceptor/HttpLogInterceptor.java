@@ -16,6 +16,16 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * @description :
  */
 public class HttpLogInterceptor {
+    public static HttpLoggingInterceptor get() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new OkHttpLogger());
+
+        if (AppUtils.isAppDebug()) {
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        }
+
+        return interceptor;
+    }
+
     /**
      * logging class
      */
@@ -25,16 +35,6 @@ public class HttpLogInterceptor {
             LogUtils.iTag("oklog", message);
             //Logger.i("oklog: %s", message);
         }
-    }
-
-    public static HttpLoggingInterceptor get() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new OkHttpLogger());
-
-        if (AppUtils.isAppDebug()) {
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        }
-
-        return interceptor;
     }
 }
 

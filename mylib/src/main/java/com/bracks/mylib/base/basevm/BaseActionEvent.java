@@ -25,19 +25,11 @@ public class BaseActionEvent extends BaseEvent {
     public static final int FINISH = 4;
 
     public static final int FINISH_WITH_RESULT_OK = 5;
-
-
-    @IntDef({SHOW_LOADING_DIALOG, DISMISS_LOADING_DIALOG, SHOW_TOAST, FINISH, FINISH_WITH_RESULT_OK})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface ActionEvent {
-    }
-
     private String message;
     /**
      * 能否点击取消dialog
      */
     private boolean isCancelable = true;
-
     public BaseActionEvent(@ActionEvent int action) {
         super(action);
     }
@@ -58,6 +50,11 @@ public class BaseActionEvent extends BaseEvent {
 
     public boolean isCancelable() {
         return isCancelable;
+    }
+
+    @IntDef({SHOW_LOADING_DIALOG, DISMISS_LOADING_DIALOG, SHOW_TOAST, FINISH, FINISH_WITH_RESULT_OK})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ActionEvent {
     }
 
 }

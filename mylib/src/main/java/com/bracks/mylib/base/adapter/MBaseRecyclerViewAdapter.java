@@ -41,18 +41,18 @@ public abstract class MBaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
      */
     public abstract RecyclerView.ViewHolder getViewHolder(@NonNull View itemView);
 
-    public final void setData(@NonNull List<T> data) {
-        this.data.clear();
-        this.data.addAll(data);
-        notifyDataSetChanged();
-    }
-
     public final T getItem(int position) {
         return data == null || data.isEmpty() ? null : data.get(position);
     }
 
     public List<T> getData() {
         return data;
+    }
+
+    public final void setData(@NonNull List<T> data) {
+        this.data.clear();
+        this.data.addAll(data);
+        notifyDataSetChanged();
     }
 
     @NonNull

@@ -12,7 +12,7 @@ public interface BaseView {
     /**
      * 显示loading
      *
-     * @param msg dialog标题
+     * @param msg          dialog标题
      * @param isCancelable 能否点击取消dialog
      */
     void showLoading(String msg, boolean isCancelable);

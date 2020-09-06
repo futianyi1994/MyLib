@@ -1,7 +1,7 @@
 package com.bracks.mylib.base.interf;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * good programmer.
@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 public interface BaseUiInterf {
     int getLayoutId();
 
-    void initData(@NonNull Bundle savedInstanceState);
+    void initData(@Nullable Bundle savedInstanceState);
 
-    void initView(@NonNull Bundle savedInstanceState);
+    void initView(@Nullable Bundle savedInstanceState);
 }

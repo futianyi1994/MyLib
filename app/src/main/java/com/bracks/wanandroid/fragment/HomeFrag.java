@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,7 +62,7 @@ public class HomeFrag extends BaseProxyFrag<HomeFragContract.View, HomeFragP> im
     }
 
     @Override
-    public void initView(View view, @NonNull Bundle savedInstanceState) {
+    public void initView(View view, @Nullable Bundle savedInstanceState) {
         adapter = new ChapterAdapter(getActivity());
         refreshLayout.setEnableOverScrollDrag(true);
         refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {

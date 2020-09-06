@@ -77,7 +77,7 @@ public abstract class BaseRemoteDataSource implements BaseDataSource {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap((Function<Result<T>, ObservableSource<? extends T>>) result -> {
-                    if (result.OK()) {
+                    if (result.ok()) {
                         return Observable.create((ObservableOnSubscribe<T>) emitter -> {
                             try {
                                 emitter.onNext(result.getData());

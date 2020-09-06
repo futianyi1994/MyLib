@@ -1,11 +1,11 @@
 package com.bracks.mylib.rx;
 
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.R;
 import com.bracks.mylib.base.model.Result;
+import com.bracks.mylib.exception.ApiException;
 import com.bracks.mylib.exception.ExceptionReason;
 import com.bracks.mylib.utils.TLog;
 import com.google.gson.JsonParseException;
@@ -35,6 +35,13 @@ public abstract class RxDefaultObserver<T extends Result> implements Observer<T>
     private static final String TAG = "RxDefaultObserver";
     private Disposable disposable;
 
+    /**
+     * 请求成功
+     *
+     * @param response 服务器返回的数据
+     */
+    abstract public void onSuccess(T response);
+
     @Override
     public void onSubscribe(Disposable d) {
         disposable = d;
@@ -42,7 +49,7 @@ public abstract class RxDefaultObserver<T extends Result> implements Observer<T>
 
     @Override
     public void onNext(T response) {
-        if (response.OK()) {
+        if (response.ok()) {
             onSuccess(response);
         } else {
             onFail(response);
@@ -67,6 +74,8 @@ public abstract class RxDefaultObserver<T extends Result> implements Observer<T>
                 || e instanceof JSONException
                 || e instanceof ParseException) {
             onException(ExceptionReason.PARSE_ERROR);
+        } else if (e instanceof ApiException) {
+            onApiException(((ApiException) e));
         } else {
             onException(ExceptionReason.UNKNOWN_ERROR);
         }
@@ -75,13 +84,6 @@ public abstract class RxDefaultObserver<T extends Result> implements Observer<T>
     @Override
     public void onComplete() {
     }
-
-    /**
-     * 请求成功
-     *
-     * @param response 服务器返回的数据
-     */
-    abstract public void onSuccess(T response);
 
     /**
      * 服务器返回数据，但响应码不为200
@@ -106,22 +108,31 @@ public abstract class RxDefaultObserver<T extends Result> implements Observer<T>
     public void onException(@ExceptionReason.Reason int reason) {
         switch (reason) {
             case ExceptionReason.CONNECT_ERROR:
-                ToastUtils.showLong(R.string.error_connect, Toast.LENGTH_SHORT);
+                ToastUtils.showLong(R.string.error_connect);
                 break;
             case ExceptionReason.CONNECT_TIMEOUT:
-                ToastUtils.showLong(R.string.error_timeout, Toast.LENGTH_SHORT);
+                ToastUtils.showLong(R.string.error_timeout);
                 break;
             case ExceptionReason.BAD_NETWORK:
-                ToastUtils.showLong(R.string.error_bad_network, Toast.LENGTH_SHORT);
+                ToastUtils.showLong(R.string.error_bad_network);
                 break;
             case ExceptionReason.PARSE_ERROR:
-                ToastUtils.showLong(R.string.error_parse, Toast.LENGTH_SHORT);
+                ToastUtils.showLong(R.string.error_parse);
                 break;
             case ExceptionReason.UNKNOWN_ERROR:
             default:
-                ToastUtils.showLong(R.string.error_unknown, Toast.LENGTH_SHORT);
+                ToastUtils.showLong(R.string.error_unknown);
                 break;
         }
+    }
+
+    /**
+     * 自定义的Api异常
+     *
+     * @param e
+     */
+    public void onApiException(ApiException e) {
+        ToastUtils.showLong(e.getMessage().concat(" : " + e.getErrorCode()));
     }
 
     public void cancelRequest() {

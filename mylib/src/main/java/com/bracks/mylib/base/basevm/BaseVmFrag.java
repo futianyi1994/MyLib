@@ -4,7 +4,7 @@ import android.app.Dialog;
 import android.arch.lifecycle.ViewModel;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.bracks.mylib.base.basemvp.BaseFrag;
 import com.bracks.mylib.base.basemvp.BasePresenter;
@@ -29,7 +29,7 @@ public abstract class BaseVmFrag<V extends BaseView, P extends BasePresenter<V>>
 
 
     @Override
-    public void onActivityCreated(@NonNull Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViewModelEvent();
     }

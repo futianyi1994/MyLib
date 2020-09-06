@@ -17,6 +17,7 @@ import android.view.ViewGroup;
  */
 public class FullyLinearLayoutManager extends LinearLayoutManager {
     private static final String TAG = FullyLinearLayoutManager.class.getSimpleName();
+    private int[] mMeasuredDimension = new int[2];
 
     public FullyLinearLayoutManager(Context context) {
         super(context);
@@ -25,8 +26,6 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
     public FullyLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
     }
-
-    private int[] mMeasuredDimension = new int[2];
 
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state,

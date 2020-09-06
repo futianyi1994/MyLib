@@ -24,16 +24,6 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     public static final int LINEARLAYOUT = 0;
     public static final int GRIDLAYOUT = 1;
     public static final int STAGGEREDGRIDLAYOUT = 2;
-
-    //限定为LINEARLAYOUT,GRIDLAYOUT,STAGGEREDGRIDLAYOUT
-    @IntDef({LINEARLAYOUT, GRIDLAYOUT, STAGGEREDGRIDLAYOUT})
-    //表示注解所存活的时间,在运行时,而不会存在. class 文件.
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface LayoutManager {
-        int type() default LINEARLAYOUT;
-    }
-
-
     private int leftRight = -1;
     private int topBottom = -1;
     /**
@@ -48,7 +38,6 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
      * 烈数
      */
     private int spanCount;
-
     private @LayoutManager
     int layoutManager;
 
@@ -247,5 +236,13 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
             outRect.top = topBottom;
             outRect.left = leftRight;
         }
+    }
+
+    //限定为LINEARLAYOUT,GRIDLAYOUT,STAGGEREDGRIDLAYOUT
+    @IntDef({LINEARLAYOUT, GRIDLAYOUT, STAGGEREDGRIDLAYOUT})
+    //表示注解所存活的时间,在运行时,而不会存在. class 文件.
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface LayoutManager {
+        int type() default LINEARLAYOUT;
     }
 }

@@ -1,7 +1,7 @@
 package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.bracks.mylib.base.interf.BaseLifecycleObserver;
 
@@ -20,7 +20,7 @@ public interface BasePresenterInter<V extends BaseView> extends BaseLifecycleObs
      *
      * @param savedInstanceState 意外销毁后恢复保存的Bundle
      */
-    void onCreatePersenter(@NonNull Bundle savedInstanceState);
+    void onCreatePersenter(@Nullable Bundle savedInstanceState);
 
     /**
      * Presenter被销毁时调用
@@ -33,7 +33,7 @@ public interface BasePresenterInter<V extends BaseView> extends BaseLifecycleObs
      * @param outState 在return前可以在outState做一些数据保存工作
      * @return 意外销毁时保存的Bundle
      */
-    Bundle onSaveInstanceState(Bundle outState);
+    Bundle onSaveInstanceState(@Nullable Bundle outState);
 
     /**
      * Presenter绑定View时调用

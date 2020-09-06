@@ -24,6 +24,7 @@ public class ExecutorsManager {
     //private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
 
     public static ExecutorService eventExecutor;
+    private static ExecutorsManager sInstance;
 
     static {
         eventExecutor = new ThreadPoolExecutor(
@@ -53,7 +54,6 @@ public class ExecutorsManager {
             TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<Runnable>(),
             new ThreadPoolExecutor.AbortPolicy());
-    private static ExecutorsManager sInstance;
 
     private ExecutorsManager() {
     }

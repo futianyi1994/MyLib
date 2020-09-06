@@ -1,6 +1,8 @@
 package com.bracks.mylib.base;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,7 +32,7 @@ public abstract class BaseFragment extends Fragment implements BaseFragInterf, V
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), container, false);
             mUnbinder = ButterKnife.bind(this, rootView);
@@ -43,6 +45,12 @@ public abstract class BaseFragment extends Fragment implements BaseFragInterf, V
             }
         }
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        rootView = null;
     }
 
     @Override

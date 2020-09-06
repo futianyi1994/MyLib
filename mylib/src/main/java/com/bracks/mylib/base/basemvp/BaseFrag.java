@@ -1,7 +1,7 @@
 package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.bracks.mylib.base.BaseFragment;
 
@@ -19,7 +19,7 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //创建Presenter
         if (presenter == null) {
@@ -43,7 +43,7 @@ public abstract class BaseFrag<V extends BaseView, P extends BasePresenter<V>> e
     }
 
     @Override
-    public void initData(@NonNull Bundle savedInstanceState) {
+    public void initData(@Nullable Bundle savedInstanceState) {
     }
 
     /**

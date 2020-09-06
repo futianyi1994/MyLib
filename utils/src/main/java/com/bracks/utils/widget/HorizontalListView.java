@@ -109,72 +109,58 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
      * The bundle id of the parents state. Used to restore the parent's state after a rotation occurs
      */
     private static final String BUNDLE_ID_PARENT_STATE = "BUNDLE_ID_PARENT_STATE";
-
-    /**
-     * Tracks ongoing flings
-     */
-    protected Scroller mFlingTracker = new Scroller(getContext());
-
     /**
      * Gesture listener to receive callbacks when gestures are detected
      */
     private final GestureListener mGestureListener = new GestureListener();
-
     /**
-     * Used for detecting gestures within this view so they can be handled
+     * Tracks ongoing flings
      */
-    private GestureDetector mGestureDetector;
-
-    /**
-     * This tracks the starting layout position of the leftmost view
-     */
-    private int mDisplayOffset;
-
+    protected Scroller mFlingTracker = new Scroller(getContext());
     /**
      * Holds a reference to the adapter bound to this view
      */
     protected ListAdapter mAdapter;
-
-    /**
-     * Holds a cache of recycled views to be reused as needed
-     */
-    private List<Queue<View>> mRemovedViewsCache = new ArrayList<Queue<View>>();
-
-    /**
-     * Flag used to mark when the adapters Data has changed, so the view can be relaid out
-     */
-    private boolean mDataChanged = false;
-
-    /**
-     * Temporary rectangle to be used for measurements
-     */
-    private Rect mRect = new Rect();
-
-    /**
-     * Tracks the currently touched view, used to delegate touches to the view being touched
-     */
-    private View mViewBeingTouched = null;
-
-    /**
-     * The width of the divider that will be used between list items
-     */
-    private int mDividerWidth = 0;
-
-    /**
-     * The drawable that will be used as the list divider
-     */
-    private Drawable mDivider = null;
-
     /**
      * The x position of the currently rendered view
      */
     protected int mCurrentX;
-
     /**
      * The x position of the next to be rendered view
      */
     protected int mNextX;
-
+    /**
+     * Used for detecting gestures within this view so they can be handled
+     */
+    private GestureDetector mGestureDetector;
+    /**
+     * This tracks the starting layout position of the leftmost view
+     */
+    private int mDisplayOffset;
+    /**
+     * Holds a cache of recycled views to be reused as needed
+     */
+    private List<Queue<View>> mRemovedViewsCache = new ArrayList<Queue<View>>();
+    /**
+     * Flag used to mark when the adapters Data has changed, so the view can be relaid out
+     */
+    private boolean mDataChanged = false;
+    /**
+     * Temporary rectangle to be used for measurements
+     */
+    private Rect mRect = new Rect();
+    /**
+     * Tracks the currently touched view, used to delegate touches to the view being touched
+     */
+    private View mViewBeingTouched = null;
+    /**
+     * The width of the divider that will be used between list items
+     */
+    private int mDividerWidth = 0;
+    /**
+     * The drawable that will be used as the list divider
+     */
+    private Drawable mDivider = null;
     /**
      * Used to hold the scroll position to restore to post rotate
      */
@@ -254,6 +240,46 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
      * The listener that receives notifications when this view is clicked.
      */
     private OnClickListener mOnClickListener;
+    /**
+     * DataSetObserver used to capture adapter Data change events
+     */
+    private DataSetObserver mAdapterDataObserver = new DataSetObserver() {
+        @Override
+        public void onChanged() {
+            mDataChanged = true;
+
+            // Clear so we can notify again as we run out of Data
+            mHasNotifiedRunningLowOnData = false;
+
+            unpressTouchedChild();
+
+            // Invalidate and request layout to force this view to completely redraw itself
+            invalidate();
+            requestLayout();
+        }
+
+        @Override
+        public void onInvalidated() {
+            // Clear so we can notify again as we run out of Data
+            mHasNotifiedRunningLowOnData = false;
+
+            unpressTouchedChild();
+            reset();
+
+            // Invalidate and request layout to force this view to completely redraw itself
+            invalidate();
+            requestLayout();
+        }
+    };
+    /**
+     * Use to schedule a request layout via a runnable
+     */
+    private Runnable mDelayedLayout = new Runnable() {
+        @Override
+        public void run() {
+            requestLayout();
+        }
+    };
 
     public HorizontalListView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -414,38 +440,6 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         requestLayout();
     }
 
-    /**
-     * DataSetObserver used to capture adapter Data change events
-     */
-    private DataSetObserver mAdapterDataObserver = new DataSetObserver() {
-        @Override
-        public void onChanged() {
-            mDataChanged = true;
-
-            // Clear so we can notify again as we run out of Data
-            mHasNotifiedRunningLowOnData = false;
-
-            unpressTouchedChild();
-
-            // Invalidate and request layout to force this view to completely redraw itself
-            invalidate();
-            requestLayout();
-        }
-
-        @Override
-        public void onInvalidated() {
-            // Clear so we can notify again as we run out of Data
-            mHasNotifiedRunningLowOnData = false;
-
-            unpressTouchedChild();
-            reset();
-
-            // Invalidate and request layout to force this view to completely redraw itself
-            invalidate();
-            requestLayout();
-        }
-    };
-
     @Override
     public void setSelection(int position) {
         mCurrentlySelectedAdapterIndex = position;
@@ -454,6 +448,11 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     @Override
     public View getSelectedView() {
         return getChild(mCurrentlySelectedAdapterIndex);
+    }
+
+    @Override
+    public ListAdapter getAdapter() {
+        return mAdapter;
     }
 
     @Override
@@ -472,11 +471,6 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
 
         initializeRecycledViewCache(mAdapter.getViewTypeCount());
         reset();
-    }
-
-    @Override
-    public ListAdapter getAdapter() {
-        return mAdapter;
     }
 
     /**
@@ -700,16 +694,6 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
             return FLING_DEFAULT_ABSORB_VELOCITY;
         }
     }
-
-    /**
-     * Use to schedule a request layout via a runnable
-     */
-    private Runnable mDelayedLayout = new Runnable() {
-        @Override
-        public void run() {
-            requestLayout();
-        }
-    };
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -1119,78 +1103,6 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         }
     }
 
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return HorizontalListView.this.onDown(e);
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            return HorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            // Lock the user into interacting just with this view
-            requestParentListViewToNotInterceptTouchEvents(true);
-
-            setCurrentScrollState(OnScrollStateChangedListener.ScrollState.SCROLL_STATE_TOUCH_SCROLL);
-            unpressTouchedChild();
-            mNextX += (int) distanceX;
-            updateOverscrollAnimation(Math.round(distanceX));
-            requestLayout();
-
-            return true;
-        }
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            unpressTouchedChild();
-            OnItemClickListener onItemClickListener = getOnItemClickListener();
-
-            final int index = getChildIndex((int) e.getX(), (int) e.getY());
-
-            // If the tap is inside one of the child views, and we are not blocking touches
-            if (index >= 0 && !mBlockTouchAction) {
-                View child = getChildAt(index);
-                int adapterIndex = mLeftViewAdapterIndex + index;
-
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(HorizontalListView.this, child, adapterIndex, mAdapter.getItemId(adapterIndex));
-                    return true;
-                }
-            }
-
-            if (mOnClickListener != null && !mBlockTouchAction) {
-                mOnClickListener.onClick(HorizontalListView.this);
-            }
-
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-            unpressTouchedChild();
-
-            final int index = getChildIndex((int) e.getX(), (int) e.getY());
-            if (index >= 0 && !mBlockTouchAction) {
-                View child = getChildAt(index);
-                OnItemLongClickListener onItemLongClickListener = getOnItemLongClickListener();
-                if (onItemLongClickListener != null) {
-                    int adapterIndex = mLeftViewAdapterIndex + index;
-                    boolean handled = onItemLongClickListener.onItemLongClick(HorizontalListView.this, child, adapterIndex, mAdapter
-                            .getItemId(adapterIndex));
-
-                    if (handled) {
-                        // BZZZTT!!1!
-                        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                    }
-                }
-            }
-        }
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // Detect when the user lifts their finger off the screen after a touch
@@ -1249,16 +1161,6 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     }
 
     /**
-     * This listener is used to allow notification when the HorizontalListView is running low on Data to display.
-     */
-    public interface RunningOutOfDataListener {
-        /**
-         * Called when the HorizontalListView is running out of Data and has reached at least the provided threshold.
-         */
-        void onRunningOutOfData();
-    }
-
-    /**
      * Determines if we are low on Data and if so will call to notify the listener, if there is one,
      * that we are running low on Data.
      */
@@ -1283,37 +1185,6 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     @Override
     public void setOnClickListener(OnClickListener listener) {
         mOnClickListener = listener;
-    }
-
-    /**
-     * Interface definition for a callback to be invoked when the view scroll state has changed.
-     */
-    public interface OnScrollStateChangedListener {
-        enum ScrollState {
-            /**
-             * The view is not scrolling. Note navigating the list using the trackball counts as being
-             * in the idle state since these transitions are not animated.
-             */
-            SCROLL_STATE_IDLE,
-
-            /**
-             * The user is scrolling using touch, and their finger is still on the screen
-             */
-            SCROLL_STATE_TOUCH_SCROLL,
-
-            /**
-             * The user had previously been scrolling using touch and had performed a fling. The
-             * animation is now coasting to a stop
-             */
-            SCROLL_STATE_FLING
-        }
-
-        /**
-         * Callback method to be invoked when the scroll state changes.
-         *
-         * @param scrollState The current scroll state.
-         */
-        void onScrollStateChanged(ScrollState scrollState);
     }
 
     /**
@@ -1396,6 +1267,47 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         return mMaxX > 0;
     }
 
+    /**
+     * This listener is used to allow notification when the HorizontalListView is running low on Data to display.
+     */
+    public interface RunningOutOfDataListener {
+        /**
+         * Called when the HorizontalListView is running out of Data and has reached at least the provided threshold.
+         */
+        void onRunningOutOfData();
+    }
+
+    /**
+     * Interface definition for a callback to be invoked when the view scroll state has changed.
+     */
+    public interface OnScrollStateChangedListener {
+        /**
+         * Callback method to be invoked when the scroll state changes.
+         *
+         * @param scrollState The current scroll state.
+         */
+        void onScrollStateChanged(ScrollState scrollState);
+
+        enum ScrollState {
+            /**
+             * The view is not scrolling. Note navigating the list using the trackball counts as being
+             * in the idle state since these transitions are not animated.
+             */
+            SCROLL_STATE_IDLE,
+
+            /**
+             * The user is scrolling using touch, and their finger is still on the screen
+             */
+            SCROLL_STATE_TOUCH_SCROLL,
+
+            /**
+             * The user had previously been scrolling using touch and had performed a fling. The
+             * animation is now coasting to a stop
+             */
+            SCROLL_STATE_FLING
+        }
+    }
+
     @TargetApi(11)
     /** Wrapper class to protect access to API version 11 and above features */
     private static final class HoneycombPlus {
@@ -1429,6 +1341,78 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
          */
         public static float getCurrVelocity(Scroller scroller) {
             return scroller.getCurrVelocity();
+        }
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return HorizontalListView.this.onDown(e);
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            return HorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            // Lock the user into interacting just with this view
+            requestParentListViewToNotInterceptTouchEvents(true);
+
+            setCurrentScrollState(OnScrollStateChangedListener.ScrollState.SCROLL_STATE_TOUCH_SCROLL);
+            unpressTouchedChild();
+            mNextX += (int) distanceX;
+            updateOverscrollAnimation(Math.round(distanceX));
+            requestLayout();
+
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            unpressTouchedChild();
+            OnItemClickListener onItemClickListener = getOnItemClickListener();
+
+            final int index = getChildIndex((int) e.getX(), (int) e.getY());
+
+            // If the tap is inside one of the child views, and we are not blocking touches
+            if (index >= 0 && !mBlockTouchAction) {
+                View child = getChildAt(index);
+                int adapterIndex = mLeftViewAdapterIndex + index;
+
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(HorizontalListView.this, child, adapterIndex, mAdapter.getItemId(adapterIndex));
+                    return true;
+                }
+            }
+
+            if (mOnClickListener != null && !mBlockTouchAction) {
+                mOnClickListener.onClick(HorizontalListView.this);
+            }
+
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            unpressTouchedChild();
+
+            final int index = getChildIndex((int) e.getX(), (int) e.getY());
+            if (index >= 0 && !mBlockTouchAction) {
+                View child = getChildAt(index);
+                OnItemLongClickListener onItemLongClickListener = getOnItemLongClickListener();
+                if (onItemLongClickListener != null) {
+                    int adapterIndex = mLeftViewAdapterIndex + index;
+                    boolean handled = onItemLongClickListener.onItemLongClick(HorizontalListView.this, child, adapterIndex, mAdapter
+                            .getItemId(adapterIndex));
+
+                    if (handled) {
+                        // BZZZTT!!1!
+                        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    }
+                }
+            }
         }
     }
 }

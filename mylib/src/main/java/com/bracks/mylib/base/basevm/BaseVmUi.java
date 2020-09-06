@@ -4,7 +4,7 @@ import android.app.Dialog;
 import android.arch.lifecycle.ViewModel;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.BaseUi;
@@ -29,7 +29,7 @@ public abstract class BaseVmUi<V extends BaseView, P extends BasePresenter<V>> e
 
 
     @Override
-    public void initView(@NonNull Bundle savedInstanceState) {
+    public void initView(@Nullable Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         initViewModelEvent();
     }

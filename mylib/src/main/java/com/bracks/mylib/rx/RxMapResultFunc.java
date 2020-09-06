@@ -18,7 +18,7 @@ import io.reactivex.functions.Function;
 public class RxMapResultFunc<T> implements Function<Result<T>, T> {
     @Override
     public T apply(@NonNull Result<T> result) {
-        if (result.OK()) {
+        if (result.ok()) {
             return result.getData();
         } else {
             throw new ApiException(result.getCode(), result.getMsg());

@@ -23,6 +23,6 @@ public class HistoryDataSource extends BaseRemoteDataSource implements IHistoryD
 
     @Override
     public void queryHistory(int id, int page, String search, HttpCallback<Chapter.DataBean> callback) {
-        execute(ApiService.getService().getHistoryList(id, page,search), callback);
+        execute(ApiService.getService().getHistoryList(id, page, search), callback);
     }
 }

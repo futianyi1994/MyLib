@@ -27,9 +27,8 @@ import java.lang.Thread.UncaughtExceptionHandler;
  * 使用方式： 在Application 中初始化  CrashManager.getInstance().init(this);
  */
 public class CrashManager implements UncaughtExceptionHandler {
-    private static final String TAG = "CrashManager";
     public static final boolean DEBUG = true;
-
+    private static final String TAG = "CrashManager";
     private static CrashManager sInstance = new CrashManager();
     private UncaughtExceptionHandler mDefaultCrashHandler;
     private Context mContext;

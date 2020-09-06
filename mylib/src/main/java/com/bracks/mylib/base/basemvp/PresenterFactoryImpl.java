@@ -16,6 +16,10 @@ public class PresenterFactoryImpl<P extends BasePresenter> implements PresenterF
     private final Class<P> mPresenterClass;
 
 
+    private PresenterFactoryImpl(Class<P> presenterClass) {
+        this.mPresenterClass = presenterClass;
+    }
+
     /**
      * 根据注解创建Presenter的工厂实现类
      *
@@ -34,10 +38,6 @@ public class PresenterFactoryImpl<P extends BasePresenter> implements PresenterF
         } else {
             return new PresenterFactoryImpl<>(aClass);
         }
-    }
-
-    private PresenterFactoryImpl(Class<P> presenterClass) {
-        this.mPresenterClass = presenterClass;
     }
 
     @Override

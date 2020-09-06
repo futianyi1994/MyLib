@@ -28,10 +28,14 @@ import com.bracks.utils.R;
  * @description :
  */
 public abstract class CustomBottomSheetFrag extends BottomSheetDialogFragment {
+    /**
+     * 对应于BottomSheetBehavior的状态
+     */
+    public int bottomSheetBehaviorState;
     protected Context mContext;
-
     protected Dialog dialog;
     protected View rootView;
+    protected BottomSheetBehavior mBehavior;
     /**
      * 顶部向下偏移量
      */
@@ -48,12 +52,6 @@ public abstract class CustomBottomSheetFrag extends BottomSheetDialogFragment {
      * 折叠显示的菜单布局
      */
     private View peekView;
-
-    protected BottomSheetBehavior mBehavior;
-    /**
-     * 对应于BottomSheetBehavior的状态
-     */
-    public int bottomSheetBehaviorState;
     /**
      * peekHeight高度和布局是否一样
      */
@@ -188,6 +186,10 @@ public abstract class CustomBottomSheetFrag extends BottomSheetDialogFragment {
         return dialog != null && dialog.isShowing();
     }
 
+    protected int getTopOffset() {
+        return topOffset;
+    }
+
     /**
      * 设置偏离顶部的距离：isPeekHeightWithLayout = true时才有意义
      *
@@ -197,11 +199,6 @@ public abstract class CustomBottomSheetFrag extends BottomSheetDialogFragment {
         this.topOffset = topOffset;
         setPeekHeightWithLayout();
     }
-
-    protected int getTopOffset() {
-        return topOffset;
-    }
-
 
     public int getPeekHeight() {
         return peekHeight;

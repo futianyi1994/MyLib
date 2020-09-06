@@ -3,7 +3,7 @@ package com.bracks.wanandroid.fragment;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -63,7 +63,7 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     }
 
     @Override
-    public void initView(View view, @NonNull Bundle savedInstanceState) {
+    public void initView(View view, @Nullable Bundle savedInstanceState) {
         getPresenter().fetch();
         if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {
             tvUserName.setText(SPUtils.getInstance().getString(Contants.SP_USER_NAME));
@@ -75,7 +75,7 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     }
 
     @Override
-    public void initData(@NonNull Bundle savedInstanceState) {
+    public void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         RxBus
                 .getDefault()

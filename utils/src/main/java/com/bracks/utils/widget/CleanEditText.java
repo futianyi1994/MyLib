@@ -28,6 +28,24 @@ public class CleanEditText extends AppCompatEditText implements View.OnFocusChan
      */
     private Drawable mClearDrawable;
     private boolean hasFoucs;
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (hasFoucs) {
+                setClearIconVisible(s.length() > 0);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     public CleanEditText(Context context) {
         this(context, null);
@@ -58,7 +76,6 @@ public class CleanEditText extends AppCompatEditText implements View.OnFocusChan
         // 设置输入框里面内容发生改变的监听
         addTextChangedListener(textWatcher);
     }
-
 
     /**
      * @说明：isInnerWidth, isInnerHeight为ture，触摸点在删除图标之内，则视为点击了删除图标
@@ -113,23 +130,4 @@ public class CleanEditText extends AppCompatEditText implements View.OnFocusChan
         setCompoundDrawables(getCompoundDrawables()[0],
                 getCompoundDrawables()[1], right, getCompoundDrawables()[3]);
     }
-
-    private TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (hasFoucs) {
-                setClearIconVisible(s.length() > 0);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
 }

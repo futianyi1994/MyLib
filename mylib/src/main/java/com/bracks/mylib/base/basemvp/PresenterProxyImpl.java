@@ -1,6 +1,7 @@
 package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.bracks.mylib.utils.TLog;
 
@@ -99,7 +100,7 @@ public class PresenterProxyImpl<V extends BaseView, P extends BasePresenter<V>> 
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState) {
         mBundle = savedInstanceState;
     }
 }

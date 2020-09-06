@@ -32,11 +32,10 @@ public class EmptyLayout extends LinearLayout implements
     public static final int HIDE_LAYOUT = 4;
     public static final int NODATA_ENABLE_CLICK = 5;
     public static final int NO_LOGIN = 6;
-
-    private ProgressBar animProgress;
-    private boolean clickEnable = true;
     private final Context context;
     public ImageView img;
+    private ProgressBar animProgress;
+    private boolean clickEnable = true;
     private OnClickListener listener;
     private OnClickListener imgListener;
     private OnClickListener tvListener;

@@ -1,6 +1,8 @@
 package com.bracks.mylib.base.model;
 
 
+import java.io.Serializable;
+
 /**
  * good programmer.
  *
@@ -9,5 +11,5 @@ package com.bracks.mylib.base.model;
  * @email : futianyi1994@126.com
  * @description :
  */
-public abstract class Entity extends Base {
+public abstract class Entity implements Serializable {
 }

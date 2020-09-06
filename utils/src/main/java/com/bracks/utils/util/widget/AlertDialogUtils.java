@@ -80,40 +80,6 @@ public class AlertDialogUtils {
         handler.sendEmptyMessage(ProgressHandler.PRO);
     }
 
-    public static class ProgressHandler extends Handler {
-        public static final int MAX_PROGRESS = 100;
-        public static final int PRO = 10;
-        private int progress = 10;
-        private ProgressDialog waitDialog;
-
-        public ProgressHandler(ProgressDialog waitDialog) {
-            super(Looper.getMainLooper());
-            this.waitDialog = waitDialog;
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case PRO:
-                    if (progress >= MAX_PROGRESS) {
-                        //重新设置
-                        progress = 0;
-                        waitDialog.dismiss();//销毁对话框
-                    } else {
-                        progress++;
-                        waitDialog.incrementProgressBy(1);
-                        //延迟发送消息
-                        this.sendEmptyMessageDelayed(PRO, 100);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-
     /***
      * 获取一个信息对话框，注意需要自己手动调用show方法显示
      * @param context
@@ -174,6 +140,39 @@ public class AlertDialogUtils {
 
     public static AlertDialog.Builder getSingleChoiceDialog(Context context, String[] arrays, int selectIndex, DialogInterface.OnClickListener onClickListener) {
         return getSingleChoiceDialog(context, "", arrays, selectIndex, onClickListener);
+    }
+
+    public static class ProgressHandler extends Handler {
+        public static final int MAX_PROGRESS = 100;
+        public static final int PRO = 10;
+        private int progress = 10;
+        private ProgressDialog waitDialog;
+
+        public ProgressHandler(ProgressDialog waitDialog) {
+            super(Looper.getMainLooper());
+            this.waitDialog = waitDialog;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case PRO:
+                    if (progress >= MAX_PROGRESS) {
+                        //重新设置
+                        progress = 0;
+                        waitDialog.dismiss();//销毁对话框
+                    } else {
+                        progress++;
+                        waitDialog.incrementProgressBy(1);
+                        //延迟发送消息
+                        this.sendEmptyMessageDelayed(PRO, 100);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 }

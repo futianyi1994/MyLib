@@ -31,6 +31,7 @@ import butterknife.BindView;
 @CreatePresenter(BasePresenter.class)
 public class ArticleUi extends BaseH5Ui<BaseView, BasePresenter<BaseView>> {
 
+    public static final String EXTRA_LINK = "link";
     @BindView(R.id.appBarLayout)
     AppBarLayout appBarLayout;
     @BindView(R.id.collapsingToolbar)
@@ -41,9 +42,6 @@ public class ArticleUi extends BaseH5Ui<BaseView, BasePresenter<BaseView>> {
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.webView)
     NestedScrollView rootWebView;
-
-    public static final String EXTRA_LINK = "link";
-
     private String link;
 
     @Override

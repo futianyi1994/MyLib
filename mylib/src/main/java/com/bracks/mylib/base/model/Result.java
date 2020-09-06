@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @email : futianyi1994@126.com
  * @description :实体基类：实现序列化
  */
-public class Result<T> implements Serializable {
+public class Result<T> extends BaseResult<T> implements Serializable {
     @SerializedName("errorCode")
     protected int code;
     @SerializedName("errorMsg")
@@ -24,7 +24,7 @@ public class Result<T> implements Serializable {
     protected boolean error = true;
 
 
-    public boolean OK() {
+    public boolean ok() {
         return code == HttpCode.CODE_SUCCESS || !error;
     }
 
@@ -45,11 +45,7 @@ public class Result<T> implements Serializable {
     }
 
     public String getMsg() {
-        if (TextUtils.isEmpty(msg)) {
-            return String.valueOf(code);
-        } else {
-            return msg;
-        }
+        return TextUtils.isEmpty(msg) ? String.valueOf(code) : msg;
     }
 
     public void setMsg(String msg) {
@@ -62,15 +58,5 @@ public class Result<T> implements Serializable {
 
     public void setError(boolean error) {
         this.error = error;
-    }
-
-    private T data;
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
     }
 }

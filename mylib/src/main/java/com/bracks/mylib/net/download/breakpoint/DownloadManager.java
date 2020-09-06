@@ -35,13 +35,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class DownloadManager {
     public static final String TAG = "DownloadManager";
+    private static BaseService service;
+    private static Retrofit retrofit;
     private DownloadInfo info;
     private ProgressListener progressListener;
     private File outFile;
     private CompositeDisposable compositeDisposable;
-    private static BaseService service;
-
-    private static Retrofit retrofit;
 
     /**
      * 单利构造器私有化
@@ -49,13 +48,6 @@ public class DownloadManager {
     private DownloadManager() {
         info = new DownloadInfo();
         compositeDisposable = new CompositeDisposable();
-    }
-
-    /**
-     * 静态内部类，实例化对象使用
-     */
-    private static class SingleInstanceHolder {
-        private static final DownloadManager INSTANCE = new DownloadManager();
     }
 
     /**
@@ -302,5 +294,12 @@ public class DownloadManager {
         if (info.getUrl() != null) {
             start(info.getUrl());
         }
+    }
+
+    /**
+     * 静态内部类，实例化对象使用
+     */
+    private static class SingleInstanceHolder {
+        private static final DownloadManager INSTANCE = new DownloadManager();
     }
 }
