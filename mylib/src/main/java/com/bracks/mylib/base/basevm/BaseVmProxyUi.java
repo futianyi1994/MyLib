@@ -29,8 +29,8 @@ public abstract class BaseVmProxyUi<V extends BaseView, P extends BasePresenter<
 
 
     @Override
-    public void initView(@Nullable Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initViewModelEvent();
     }
 
@@ -73,6 +73,7 @@ public abstract class BaseVmProxyUi<V extends BaseView, P extends BasePresenter<
         for (ViewModel viewModel : viewModelList) {
             if (viewModel instanceof BaseViewModelInter) {
                 BaseViewModelInter viewModelAction = (BaseViewModelInter) viewModel;
+                getLifecycle().addObserver(viewModelAction);
                 viewModelAction
                         .getActionLiveData()
                         .observe(this, baseActionEvent -> {

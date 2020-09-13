@@ -65,6 +65,12 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
     }
 
     @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+        id = getArguments().getInt("id");
+    }
+
+    @Override
     protected ViewModel initViewModel() {
         viewModel = LViewModelProviders.of(this, HistoryViewModel.class);
         viewModel
@@ -76,7 +82,6 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
                         loadMore(datasBeans);
                     }
                 });
-        viewModel.queryHistory(id, page, PubFrag.search);
         RxBus
                 .getDefault()
                 .toObservable(QueryEvent.class)
@@ -97,7 +102,6 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
 
     @Override
     public void initView(View view, @Nullable Bundle savedInstanceState) {
-        id = getArguments().getInt("id");
         recyclerView.addItemDecoration(new SpaceItemDecoration(ConvertUtils.dp2px(10)));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -124,6 +128,7 @@ public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView
                 viewModel.queryHistory(id, page, PubFrag.search);
             }
         });
+        viewModel.queryHistory(id, page, PubFrag.search);
     }
 
     public void showDatas(List<Chapter.DataBean.DatasBean> data) {

@@ -58,23 +58,6 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.fragment_my;
-    }
-
-    @Override
-    public void initView(View view, @Nullable Bundle savedInstanceState) {
-        getPresenter().fetch();
-        if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {
-            tvUserName.setText(SPUtils.getInstance().getString(Contants.SP_USER_NAME));
-        } else {
-            tvUserName.setText("请登录");
-        }
-        refreshLayout.setEnableOverScrollDrag(true);
-        refreshLayout.setOnRefreshListener(refreshLayout -> getPresenter().fetch());
-    }
-
-    @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         RxBus
@@ -90,6 +73,23 @@ public class MyFrag extends BaseProxyFrag<MyFragContract.View, MyP> implements M
                     }
                 }, throwable -> {
                 });
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_my;
+    }
+
+    @Override
+    public void initView(View view, @Nullable Bundle savedInstanceState) {
+        getPresenter().fetch();
+        if (SPUtils.getInstance().getBoolean(Contants.SP_IS_LOGIN)) {
+            tvUserName.setText(SPUtils.getInstance().getString(Contants.SP_USER_NAME));
+        } else {
+            tvUserName.setText("请登录");
+        }
+        refreshLayout.setEnableOverScrollDrag(true);
+        refreshLayout.setOnRefreshListener(refreshLayout -> getPresenter().fetch());
     }
 
     @Override

@@ -29,8 +29,8 @@ public abstract class BaseVmFrag<V extends BaseView, P extends BasePresenter<V>>
 
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initViewModelEvent();
     }
 
@@ -73,6 +73,7 @@ public abstract class BaseVmFrag<V extends BaseView, P extends BasePresenter<V>>
         for (ViewModel viewModel : viewModelList) {
             if (viewModel instanceof BaseViewModelInter) {
                 BaseViewModelInter viewModelAction = (BaseViewModelInter) viewModel;
+                getLifecycle().addObserver(viewModelAction);
                 viewModelAction
                         .getActionLiveData()
                         .observe(this, baseActionEvent -> {

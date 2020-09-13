@@ -29,8 +29,8 @@ public abstract class BaseVmProxyFrag<V extends BaseView, P extends BasePresente
 
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initViewModelEvent();
     }
 
@@ -73,6 +73,7 @@ public abstract class BaseVmProxyFrag<V extends BaseView, P extends BasePresente
         for (ViewModel viewModel : viewModelList) {
             if (viewModel instanceof BaseViewModelInter) {
                 BaseViewModelInter viewModelAction = (BaseViewModelInter) viewModel;
+                getLifecycle().addObserver(viewModelAction);
                 viewModelAction
                         .getActionLiveData()
                         .observe(this, baseActionEvent -> {
