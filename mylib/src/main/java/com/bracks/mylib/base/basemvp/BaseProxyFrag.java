@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bracks.mylib.base.BaseFragment;
+import com.bracks.mylib.base.interf.BaseView;
 
 import butterknife.ButterKnife;
 

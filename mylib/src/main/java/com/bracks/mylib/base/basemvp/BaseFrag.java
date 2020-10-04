@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.bracks.mylib.base.BaseFragment;
+import com.bracks.mylib.base.interf.BaseView;
 
 /**
  * good programmer.

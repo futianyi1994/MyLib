@@ -6,9 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.base.basemvp.BaseProxyUi;
-import com.bracks.mylib.base.basemvp.BaseView;
+import com.bracks.mylib.base.BaseActivity;
+import com.bracks.mylib.base.interf.BaseView;
 import com.bracks.mylib.utils.BarUtils;
 import com.bracks.mylib.utils.DialogUtils;
 
@@ -23,7 +22,7 @@ import java.util.List;
  * @email : futianyi1994@126.com
  * @description :
  */
-public abstract class BaseVmProxyUi<V extends BaseView, P extends BasePresenter<V>> extends BaseProxyUi<V, P> {
+public abstract class BaseVmProxyUi extends BaseActivity implements BaseView {
 
     protected Dialog dialog;
 
@@ -31,7 +30,13 @@ public abstract class BaseVmProxyUi<V extends BaseView, P extends BasePresenter<
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initData(savedInstanceState);
         initViewModelEvent();
+        initView(savedInstanceState);
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
     }
 
     @Override

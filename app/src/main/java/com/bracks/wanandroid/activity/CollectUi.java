@@ -12,7 +12,6 @@ import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.utils.widget.recycleView.SpaceItemDecoration;
@@ -36,7 +35,7 @@ import butterknife.BindView;
  * @description :
  */
 @CreatePresenter(BasePresenter.class)
-public class CollectUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
+public class CollectUi extends BaseUi {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.refreshLayout)
@@ -47,6 +46,17 @@ public class CollectUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     private int page;
     private CollectAdapter adapter;
     private CollectViewModel viewModel;
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_collect;
+    }
+
+    @Override
+    protected boolean isTransparencyBar() {
+        BarUtils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        return false;
+    }
 
     @Override
     protected ViewModel initViewModel() {
@@ -66,18 +76,7 @@ public class CollectUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    protected boolean isTransparencyBar() {
-        BarUtils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        return false;
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_collect;
-    }
-
-    @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initView(@Nullable Bundle savedInstanceState) {
         toolbar.setTitle("收藏");
         setSupportActionBar(toolbar);
         //设置是否显示返回按钮

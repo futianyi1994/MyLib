@@ -5,8 +5,7 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.blankj.utilcode.util.AppUtils;
-import com.bracks.wanandroid.activity.BaseH5Ui;
-import com.bracks.wanandroid.activity.BaseUi;
+import com.bracks.mylib.base.BaseActivity;
 
 /**
  * good programmer.
@@ -19,7 +18,7 @@ import com.bracks.wanandroid.activity.BaseUi;
 public class X5JavaScriptinterface {
     public static final String TAG = "X5JavaScriptinterface";
     private Context mContext;
-    private BaseH5Ui mActivity;
+    private BaseActivity mActivity;
     private X5WebView webView;
 
 
@@ -29,8 +28,8 @@ public class X5JavaScriptinterface {
 
     public X5JavaScriptinterface(Context context, X5WebView webView) {
         this.mContext = context;
-        if (context instanceof BaseUi) {
-            mActivity = (BaseH5Ui) context;
+        if (context instanceof BaseActivity) {
+            mActivity = (BaseActivity) context;
         }
         this.webView = webView;
     }

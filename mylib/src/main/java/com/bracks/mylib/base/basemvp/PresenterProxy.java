@@ -3,6 +3,8 @@ package com.bracks.mylib.base.basemvp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.bracks.mylib.base.interf.BaseView;
+
 /**
  * good programmer.
  *

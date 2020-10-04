@@ -1,4 +1,4 @@
-package com.bracks.mylib.base.basemvp;
+package com.bracks.mylib.base.interf;
 
 /**
  * good programmer.

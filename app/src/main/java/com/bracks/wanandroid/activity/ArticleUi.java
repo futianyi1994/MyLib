@@ -3,6 +3,8 @@ package com.bracks.wanandroid.activity;
 import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -10,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.widget.webview.X5WebView;
@@ -29,7 +30,7 @@ import butterknife.BindView;
  * @description :
  */
 @CreatePresenter(BasePresenter.class)
-public class ArticleUi extends BaseH5Ui<BaseView, BasePresenter<BaseView>> {
+public class ArticleUi extends BaseH5Ui {
 
     public static final String EXTRA_LINK = "link";
     @BindView(R.id.appBarLayout)
@@ -47,11 +48,6 @@ public class ArticleUi extends BaseH5Ui<BaseView, BasePresenter<BaseView>> {
     @Override
     public int getLayoutId() {
         return R.layout.activity_baseh5;
-    }
-
-    @Override
-    protected ViewModel initViewModel() {
-        return null;
     }
 
     @Override
@@ -91,5 +87,14 @@ public class ArticleUi extends BaseH5Ui<BaseView, BasePresenter<BaseView>> {
             link = intent.getStringExtra(EXTRA_LINK);
         }
         return link;
+    }
+
+    @Override
+    protected ViewModel initViewModel() {
+        return null;
+    }
+
+    @Override
+    public void initView(@Nullable Bundle savedInstanceState) {
     }
 }

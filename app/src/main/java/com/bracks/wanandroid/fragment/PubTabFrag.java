@@ -12,7 +12,6 @@ import android.view.View;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.BaseVmProxyFrag;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
@@ -42,7 +41,7 @@ import butterknife.BindView;
  * @description :
  */
 @CreatePresenter(BasePresenter.class)
-public class PubTabFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView>> {
+public class PubTabFrag extends BaseVmProxyFrag {
 
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;

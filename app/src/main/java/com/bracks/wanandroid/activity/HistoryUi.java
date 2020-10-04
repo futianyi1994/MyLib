@@ -21,7 +21,6 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.utils.widget.recycleView.SpaceItemDecoration;
@@ -47,7 +46,7 @@ import butterknife.BindView;
  * @description :
  */
 @CreatePresenter(BasePresenter.class)
-public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
+public class HistoryUi extends BaseUi {
     public static final String EXTRA_ID = "id";
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_TITLE = "title";
@@ -71,6 +70,27 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
 
 
     @Override
+    public int getLayoutId() {
+        return R.layout.activity_history;
+    }
+
+    @Override
+    protected boolean isTransparencyBar() {
+        BarUtils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        return false;
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        if (intent != null) {
+            id = intent.getIntExtra(EXTRA_ID, 0);
+            page = intent.getIntExtra(EXTRA_PAGE, 0);
+            title = intent.getStringExtra(EXTRA_TITLE);
+        }
+    }
+
+    @Override
     protected ViewModel initViewModel() {
         showLoading("加载中", true);
         viewModel = LViewModelProviders.of(this, HistoryViewModel.class);
@@ -88,24 +108,7 @@ public class HistoryUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    protected boolean isTransparencyBar() {
-        BarUtils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        return false;
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_history;
-    }
-
-    @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        if (intent != null) {
-            id = intent.getIntExtra(EXTRA_ID, 0);
-            page = intent.getIntExtra(EXTRA_PAGE, 0);
-            title = intent.getStringExtra(EXTRA_TITLE);
-        }
+    public void initView(@Nullable Bundle savedInstanceState) {
         recyclerView.addItemDecoration(new SpaceItemDecoration(ConvertUtils.dp2px(10)));
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);

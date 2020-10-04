@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.bracks.mylib.base.interf.BaseView;
 import com.bracks.mylib.rx.RxAutoDispose;
 import com.bracks.mylib.utils.TLog;
 import com.uber.autodispose.AutoDisposeConverter;

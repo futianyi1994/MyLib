@@ -2,7 +2,7 @@ package com.bracks.wanandroid.contract;
 
 import com.bracks.mylib.base.basemvp.BaseModel;
 import com.bracks.mylib.base.basemvp.BasePresenterInter;
-import com.bracks.mylib.base.basemvp.BaseView;
+import com.bracks.mylib.base.interf.BaseView;
 import com.bracks.wanandroid.model.bean.Banner;
 import com.bracks.wanandroid.model.bean.Chapter;
 

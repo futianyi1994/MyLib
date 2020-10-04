@@ -9,8 +9,6 @@ import android.view.KeyEvent;
 import android.view.ViewGroup;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.wanandroid.widget.webview.X5WebView;
 
 
@@ -23,7 +21,7 @@ import com.bracks.wanandroid.widget.webview.X5WebView;
  * @description :根据需要继承BaseUi、BaseProxyUi、BaseVmUi、BaseVmProxyUi、BaseActivity等
  */
 @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
-public abstract class BaseH5Ui<V extends BaseView, P extends BasePresenter<V>> extends BaseUi<V, P> {
+public abstract class BaseH5Ui extends BaseUi {
 
     protected String url;
     protected X5WebView mWebView;

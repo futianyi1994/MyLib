@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
 import com.bracks.wanandroid.R;
@@ -29,7 +28,7 @@ import butterknife.OnClick;
  * @description :
  */
 @CreatePresenter(BasePresenter.class)
-public class RegisterUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
+public class RegisterUi extends BaseUi {
 
     @BindView(R.id.etUserName)
     EditText etUserName;
@@ -42,6 +41,11 @@ public class RegisterUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
 
     private LoginViewModel viewModel;
 
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_register;
+    }
 
     @Override
     protected ViewModel initViewModel() {
@@ -57,12 +61,7 @@ public class RegisterUi extends BaseUi<BaseView, BasePresenter<BaseView>> {
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_register;
-    }
-
-    @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initView(@Nullable Bundle savedInstanceState) {
 
     }
 

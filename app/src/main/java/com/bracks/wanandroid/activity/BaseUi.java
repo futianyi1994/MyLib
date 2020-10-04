@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.blankj.utilcode.util.SnackbarUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basevm.BaseVmProxyUi;
 import com.bracks.mylib.utils.BarUtils;
 import com.bracks.mylib.utils.CommonUtils;
@@ -20,7 +18,7 @@ import com.bracks.mylib.utils.CommonUtils;
  * @email : futianyi1994@126.com
  * @description :
  */
-public abstract class BaseUi<V extends BaseView, P extends BasePresenter<V>> extends BaseVmProxyUi<V, P> {
+public abstract class BaseUi extends BaseVmProxyUi {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

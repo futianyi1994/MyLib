@@ -1,7 +1,7 @@
 package com.bracks.wanandroid.contract;
 
 import com.bracks.mylib.base.basemvp.BasePresenterInter;
-import com.bracks.mylib.base.basemvp.BaseView;
+import com.bracks.mylib.base.interf.BaseView;
 
 
 /**

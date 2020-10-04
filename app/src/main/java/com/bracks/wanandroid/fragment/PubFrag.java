@@ -22,7 +22,6 @@ import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.mylib.base.basemvp.BasePresenter;
-import com.bracks.mylib.base.basemvp.BaseView;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.mylib.base.basevm.BaseVmProxyFrag;
 import com.bracks.mylib.base.basevm.LViewModelProviders;
@@ -49,7 +48,7 @@ import butterknife.BindView;
  * @description :
  */
 @CreatePresenter(BasePresenter.class)
-public class PubFrag extends BaseVmProxyFrag<BaseView, BasePresenter<BaseView>> {
+public class PubFrag extends BaseVmProxyFrag {
 
     public static String search = "";
     @BindView(R.id.coordinatorLayout)

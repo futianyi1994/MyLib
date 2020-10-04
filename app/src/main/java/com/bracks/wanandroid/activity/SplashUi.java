@@ -1,12 +1,12 @@
 package com.bracks.wanandroid.activity;
 
-import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.bracks.mylib.base.basemvp.BaseProxyUi;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.utils.util.SoundPlayUtils;
 import com.bracks.wanandroid.R;
@@ -25,7 +25,7 @@ import butterknife.BindView;
  * @description :
  */
 @CreatePresenter(SplashP.class)
-public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements SplashContract.View {
+public class SplashUi extends BaseProxyUi<SplashContract.View, SplashP> implements SplashContract.View {
 
     @BindView(R.id.one_animation)
     LottieAnimationView mOneAnimation;
@@ -63,11 +63,6 @@ public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements Sp
     }
 
     @Override
-    protected ViewModel initViewModel() {
-        return null;
-    }
-
-    @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         soundPlayUtils = new SoundPlayUtils
                 .Builder(this, 2)
@@ -92,6 +87,18 @@ public class SplashUi extends BaseUi<SplashContract.View, SplashP> implements Sp
         soundPlayUtils.playRadom();
         ActivityUtils.startActivity(new Intent(this, HomeUi.class), android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
+    }
+
+    @Override
+    public void showLoading(String msg, boolean isCancelable) {
+    }
+
+    @Override
+    public void hideLoading() {
+    }
+
+    @Override
+    public void showToast(String msg) {
     }
 
     private void cancelAnimation() {
