@@ -1,6 +1,6 @@
 package com.bracks.mylib.net.interceptor;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.bracks.mylib.net.download.ProgressResponseBody;
 import com.bracks.mylib.net.https.ProgressListener;
@@ -20,7 +20,7 @@ import okhttp3.Response;
  */
 public class DownloadInterceptor implements Interceptor {
 
-    private ProgressListener listener;
+    private final ProgressListener listener;
 
     public DownloadInterceptor(ProgressListener listener) {
         this.listener = listener;

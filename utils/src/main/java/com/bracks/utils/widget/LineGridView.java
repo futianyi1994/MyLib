@@ -3,10 +3,11 @@ package com.bracks.utils.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.GridView;
+
+import androidx.core.content.ContextCompat;
 
 import com.bracks.utils.R;
 

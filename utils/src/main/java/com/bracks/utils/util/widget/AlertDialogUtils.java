@@ -6,9 +6,10 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.TextUtils;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.bracks.utils.R;
 
@@ -146,7 +147,7 @@ public class AlertDialogUtils {
         public static final int MAX_PROGRESS = 100;
         public static final int PRO = 10;
         private int progress = 10;
-        private ProgressDialog waitDialog;
+        private final ProgressDialog waitDialog;
 
         public ProgressHandler(ProgressDialog waitDialog) {
             super(Looper.getMainLooper());

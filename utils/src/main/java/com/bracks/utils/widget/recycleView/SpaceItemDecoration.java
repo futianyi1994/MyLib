@@ -2,11 +2,12 @@ package com.bracks.utils.widget.recycleView;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.annotation.IntDef;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+
+import androidx.annotation.IntDef;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -29,16 +30,17 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * 头布局个数
      */
-    private int headItemCount;
+    private final int headItemCount;
     /**
      * 是否包含边距
      */
-    private boolean includeEdge;
+    private final boolean includeEdge;
     /**
      * 烈数
      */
     private int spanCount;
     private @LayoutManager
+    final
     int layoutManager;
 
     /**

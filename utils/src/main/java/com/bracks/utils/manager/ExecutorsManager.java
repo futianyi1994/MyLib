@@ -1,6 +1,6 @@
 package com.bracks.utils.manager;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.bracks.utils.util.DeviceUtils;
 

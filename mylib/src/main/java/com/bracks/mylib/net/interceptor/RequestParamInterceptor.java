@@ -1,6 +1,6 @@
 package com.bracks.mylib.net.interceptor;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.AppUtils;
 

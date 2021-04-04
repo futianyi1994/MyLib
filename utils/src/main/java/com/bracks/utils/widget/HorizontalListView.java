@@ -37,8 +37,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.HapticFeedbackConstants;
@@ -50,6 +48,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Scroller;
+
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.EdgeEffectCompat;
 
 import com.bracks.utils.R;
 
@@ -132,7 +133,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     /**
      * Used for detecting gestures within this view so they can be handled
      */
-    private GestureDetector mGestureDetector;
+    private final GestureDetector mGestureDetector;
     /**
      * This tracks the starting layout position of the leftmost view
      */
@@ -140,7 +141,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     /**
      * Holds a cache of recycled views to be reused as needed
      */
-    private List<Queue<View>> mRemovedViewsCache = new ArrayList<Queue<View>>();
+    private final List<Queue<View>> mRemovedViewsCache = new ArrayList<Queue<View>>();
     /**
      * Flag used to mark when the adapters Data has changed, so the view can be relaid out
      */
@@ -148,7 +149,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     /**
      * Temporary rectangle to be used for measurements
      */
-    private Rect mRect = new Rect();
+    private final Rect mRect = new Rect();
     /**
      * Tracks the currently touched view, used to delegate touches to the view being touched
      */
@@ -214,12 +215,12 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     /**
      * Tracks the state of the left edge glow.
      */
-    private EdgeEffectCompat mEdgeGlowLeft;
+    private final EdgeEffectCompat mEdgeGlowLeft;
 
     /**
      * Tracks the state of the right edge glow.
      */
-    private EdgeEffectCompat mEdgeGlowRight;
+    private final EdgeEffectCompat mEdgeGlowRight;
 
     /**
      * The height measure spec for this view, used to help size children views
@@ -243,7 +244,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     /**
      * DataSetObserver used to capture adapter Data change events
      */
-    private DataSetObserver mAdapterDataObserver = new DataSetObserver() {
+    private final DataSetObserver mAdapterDataObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
             mDataChanged = true;
@@ -274,7 +275,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     /**
      * Use to schedule a request layout via a runnable
      */
-    private Runnable mDelayedLayout = new Runnable() {
+    private final Runnable mDelayedLayout = new Runnable() {
         @Override
         public void run() {
             requestLayout();

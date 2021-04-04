@@ -1,10 +1,11 @@
 package com.bracks.mylib.base.basevm;
 
 import android.app.Dialog;
-import android.arch.lifecycle.ViewModel;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModel;
 
 import com.bracks.mylib.base.BaseActivity;
 import com.bracks.mylib.base.interf.BaseView;

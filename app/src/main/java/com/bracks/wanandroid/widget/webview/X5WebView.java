@@ -8,9 +8,10 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Picture;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+
+import androidx.core.content.ContextCompat;
 
 import com.bracks.wanandroid.R;
 import com.tencent.smtt.sdk.WebSettings;
@@ -26,11 +27,11 @@ import com.tencent.smtt.sdk.WebView;
  */
 public class X5WebView extends WebView {
 
-    private Context mContext;
+    private final Context mContext;
     private Activity mActivity;
 
-    private X5WebChromeClient x5WebChromeClient;
-    private X5WebViewClient x5WebViewClient;
+    private final X5WebChromeClient x5WebChromeClient;
+    private final X5WebViewClient x5WebViewClient;
 
     public X5WebView(Context context) {
         this(context, null, null, true, false);

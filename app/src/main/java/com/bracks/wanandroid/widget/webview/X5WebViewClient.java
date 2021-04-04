@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AlertDialog;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.blankj.utilcode.util.Utils;
 import com.bracks.wanandroid.utils.CookieUtils;
@@ -26,12 +27,12 @@ import com.tencent.smtt.sdk.WebViewClient;
  * @description :
  */
 public class X5WebViewClient extends WebViewClient {
-    private Context mContext;
+    private final Context mContext;
     private Activity mActivity;
     /**
      * true:开启全局监听支付宝支付url
      */
-    private boolean payInterceptorWithUrl;
+    private final boolean payInterceptorWithUrl;
 
     public X5WebViewClient(Context mContext) {
         this(mContext, false);

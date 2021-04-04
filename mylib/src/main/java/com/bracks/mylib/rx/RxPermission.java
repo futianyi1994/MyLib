@@ -1,7 +1,7 @@
 package com.bracks.mylib.rx;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -30,22 +30,22 @@ public class RxPermission {
 
     private RxPermissions rxPermissions;
 
-    private FragmentActivity activity;
-    private Fragment fragment;
-    private String[] permissions;
-    private String[] permissionNams;
+    private final FragmentActivity activity;
+    private final Fragment fragment;
+    private final String[] permissions;
+    private final String[] permissionNams;
 
-    private Consumer<? super Throwable> onError;
-    private Action onComplete;
+    private final Consumer<? super Throwable> onError;
+    private final Action onComplete;
 
-    private Consumer<? super Permission> requestEachCombinedOnNext;
-    private Observer<? super Permission> requestEachCombinedObserver;
+    private final Consumer<? super Permission> requestEachCombinedOnNext;
+    private final Observer<? super Permission> requestEachCombinedObserver;
 
-    private Consumer<? super Permission> requestEachOnNext;
-    private Observer<? super Permission> requestEachObserver;
+    private final Consumer<? super Permission> requestEachOnNext;
+    private final Observer<? super Permission> requestEachObserver;
 
-    private Consumer<? super Boolean> requestOnNext;
-    private Observer<? super Boolean> requestObserver;
+    private final Consumer<? super Boolean> requestOnNext;
+    private final Observer<? super Boolean> requestObserver;
 
     private RxPermission(Builder builder) {
         this.activity = builder.activity;

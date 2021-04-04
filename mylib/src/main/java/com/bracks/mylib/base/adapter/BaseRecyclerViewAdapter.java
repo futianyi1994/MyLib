@@ -1,15 +1,16 @@
 package com.bracks.mylib.base.adapter;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
@@ -28,7 +29,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
     public static final int HEAD_TYPE = 0;
     public static final int BODY_TYPE = 1;
     public static final int FOOT_TYPE = 2;
-    private Context context;
+    private final Context context;
     private List<T> realDatas;
     private OnItemClickListener<T> mClickListener;
     private OnItemLongClickListener<T> mCLickLongListener;
@@ -187,7 +188,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
     }
 
     private class TimmyItemClickListener implements View.OnClickListener {
-        private int mPosition;
+        private final int mPosition;
 
         public TimmyItemClickListener(int position) {
             this.mPosition = position;
@@ -202,7 +203,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
     }
 
     private class TimmyItemLongClickListener implements View.OnLongClickListener {
-        private int mPosition;
+        private final int mPosition;
 
         public TimmyItemLongClickListener(int position) {
             this.mPosition = position;
@@ -227,7 +228,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         /**
          * 创建View容器,根据key为控件id
          */
-        private SparseArray<View> viewArray;
+        private final SparseArray<View> viewArray;
         private int viewType;
 
         public BaseViewHolder(View itemView, int viewType) {

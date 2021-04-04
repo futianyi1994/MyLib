@@ -8,6 +8,8 @@ android {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         versionCode 207
         versionName "2.0.7"
+
+        consumerProguardFiles 'consumer-rules.pro'
     }
     buildTypes {
         release {
@@ -180,8 +182,8 @@ dependencies {
 
     //SmartRefreshLayout
     compileOnly rootProject.ext.dependencies["smartrefreshlayout"]
-    //没有使用特殊Header，可以不加这行
-    //compileOnly rootProject.ext.dependencies["smartrefreshheader"]
+    compileOnly rootProject.ext.dependencies["smartrefresh-header-classics"]
+    compileOnly rootProject.ext.dependencies["smartrefresh-footer-classics"]
 
     //Leakcanary
     releaseCompileOnly rootProject.ext.dependencies["leakcanary-android"]

@@ -1,10 +1,10 @@
 package com.bracks.mylib.base.basevm;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 
 /**
@@ -18,7 +18,7 @@ import android.support.annotation.NonNull;
 public class BaseViewModel extends ViewModel implements BaseViewModelInter {
 
     protected LifecycleOwner lifecycleOwner;
-    private MutableLiveData<BaseActionEvent> actionLiveData;
+    private final MutableLiveData<BaseActionEvent> actionLiveData;
 
 
     public BaseViewModel() {

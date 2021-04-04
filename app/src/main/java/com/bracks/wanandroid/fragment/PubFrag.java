@@ -1,22 +1,21 @@
 package com.bracks.wanandroid.fragment;
 
-import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.MenuItemCompat;
+import androidx.lifecycle.ViewModel;
+import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -32,6 +31,8 @@ import com.bracks.wanandroid.adapter.TabPagerAdapter;
 import com.bracks.wanandroid.model.bean.PublicList;
 import com.bracks.wanandroid.model.evenbus.QueryEvent;
 import com.bracks.wanandroid.viewmodel.PubViewModel;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class PubFrag extends BaseVmProxyFrag {
     ViewPager viewPager;
     private PubViewModel viewModel;
     private TabPagerAdapter pagerAdapter;
-    private List<String> tabList = new ArrayList<>();
+    private final List<String> tabList = new ArrayList<>();
     private List<PublicList.DataBean> dataBeans;
     private SearchView searchView;
     private SearchView.SearchAutoComplete mSearchAutoComplete;

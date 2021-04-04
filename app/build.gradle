@@ -9,6 +9,7 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
         testInstrumentationRunner rootProject.ext.android["androidJUnitRunner"]
+        consumerProguardFiles 'consumer-rules.pro'
 
         multiDexEnabled true
 
@@ -74,6 +75,8 @@ dependencies {
     implementation rootProject.ext.dependencies["constraint-layout"]
     //Smartrefreshlayout
     implementation rootProject.ext.dependencies["smartrefreshlayout"]
+    implementation rootProject.ext.dependencies["smartrefresh-header-classics"]
+    implementation rootProject.ext.dependencies["smartrefresh-footer-classics"]
     //Rxbinding
     implementation rootProject.ext.dependencies["rxbinding2"]
     //Rxrelay2
@@ -88,6 +91,8 @@ dependencies {
     implementation rootProject.ext.dependencies["utilcode"]
     //Autodispose
     implementation rootProject.ext.dependencies["autodispose-android-archcomponents"]
+    //Lottie-Android
+    implementation rootProject.ext.dependencies["lottie"]
     //Room
     implementation rootProject.ext.dependencies["room"]
     annotationProcessor rootProject.ext.dependencies["room-compiler"]
@@ -95,6 +100,4 @@ dependencies {
     implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
 
-    //Lottie-Android
-    implementation "com.airbnb.android:lottie:2.7.0"
 }

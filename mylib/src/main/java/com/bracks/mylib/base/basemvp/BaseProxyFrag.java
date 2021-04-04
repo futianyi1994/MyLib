@@ -1,11 +1,12 @@
 package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bracks.mylib.base.BaseFragment;
 import com.bracks.mylib.base.interf.BaseView;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public abstract class BaseProxyFrag<V extends BaseView, P extends BasePresenter<V>> extends BaseFragment implements PresenterProxy<V, P>, BaseView {
 
     private static final String PRESENTER_SAVE_KEY = "presenter_save_key";
-    private PresenterProxyImpl<V, P> mProxy = new PresenterProxyImpl<>();
+    private final PresenterProxyImpl<V, P> mProxy = new PresenterProxyImpl<>();
     private P presenter;
 
 

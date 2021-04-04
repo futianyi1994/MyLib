@@ -1,11 +1,12 @@
 package com.bracks.mylib.base.adapter;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public abstract class MBaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
     /**
      * 数据源
      */
-    private List<T> data = new ArrayList<>();
+    private final List<T> data = new ArrayList<>();
 
     /**
      * 获取Item布局资源文件ID

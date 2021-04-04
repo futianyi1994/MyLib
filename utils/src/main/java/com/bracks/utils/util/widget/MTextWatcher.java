@@ -1,10 +1,11 @@
 package com.bracks.utils.util.widget;
 
-import android.support.design.widget.TextInputEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 /**
  * Good programmer.

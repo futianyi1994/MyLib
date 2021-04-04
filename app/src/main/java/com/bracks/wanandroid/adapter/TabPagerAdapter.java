@@ -1,8 +1,8 @@
 package com.bracks.wanandroid.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.bracks.wanandroid.fragment.PubTabFrag;
 import com.bracks.wanandroid.model.bean.PublicList;
@@ -18,7 +18,7 @@ import java.util.List;
  * @description :
  */
 public class TabPagerAdapter extends FragmentPagerAdapter {
-    private List<PublicList.DataBean> dataBeans;
+    private final List<PublicList.DataBean> dataBeans;
 
     public TabPagerAdapter(FragmentManager fm, List<PublicList.DataBean> dataBeans) {
         super(fm);

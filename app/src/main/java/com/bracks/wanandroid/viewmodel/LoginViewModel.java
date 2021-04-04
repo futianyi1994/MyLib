@@ -1,6 +1,6 @@
 package com.bracks.wanandroid.viewmodel;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bracks.mylib.base.basevm.BaseViewModel;
 import com.bracks.wanandroid.datasource.LoginDataSource;
@@ -16,9 +16,9 @@ import com.bracks.wanandroid.repository.LoginRepo;
  * @description :
  */
 public class LoginViewModel extends BaseViewModel {
-    private MutableLiveData<Login.DataBean> liveData;
-    private MutableLiveData<Login.DataBean> regitsterLiveData;
-    private LoginRepo loginRepo;
+    private final MutableLiveData<Login.DataBean> liveData;
+    private final MutableLiveData<Login.DataBean> regitsterLiveData;
+    private final LoginRepo loginRepo;
 
 
     public LoginViewModel() {

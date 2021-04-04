@@ -12,10 +12,11 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.FileProvider;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -46,7 +47,7 @@ public class UpdateManager {
     private int length;
     private int progress;
     private TextView progressTv;
-    private MyHandler handler = new MyHandler(this);
+    private final MyHandler handler = new MyHandler(this);
 
     /**
      * 单利构造器私有化
@@ -197,7 +198,7 @@ public class UpdateManager {
     }
 
     private static class MyHandler extends Handler {
-        private WeakReference<UpdateManager> weakReference;
+        private final WeakReference<UpdateManager> weakReference;
 
         private UpdateManager mActivity;
 

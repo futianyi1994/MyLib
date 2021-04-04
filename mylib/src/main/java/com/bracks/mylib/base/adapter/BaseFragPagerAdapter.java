@@ -1,11 +1,12 @@
 package com.bracks.mylib.base.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ import java.util.List;
  * @description :
  */
 public class BaseFragPagerAdapter<T extends Fragment> extends FragmentPagerAdapter {
-    private List<T> fragments;
-    private List<String> tabList;
-    private SparseArray<Fragment> registeredFragments = new SparseArray<>();
+    private final List<T> fragments;
+    private final List<String> tabList;
+    private final SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
     public BaseFragPagerAdapter(FragmentManager fm, List<T> fragments, List<String> tabList) {
         super(fm);

@@ -1,22 +1,23 @@
 package com.bracks.wanandroid.activity;
 
-import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
+import androidx.lifecycle.ViewModel;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
 import com.bracks.wanandroid.R;
 import com.bracks.wanandroid.widget.webview.X5WebView;
 import com.bracks.wanandroid.widget.webview.X5WebViewClient;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.smtt.sdk.WebView;
 
 import butterknife.BindView;

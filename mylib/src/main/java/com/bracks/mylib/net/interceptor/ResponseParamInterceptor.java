@@ -1,9 +1,10 @@
 package com.bracks.mylib.net.interceptor;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -22,7 +23,7 @@ import okio.BufferedSource;
  * @description :
  */
 public abstract class ResponseParamInterceptor implements Interceptor {
-    private static final Charset UTF8 = Charset.forName("UTF-8");
+    private static final Charset UTF8 = StandardCharsets.UTF_8;
 
     protected abstract ResponseParamCallback responseParamCallback();
 

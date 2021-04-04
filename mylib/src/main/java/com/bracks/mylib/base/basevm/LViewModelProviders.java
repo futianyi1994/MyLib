@@ -1,9 +1,9 @@
 package com.bracks.mylib.base.basevm;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 
 /**
@@ -17,13 +17,13 @@ import android.support.v4.app.FragmentActivity;
 public class LViewModelProviders {
 
     public static <T extends BaseViewModel> T of(@NonNull FragmentActivity activity, Class<T> modelClass) {
-        T t = ViewModelProviders.of(activity).get(modelClass);
+        T t = new ViewModelProvider(activity).get(modelClass);
         t.setLifecycleOwner(activity);
         return t;
     }
 
     public static <T extends BaseViewModel> T of(@NonNull Fragment fragment, Class<T> modelClass) {
-        T t = ViewModelProviders.of(fragment).get(modelClass);
+        T t = new ViewModelProvider(fragment).get(modelClass);
         t.setLifecycleOwner(fragment);
         return t;
     }

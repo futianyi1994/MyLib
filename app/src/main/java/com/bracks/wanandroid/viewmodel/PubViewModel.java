@@ -1,6 +1,6 @@
 package com.bracks.wanandroid.viewmodel;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bracks.mylib.base.basevm.BaseViewModel;
 import com.bracks.wanandroid.datasource.PubDataSource;
@@ -18,8 +18,8 @@ import java.util.List;
  * @description :
  */
 public class PubViewModel extends BaseViewModel {
-    private MutableLiveData<List<PublicList.DataBean>> liveData;
-    private PubRepo pubRepo;
+    private final MutableLiveData<List<PublicList.DataBean>> liveData;
+    private final PubRepo pubRepo;
 
 
     public PubViewModel() {

@@ -1,11 +1,12 @@
 package com.bracks.utils.widget.recycleView;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * good programmer.
@@ -17,7 +18,7 @@ import android.view.ViewGroup;
  */
 public class FullyLinearLayoutManager extends LinearLayoutManager {
     private static final String TAG = FullyLinearLayoutManager.class.getSimpleName();
-    private int[] mMeasuredDimension = new int[2];
+    private final int[] mMeasuredDimension = new int[2];
 
     public FullyLinearLayoutManager(Context context) {
         super(context);

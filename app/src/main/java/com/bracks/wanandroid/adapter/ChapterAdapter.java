@@ -1,13 +1,13 @@
 package com.bracks.wanandroid.adapter;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -23,12 +23,11 @@ import com.bracks.wanandroid.model.bean.Result;
 import com.bumptech.glide.Glide;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
-import com.youth.banner.loader.ImageLoader;
+import com.youth.banner.adapter.BannerImageAdapter;
+import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.listener.OnPageChangeListener;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -101,33 +100,32 @@ public class ChapterAdapter extends BaseRecyclerViewAdapter<Chapter.DataBean.Dat
     protected void bindData(BaseViewHolder holder, int position, Chapter.DataBean.DatasBean datasBean) {
         switch (holder.getViewType()) {
             case BANNER_VIEW:
-                List<String> images = new ArrayList<>();
-                List<String> titles = new ArrayList<>();
-                for (com.bracks.wanandroid.model.bean.Banner.DataBean dataBean : bannerData) {
-                    images.add(dataBean.getImagePath());
-                    titles.add(dataBean.getTitle());
-                }
-                Banner banner = (Banner) holder.getView(R.id.banner);
+                Banner<String, BannerImageAdapter<com.bracks.wanandroid.model.bean.Banner.DataBean>> banner = (Banner) holder.getView(R.id.banner);
                 banner
-                        .setImageLoader(new ImageLoader() {
+                        .setAdapter(new BannerImageAdapter<com.bracks.wanandroid.model.bean.Banner.DataBean>(bannerData) {
                             @Override
-                            public void displayImage(Context context, Object path, ImageView imageView) {
-                                Glide.with(context).load(path).into(imageView);
+                            public void onBindView(BannerImageHolder holder, com.bracks.wanandroid.model.bean.Banner.DataBean data, int position, int size) {
+                                Glide.with(holder.itemView).load(data.getImagePath()).into(holder.imageView);
                             }
                         })
-                        .setOnBannerListener(pos ->
-                                ActivityUtils.startActivity(
-                                        new Intent(getContext(), ArticleUi.class).putExtra(ArticleUi.EXTRA_LINK, bannerData.get(pos).getUrl())
+                        .addOnPageChangeListener(new OnPageChangeListener() {
+                            @Override
+                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                            }
+
+                            @Override
+                            public void onPageSelected(int position) {
+                                holder.setText(R.id.tvTitle, bannerData.get(position).getTitle());
+                            }
+
+                            @Override
+                            public void onPageScrollStateChanged(int state) {
+                            }
+                        })
+                        .setOnBannerListener((data, position1) ->
+                                ActivityUtils.startActivity(new Intent(getContext(), ArticleUi.class).putExtra(ArticleUi.EXTRA_LINK, bannerData.get(position1).getUrl())
                                 )
                         )
-                        .setImages(images)
-                        .setBannerTitles(titles)
-                        .setBannerAnimation(Transformer.DepthPage)
-                        .isAutoPlay(true)
-                        .setDelayTime(1500)
-                        .setDelayTime(1500)
-                        .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE)
-                        .setIndicatorGravity(BannerConfig.CENTER)
                         .start()
                 ;
                 break;

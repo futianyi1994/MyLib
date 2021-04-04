@@ -1,9 +1,10 @@
 package com.bracks.utils.widget.recycleView;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * good programmer.
@@ -20,7 +21,7 @@ public class RecycleViewUtils {
      * @return 滑动的距离
      */
     private static int scrollYheight;
-    private static int[] headerHeight = new int[2];
+    private static final int[] headerHeight = new int[2];
 
     public static int getScollYHeight(RecyclerView recyclerView) {
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();

@@ -3,12 +3,13 @@ package com.bracks.wanandroid.fragment;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -26,7 +27,7 @@ import com.bracks.wanandroid.adapter.MyAdapter;
 import com.bracks.wanandroid.contract.MyFragContract;
 import com.bracks.wanandroid.model.evenbus.LoginEvent;
 import com.bracks.wanandroid.presenter.MyP;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 

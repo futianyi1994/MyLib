@@ -2,9 +2,10 @@ package com.bracks.utils.widget;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.widget.ExpandableListView;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * Good programmer.

@@ -10,10 +10,11 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.RawRes;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.RawRes;
 
 import com.blankj.utilcode.util.Utils;
 
@@ -36,21 +37,24 @@ public class SoundPlayUtils {
     public final static int TYPE_MUSIC = AudioManager.STREAM_MUSIC;
     public final static int TYPE_ALARM = AudioManager.STREAM_ALARM;
     public final static int TYPE_RING = AudioManager.STREAM_RING;
-    private Context context;
+    private final Context context;
     private SoundPool soundPool;
-    private int maxStream;
-    private int[] resIds;
-    private String[] ringtonePaths;
-    private String[] ringtoneNames;
-    private float leftVolume, rightVolume;
-    private int priority;
-    private int loop;
-    private float rate;
+    private final int maxStream;
+    private final int[] resIds;
+    private final String[] ringtonePaths;
+    private final String[] ringtoneNames;
+    private final float leftVolume;
+    private final float rightVolume;
+    private final int priority;
+    private final int loop;
+    private final float rate;
     private Map<String, Integer> ringtoneIds;
     private boolean isLoaded;
     private MyHandler handler;
     private @TYPE
+    final
     int streamType;
+
     private SoundPlayUtils(Builder builder) {
         context = builder.context;
         maxStream = builder.maxStream;
@@ -152,7 +156,7 @@ public class SoundPlayUtils {
     }
 
     private static class MyHandler extends Handler {
-        private WeakReference<SoundPlayUtils> weakReference;
+        private final WeakReference<SoundPlayUtils> weakReference;
         private SoundPlayUtils playUtils;
 
         private MyHandler(SoundPlayUtils mActivity, Looper looper) {
@@ -177,12 +181,12 @@ public class SoundPlayUtils {
     }
 
     public static class Builder {
-        private Context context;
-        private int maxStream;
+        private final Context context;
+        private final int maxStream;
         private int temMaxStream;
-        private int[] resIds;
-        private String[] ringtonePaths;
-        private String[] ringtoneNames;
+        private final int[] resIds;
+        private final String[] ringtonePaths;
+        private final String[] ringtoneNames;
         private float leftVolume = 1.0f, rightVolume = 1.0f;
         private int priority = 1;
         private int loop;

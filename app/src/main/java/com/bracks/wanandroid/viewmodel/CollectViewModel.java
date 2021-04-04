@@ -1,6 +1,6 @@
 package com.bracks.wanandroid.viewmodel;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bracks.mylib.base.basevm.BaseViewModel;
 import com.bracks.wanandroid.datasource.CollectDataSource;
@@ -18,8 +18,8 @@ import java.util.List;
  * @description :
  */
 public class CollectViewModel extends BaseViewModel {
-    private MutableLiveData<List<Collect.DataBean.DatasBean>> liveData;
-    private CollectRepo collectRepo;
+    private final MutableLiveData<List<Collect.DataBean.DatasBean>> liveData;
+    private final CollectRepo collectRepo;
 
     public CollectViewModel() {
         liveData = new MutableLiveData<>();

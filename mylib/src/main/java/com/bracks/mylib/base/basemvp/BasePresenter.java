@@ -1,10 +1,11 @@
 package com.bracks.mylib.base.basemvp;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.bracks.mylib.base.interf.BaseView;
 import com.bracks.mylib.rx.RxAutoDispose;

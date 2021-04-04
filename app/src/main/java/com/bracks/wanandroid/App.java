@@ -4,6 +4,9 @@ package com.bracks.wanandroid;
 import android.util.Log;
 
 import com.bracks.mylib.base.BaseApp;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.smtt.sdk.QbSdk;
 
 /**
@@ -15,6 +18,18 @@ import com.tencent.smtt.sdk.QbSdk;
  * @description :
  */
 public class App extends BaseApp {
+
+    static {
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);
+            return new ClassicsHeader(context);
+        });
+        //设置全局的Footer构建器
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
+            return new ClassicsFooter(context).setDrawableSize(20);
+        });
+    }
 
     @Override
     protected void onCreate(boolean isAppCreate) {

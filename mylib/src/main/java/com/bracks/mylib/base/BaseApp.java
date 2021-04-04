@@ -1,7 +1,8 @@
 package com.bracks.mylib.base;
 
 import android.content.Intent;
-import android.support.multidex.MultiDexApplication;
+
+import androidx.multidex.MultiDexApplication;
 
 import com.blankj.utilcode.util.Utils;
 import com.bracks.mylib.utils.CommonUtils;

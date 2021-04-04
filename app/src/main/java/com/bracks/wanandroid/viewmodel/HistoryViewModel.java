@@ -1,6 +1,6 @@
 package com.bracks.wanandroid.viewmodel;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bracks.mylib.base.basevm.BaseViewModel;
 import com.bracks.wanandroid.datasource.HistoryDataSource;
@@ -18,8 +18,8 @@ import java.util.List;
  * @description :
  */
 public class HistoryViewModel extends BaseViewModel {
-    private MutableLiveData<List<Chapter.DataBean.DatasBean>> liveData;
-    private HistoryRepo historyRepo;
+    private final MutableLiveData<List<Chapter.DataBean.DatasBean>> liveData;
+    private final HistoryRepo historyRepo;
 
     public HistoryViewModel() {
         liveData = new MutableLiveData<>();

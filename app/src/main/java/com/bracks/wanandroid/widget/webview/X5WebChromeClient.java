@@ -9,7 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -40,10 +41,10 @@ public class X5WebChromeClient extends WebChromeClient {
     public static final int REQUEST_SHOW_FILE = 100;
     private final static int REQUEST_OPEN_FILE = 2;
     public ValueCallback<Uri[]> filePathCallback;
-    private Context mContext;
+    private final Context mContext;
     private Activity mActivity;
     private Dialog dialog;
-    private boolean isShowDialog;
+    private final boolean isShowDialog;
     private ValueCallback<Uri> uploadMsg;
 
     public X5WebChromeClient(Context mContext, boolean isShowDialog) {

@@ -1,12 +1,12 @@
 package com.bracks.wanandroid.activity;
 
-import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.widget.FrameLayout;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 
 import com.bracks.mylib.base.basemvp.BasePresenter;
 import com.bracks.mylib.base.basemvp.CreatePresenter;
@@ -18,6 +18,7 @@ import com.bracks.wanandroid.fragment.HomeFrag;
 import com.bracks.wanandroid.fragment.MyFrag;
 import com.bracks.wanandroid.fragment.PubFrag;
 import com.bracks.wanandroid.model.evenbus.ScrollEvent;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class HomeUi extends BaseUi {
     @BindView(R.id.bottomNavigationView)
     BottomNavigationView bottomNavigationView;
 
-    private List<Fragment> fragments = new ArrayList<>();
+    private final List<Fragment> fragments = new ArrayList<>();
 
     private boolean isBottomShow = true;
 

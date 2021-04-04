@@ -1,6 +1,6 @@
 package com.bracks.mylib.net.download.breakpoint;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import com.bracks.mylib.net.BaseService;
 

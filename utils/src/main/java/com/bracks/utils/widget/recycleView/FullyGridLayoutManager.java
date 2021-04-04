@@ -1,10 +1,11 @@
 package com.bracks.utils.widget.recycleView;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * good programmer.
@@ -15,7 +16,7 @@ import android.view.ViewGroup;
  * @description : GridLayoutManager和ScrollView进行嵌套
  */
 public class FullyGridLayoutManager extends GridLayoutManager {
-    private int[] mMeasuredDimension = new int[2];
+    private final int[] mMeasuredDimension = new int[2];
 
     public FullyGridLayoutManager(Context context, int spanCount) {
         super(context, spanCount);

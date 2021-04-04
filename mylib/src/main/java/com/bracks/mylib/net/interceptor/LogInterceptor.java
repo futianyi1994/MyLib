@@ -1,7 +1,8 @@
 package com.bracks.mylib.net.interceptor;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -25,7 +26,7 @@ import okio.Buffer;
  * @description :
  */
 public class LogInterceptor implements Interceptor {
-    private int priority;
+    private final int priority;
 
     public LogInterceptor() {
         this.priority = AppUtils.isAppDebug() ? Log.INFO : 0;

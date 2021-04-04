@@ -1,10 +1,11 @@
 package com.bracks.utils.util.widget;
 
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ import java.util.List;
  * @description :
  */
 public class TabFragmentUtils {
-    private List<Fragment> fragments;
-    private int containerLayout;
-    private FragmentManager fragmentManager;
+    private final List<Fragment> fragments;
+    private final int containerLayout;
+    private final FragmentManager fragmentManager;
 
     public TabFragmentUtils(List<Fragment> fragments, @IdRes int containerLayout, FragmentManager fragmentManager) {
         this(null, fragments, containerLayout, fragmentManager);

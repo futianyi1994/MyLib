@@ -1,7 +1,8 @@
 package com.bracks.mylib.base.basemvp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.bracks.mylib.base.BaseActivity;
 import com.bracks.mylib.base.interf.BaseView;
@@ -17,7 +18,7 @@ import com.bracks.mylib.base.interf.BaseView;
 public abstract class BaseProxyUi<V extends BaseView, P extends BasePresenter<V>> extends BaseActivity implements PresenterProxy<V, P>, BaseView {
 
     private static final String PRESENTER_SAVE_KEY = "presenter_save_key";
-    private PresenterProxyImpl<V, P> mProxy = new PresenterProxyImpl<>();
+    private final PresenterProxyImpl<V, P> mProxy = new PresenterProxyImpl<>();
     private P presenter;
 
 

@@ -4,12 +4,13 @@ package com.bracks.utils.widget;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 import com.bracks.utils.R;
 
@@ -28,7 +29,7 @@ public class CleanEditText extends AppCompatEditText implements View.OnFocusChan
      */
     private Drawable mClearDrawable;
     private boolean hasFoucs;
-    private TextWatcher textWatcher = new TextWatcher() {
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

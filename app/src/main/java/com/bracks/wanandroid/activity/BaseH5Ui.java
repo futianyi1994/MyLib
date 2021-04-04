@@ -3,10 +3,11 @@ package com.bracks.wanandroid.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.bracks.wanandroid.widget.webview.X5WebView;
@@ -60,6 +61,7 @@ public abstract class BaseH5Ui extends BaseUi {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         mWebView.getX5WebChromeClient().onActivityResult(requestCode, resultCode, intent);
     }
 

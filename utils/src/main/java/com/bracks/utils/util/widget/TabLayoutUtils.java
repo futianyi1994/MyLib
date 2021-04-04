@@ -2,12 +2,12 @@ package com.bracks.utils.util.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.design.widget.TabLayout;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.ConvertUtils;
+import com.google.android.material.tabs.TabLayout;
 
 import java.lang.reflect.Field;
 

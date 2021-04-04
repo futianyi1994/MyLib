@@ -5,13 +5,14 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
-import android.support.annotation.FloatRange;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.RequiresApi;
 
 
 /**
@@ -44,10 +45,10 @@ import android.widget.PopupWindow;
  */
 public class CustomPopupWindow extends PopupWindow {
     private static CountDownTimer timer;
-    private Context context;
+    private final Context context;
     private Activity activity;
-    private LayoutInflater inflater;
-    private PopupController controller;
+    private final LayoutInflater inflater;
+    private final PopupController controller;
 
     public CustomPopupWindow(Context context) {
         super(context);
@@ -239,7 +240,7 @@ public class CustomPopupWindow extends PopupWindow {
     }
 
     public static class Builder {
-        private PopupController.PopupParams params;
+        private final PopupController.PopupParams params;
         private ViewInterface viewCallback;
         private CustomPopupWindow popupWindow;
 
@@ -430,8 +431,8 @@ public class CustomPopupWindow extends PopupWindow {
 
     static class PopupController {
         private int layoutResId;
-        private Context context;
-        private PopupWindow popupWindow;
+        private final Context context;
+        private final PopupWindow popupWindow;
         private View mPopupView;
         private View mView;
         private Window mWindow;
@@ -515,7 +516,7 @@ public class CustomPopupWindow extends PopupWindow {
             /**
              * 上下文
              */
-            private Context mContext;
+            private final Context mContext;
             /**
              * 宽高
              */
