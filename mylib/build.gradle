@@ -6,9 +6,11 @@ android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode 207
         versionName "2.0.7"
-
+        multiDexEnabled true
+        testInstrumentationRunner rootProject.ext.android["androidJUnitRunner"]
         consumerProguardFiles 'consumer-rules.pro'
     }
     buildTypes {
@@ -32,6 +34,13 @@ android {
 
     dataBinding {
         enabled = true
+    }
+    viewBinding {
+        enabled = true
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     compileOptions {
@@ -87,11 +96,18 @@ def static releaseTime() {
     return new Date().format("yyyy-MM-dd")
 }
 
-
 dependencies {
     testImplementation rootProject.ext.dependencies["junit"]
     androidTestImplementation rootProject.ext.dependencies["runner"]
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]
+
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["percent"]
+    api rootProject.ext.dependencies["support-v4"]
+    api rootProject.ext.dependencies["appcompat-v7"]
+    api rootProject.ext.dependencies["recyclerview-v7"]
+    api rootProject.ext.dependencies["constraint-layout"]
+
     //Rxjava
     api rootProject.ext.dependencies["rxjava2"]
     api rootProject.ext.dependencies["rxandroid2"]
@@ -122,6 +138,8 @@ dependencies {
     //api rootProject.ext.dependencies["lifecycle-livedata"]
     //Lifecycles：Just ViewModel
     //api rootProject.ext.dependencies["lifecycle-viewmodel"]
+    //Lifecycles：Just Service
+    api rootProject.ext.dependencies["lifecycle-service"]
     //Lifecycles：ViewModel and LiveData
     api rootProject.ext.dependencies["lifecycle-extensions"]
     //Lifecycles：Java8 support Alternately lifecycle-compiler
@@ -147,14 +165,6 @@ dependencies {
     api rootProject.ext.dependencies["persistent-cookiejar"]
 
     /***********************************以下根据需求添加**************************************/
-
-    compileOnly rootProject.ext.dependencies["design"]
-    compileOnly rootProject.ext.dependencies["percent"]
-    compileOnly rootProject.ext.dependencies["support-v4"]
-    compileOnly rootProject.ext.dependencies["appcompat-v7"]
-    compileOnly rootProject.ext.dependencies["recyclerview-v7"]
-    compileOnly rootProject.ext.dependencies["constraint-layout"]
-
     //Dragger2
     //compileOnly rootProject.ext.dependencies["dagger"]
     //compileOnly rootProject.ext.dependencies["dagger-android"]
@@ -189,6 +199,8 @@ dependencies {
     releaseCompileOnly rootProject.ext.dependencies["leakcanary-android"]
     debugCompileOnly rootProject.ext.dependencies["leakcanary-android-no-op"]
 
+    //Zxing
+    compileOnly rootProject.ext.dependencies["zxing"]
     //Guava
     compileOnly rootProject.ext.dependencies["guava"]
     //Logger

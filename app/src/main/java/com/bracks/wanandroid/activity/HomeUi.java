@@ -35,13 +35,11 @@ import butterknife.BindView;
  */
 @CreatePresenter(BasePresenter.class)
 public class HomeUi extends BaseUi {
+    private final List<Fragment> fragments = new ArrayList<>();
     @BindView(R.id.container)
     FrameLayout container;
     @BindView(R.id.bottomNavigationView)
     BottomNavigationView bottomNavigationView;
-
-    private final List<Fragment> fragments = new ArrayList<>();
-
     private boolean isBottomShow = true;
 
     @Override

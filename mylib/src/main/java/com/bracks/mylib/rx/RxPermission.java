@@ -27,25 +27,19 @@ import io.reactivex.internal.functions.Functions;
  */
 public class RxPermission {
     public static final String TAG = "RxPermission";
-
-    private RxPermissions rxPermissions;
-
     private final FragmentActivity activity;
     private final Fragment fragment;
     private final String[] permissions;
     private final String[] permissionNams;
-
     private final Consumer<? super Throwable> onError;
     private final Action onComplete;
-
     private final Consumer<? super Permission> requestEachCombinedOnNext;
     private final Observer<? super Permission> requestEachCombinedObserver;
-
     private final Consumer<? super Permission> requestEachOnNext;
     private final Observer<? super Permission> requestEachObserver;
-
     private final Consumer<? super Boolean> requestOnNext;
     private final Observer<? super Boolean> requestObserver;
+    private RxPermissions rxPermissions;
 
     private RxPermission(Builder builder) {
         this.activity = builder.activity;

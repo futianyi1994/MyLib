@@ -146,8 +146,8 @@ public class AlertDialogUtils {
     public static class ProgressHandler extends Handler {
         public static final int MAX_PROGRESS = 100;
         public static final int PRO = 10;
-        private int progress = 10;
         private final ProgressDialog waitDialog;
+        private int progress = 10;
 
         public ProgressHandler(ProgressDialog waitDialog) {
             super(Looper.getMainLooper());

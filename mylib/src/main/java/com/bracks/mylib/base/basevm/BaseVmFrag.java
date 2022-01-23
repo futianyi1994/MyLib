@@ -37,7 +37,7 @@ public abstract class BaseVmFrag extends BaseFragment implements BaseView {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-     }
+    }
 
     @Override
     public void showLoading(String msg, boolean isCancelable) {

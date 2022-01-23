@@ -25,15 +25,15 @@ public class Result<T> extends BaseResult<T> implements Serializable {
 
 
     public boolean ok() {
-        return code == HttpCode.CODE_SUCCESS || !error;
+        return code == HttpCode.OK || !error;
     }
 
     public boolean isExpired() {
-        return code == HttpCode.CODE_EXPIRED;
+        return code == HttpCode.UNAUTHORIZED;
     }
 
     public boolean isRedirect() {
-        return code == HttpCode.CODE_REDIRECT;
+        return code == HttpCode.REDIRECT_FOREVER;
     }
 
     public int getCode() {

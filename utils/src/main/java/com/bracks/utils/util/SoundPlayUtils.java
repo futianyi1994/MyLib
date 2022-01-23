@@ -38,7 +38,6 @@ public class SoundPlayUtils {
     public final static int TYPE_ALARM = AudioManager.STREAM_ALARM;
     public final static int TYPE_RING = AudioManager.STREAM_RING;
     private final Context context;
-    private SoundPool soundPool;
     private final int maxStream;
     private final int[] resIds;
     private final String[] ringtonePaths;
@@ -48,12 +47,12 @@ public class SoundPlayUtils {
     private final int priority;
     private final int loop;
     private final float rate;
+    @TYPE
+    private final int streamType;
+    private SoundPool soundPool;
     private Map<String, Integer> ringtoneIds;
     private boolean isLoaded;
     private MyHandler handler;
-    private @TYPE
-    final
-    int streamType;
 
     private SoundPlayUtils(Builder builder) {
         context = builder.context;
@@ -183,16 +182,16 @@ public class SoundPlayUtils {
     public static class Builder {
         private final Context context;
         private final int maxStream;
-        private int temMaxStream;
         private final int[] resIds;
         private final String[] ringtonePaths;
         private final String[] ringtoneNames;
+        private int temMaxStream;
         private float leftVolume = 1.0f, rightVolume = 1.0f;
         private int priority = 1;
         private int loop;
         private float rate = 1;
-        private @TYPE
-        int streamType;
+        @TYPE
+        private int streamType;
 
         public Builder() {
             this(Utils.getApp(), 1);

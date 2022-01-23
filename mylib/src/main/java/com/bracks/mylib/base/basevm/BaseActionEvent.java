@@ -30,6 +30,7 @@ public class BaseActionEvent extends BaseEvent {
      * 能否点击取消dialog
      */
     private boolean isCancelable = true;
+
     public BaseActionEvent(@ActionEvent int action) {
         super(action);
     }

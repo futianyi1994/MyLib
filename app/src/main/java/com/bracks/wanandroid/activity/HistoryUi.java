@@ -1,5 +1,6 @@
 package com.bracks.wanandroid.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -131,6 +132,7 @@ public class HistoryUi extends BaseUi {
         });
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_history, menu);

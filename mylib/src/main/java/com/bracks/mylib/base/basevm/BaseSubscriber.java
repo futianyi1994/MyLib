@@ -38,7 +38,7 @@ public class BaseSubscriber<T> extends DisposableObserver<T> {
         } else {
             baseViewModel.showToast(e.getMessage());
         }
-        requestCallback.onFailed(e);
+        requestCallback.onError(e);
     }
 
     @Override

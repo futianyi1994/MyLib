@@ -25,8 +25,6 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     public static final int LINEARLAYOUT = 0;
     public static final int GRIDLAYOUT = 1;
     public static final int STAGGEREDGRIDLAYOUT = 2;
-    private int leftRight = -1;
-    private int topBottom = -1;
     /**
      * 头布局个数
      */
@@ -35,13 +33,14 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
      * 是否包含边距
      */
     private final boolean includeEdge;
+    @LayoutManager
+    private final int layoutManager;
+    private int leftRight = -1;
+    private int topBottom = -1;
     /**
      * 烈数
      */
     private int spanCount;
-    private @LayoutManager
-    final
-    int layoutManager;
 
     /**
      * LinearLayoutManager or GridLayoutManager or StaggeredGridLayoutManager spacing

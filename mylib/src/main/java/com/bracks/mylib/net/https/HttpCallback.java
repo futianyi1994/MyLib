@@ -12,7 +12,11 @@ public abstract class HttpCallback<T> {
 
     public abstract void onSuccess(T t);
 
-    public void onFailed(Throwable e) {
+    public void onFailed(T t) {
+    }
+
+    public void onError(Throwable e) {
+
     }
 
     public void onComplete() {

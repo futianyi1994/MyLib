@@ -37,7 +37,7 @@ ext {
             //test
             "junit"                                : "junit:junit:4.12",
             "runner"                               : "androidx.test.ext:junit:1.1.1",
-            "espresso-core"                        : 'androidx.test.espresso:espresso-core:${android["espressoSdkVersion"]}',
+            "espresso-core"                        : "androidx.test.espresso:espresso-core:${android["espressoSdkVersion"]}",
             "espresso-contrib"                     : "androidx.test.espresso:espresso-contrib:${android["espressoSdkVersion"]}",
             "espresso-intents"                     : "androidx.test.espresso:espresso-intents:${android["espressoSdkVersion"]}",
             "androidJUnitRunner"                   : "androidx.test.runner.AndroidJUnitRunner",
@@ -45,6 +45,7 @@ ext {
             "room"                                 : "androidx.room:room-runtime:${android["room"]}",
             "room-rxjava2"                         : "androidx.room:room-rxjava2:${android["room"]}",
             "room-compiler"                        : "androidx.room:room-compiler:${android["room"]}",
+            "lifecycle-service"                    : "androidx.lifecycle:lifecycle-service:${android["archVersion"]}",
             "lifecycle-runtime"                    : "androidx.lifecycle:lifecycle-runtime:${android["archVersion"]}",
             "lifecycle-compiler"                   : "androidx.lifecycle:lifecycle-compiler:${android["archVersion"]}",
             "lifecycle-livedata"                   : "androidx.lifecycle:lifecycle-livedata:${android["archVersion"]}",
@@ -53,9 +54,10 @@ ext {
             "lifecycle-common-java8"               : "androidx.lifecycle:lifecycle-common-java8:${android["archVersion"]}",
 
             /***********google***********/
+            "zxing"                                : "com.google.zxing:core:3.4.1",
             "gson"                                 : "com.google.code.gson:gson:2.8.6",
             "guava"                                : "com.google.guava:guava:30.1-android",
-            "design"                               : 'com.google.android.material:material:1.3.0',
+            "design"                               : "com.google.android.material:material:1.3.0",
             "flexboxLayout"                        : "com.google.android:flexbox:2.0.1",
             //dagger
             "dagger"                               : "com.google.dagger:dagger:${android["dagger2SdkVersion"]}",
@@ -123,20 +125,24 @@ ext {
             "smartrefresh-header-falsify"          : "com.scwang.smart:refresh-header-falsify:${android["smartrefresh"]}",
             "smartrefresh-header-material"         : "com.scwang.smart:refresh-header-material:${android["smartrefresh"]}",
             "smartrefresh-header-two-level"        : "com.scwang.smart:refresh-header-two-level:${android["smartrefresh"]}",
-            "smartrefresh-footer-ball"      : "com.scwang.smart:refresh-footer-ball:${android["smartrefresh"]}",
-            "smartrefresh-footer-classics"  : "com.scwang.smart:refresh-footer-classics:${android["smartrefresh"]}",
+            "smartrefresh-footer-ball"             : "com.scwang.smart:refresh-footer-ball:${android["smartrefresh"]}",
+            "smartrefresh-footer-classics"         : "com.scwang.smart:refresh-footer-classics:${android["smartrefresh"]}",
             //adapter
             "multitype"                            : "me.drakeet.multitype:multitype:4.2.0",
             "baseRecyclerViewAdapterHelper"        : "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4",
             //permission
             "andpermission"                        : "com.yanzhenjie:permission:2.0.3",
             "rxpermissions"                        : "com.github.tbruyelle:rxpermissions:0.10.2",
+            //pinyin
+            "tinypinyin"                           : "com.github.promeg:tinypinyin:2.0.3",
+            "tinypinyin-cncity"                    : "com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3",
             //utils
+            "mmkv"                                 : "com.tencent:mmkv:1.2.11",
             "timer"                                : "com.jakewharton.timber:timber:4.7.1",
             "logger"                               : "com.orhanobut:logger:2.2.0",
             "fastjson"                             : "com.alibaba:fastjson:1.2.73",
             "utilcode"                             : "com.blankj:utilcode:1.30.5",
-            "lottie"                             : "com.airbnb.android:lottie:3.7.0",
+            "lottie"                               : "com.airbnb.android:lottie:3.7.0",
             "jsbridge"                             : "com.github.lzyzsd:jsbridge:1.0.4",
             "immersionbar"                         : "com.gyf.immersionbar:immersionbar:3.0.0",
             "statusbarutil"                        : "com.jaeger.statusbarutil:library:1.5.1",

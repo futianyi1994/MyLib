@@ -1,5 +1,7 @@
 package com.bracks.wanandroid.widget.webview;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -23,8 +25,6 @@ import com.tencent.smtt.sdk.WebView;
 
 import java.io.File;
 
-import static android.app.Activity.RESULT_OK;
-
 /**
  * good programmer.
  *
@@ -40,11 +40,11 @@ public class X5WebChromeClient extends WebChromeClient {
     public static final String LOCAL_H5_TAKE_PHOTO = "h5Photo";
     public static final int REQUEST_SHOW_FILE = 100;
     private final static int REQUEST_OPEN_FILE = 2;
-    public ValueCallback<Uri[]> filePathCallback;
     private final Context mContext;
+    private final boolean isShowDialog;
+    public ValueCallback<Uri[]> filePathCallback;
     private Activity mActivity;
     private Dialog dialog;
-    private final boolean isShowDialog;
     private ValueCallback<Uri> uploadMsg;
 
     public X5WebChromeClient(Context mContext, boolean isShowDialog) {

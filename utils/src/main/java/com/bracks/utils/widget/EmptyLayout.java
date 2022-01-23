@@ -1,5 +1,6 @@
 package com.bracks.utils.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
@@ -153,6 +154,7 @@ public class EmptyLayout extends LinearLayout implements
         }
     }
 
+    @SuppressLint("MissingPermission")
     public void setErrorType(int i) {
         setVisibility(View.VISIBLE);
         switch (i) {

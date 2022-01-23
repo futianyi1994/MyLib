@@ -26,7 +26,8 @@ import okio.Buffer;
  * @description :
  */
 public class LogInterceptor implements Interceptor {
-    private final int priority;
+    private static final int MAX_LENGTH = 1024 * 1024;
+    private int priority;
 
     public LogInterceptor() {
         this.priority = AppUtils.isAppDebug() ? Log.INFO : 0;
@@ -69,7 +70,13 @@ public class LogInterceptor implements Interceptor {
             throw e;
         }
         long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
-        String content = response.body().string();
+        String header = response.header("Content-Length", "0");
+        String content;
+        if (header == null || Long.parseLong(header) <= MAX_LENGTH) {
+            content = response.peekBody(MAX_LENGTH).string();
+        } else {
+            content = "Content-Length : " + Long.parseLong(header) + " > 1024 * 1024";
+        }
         print(
                 String.format(
                         Locale.getDefault()
@@ -79,10 +86,7 @@ public class LogInterceptor implements Interceptor {
                         , response.headers()
                         , content)
         );
-        return response
-                .newBuilder()
-                .body(okhttp3.ResponseBody.create(response.body().contentType(), content))
-                .build();
+        return response;
     }
 
     private void print(String contents) {

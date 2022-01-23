@@ -115,6 +115,35 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
      */
     private final GestureListener mGestureListener = new GestureListener();
     /**
+     * Used for detecting gestures within this view so they can be handled
+     */
+    private final GestureDetector mGestureDetector;
+    /**
+     * Holds a cache of recycled views to be reused as needed
+     */
+    private final List<Queue<View>> mRemovedViewsCache = new ArrayList<Queue<View>>();
+    /**
+     * Temporary rectangle to be used for measurements
+     */
+    private final Rect mRect = new Rect();
+    /**
+     * Tracks the state of the left edge glow.
+     */
+    private final EdgeEffectCompat mEdgeGlowLeft;
+    /**
+     * Tracks the state of the right edge glow.
+     */
+    private final EdgeEffectCompat mEdgeGlowRight;
+    /**
+     * Use to schedule a request layout via a runnable
+     */
+    private final Runnable mDelayedLayout = new Runnable() {
+        @Override
+        public void run() {
+            requestLayout();
+        }
+    };
+    /**
      * Tracks ongoing flings
      */
     protected Scroller mFlingTracker = new Scroller(getContext());
@@ -131,25 +160,13 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
      */
     protected int mNextX;
     /**
-     * Used for detecting gestures within this view so they can be handled
-     */
-    private final GestureDetector mGestureDetector;
-    /**
      * This tracks the starting layout position of the leftmost view
      */
     private int mDisplayOffset;
     /**
-     * Holds a cache of recycled views to be reused as needed
-     */
-    private final List<Queue<View>> mRemovedViewsCache = new ArrayList<Queue<View>>();
-    /**
      * Flag used to mark when the adapters Data has changed, so the view can be relaid out
      */
     private boolean mDataChanged = false;
-    /**
-     * Temporary rectangle to be used for measurements
-     */
-    private final Rect mRect = new Rect();
     /**
      * Tracks the currently touched view, used to delegate touches to the view being touched
      */
@@ -166,81 +183,42 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
      * Used to hold the scroll position to restore to post rotate
      */
     private Integer mRestoreX = null;
-
     /**
      * Tracks the maximum possible X position, stays at max value until last item is laid out and it can be determined
      */
     private int mMaxX = Integer.MAX_VALUE;
-
     /**
      * The adapter index of the leftmost view currently visible
      */
     private int mLeftViewAdapterIndex;
-
     /**
      * The adapter index of the rightmost view currently visible
      */
     private int mRightViewAdapterIndex;
-
     /**
      * This tracks the currently selected accessibility item
      */
     private int mCurrentlySelectedAdapterIndex;
-
     /**
      * Callback interface to notify listener that the user has scrolled this view to the point that it is low on Data.
      */
     private RunningOutOfDataListener mRunningOutOfDataListener = null;
-
     /**
      * This tracks the user value set of how many items from the end will be considered running out of Data.
      */
     private int mRunningOutOfDataThreshold = 0;
-
     /**
      * Tracks if we have told the listener that we are running low on Data. We only want to tell them once.
      */
     private boolean mHasNotifiedRunningLowOnData = false;
-
     /**
      * Callback interface to be invoked when the scroll state has changed.
      */
     private OnScrollStateChangedListener mOnScrollStateChangedListener = null;
-
     /**
      * Represents the current scroll state of this view. Needed so we can detect when the state changes so scroll listener can be notified.
      */
     private OnScrollStateChangedListener.ScrollState mCurrentScrollState = OnScrollStateChangedListener.ScrollState.SCROLL_STATE_IDLE;
-
-    /**
-     * Tracks the state of the left edge glow.
-     */
-    private final EdgeEffectCompat mEdgeGlowLeft;
-
-    /**
-     * Tracks the state of the right edge glow.
-     */
-    private final EdgeEffectCompat mEdgeGlowRight;
-
-    /**
-     * The height measure spec for this view, used to help size children views
-     */
-    private int mHeightMeasureSpec;
-
-    /**
-     * Used to track if a view touch should be blocked because it stopped a fling
-     */
-    private boolean mBlockTouchAction = false;
-
-    /**
-     * Used to track if the parent vertically scrollable view has been told to DisallowInterceptTouchEvent
-     */
-    private boolean mIsParentVerticiallyScrollableViewDisallowingInterceptTouchEvent = false;
-
-    /**
-     * The listener that receives notifications when this view is clicked.
-     */
-    private OnClickListener mOnClickListener;
     /**
      * DataSetObserver used to capture adapter Data change events
      */
@@ -273,14 +251,21 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         }
     };
     /**
-     * Use to schedule a request layout via a runnable
+     * The height measure spec for this view, used to help size children views
      */
-    private final Runnable mDelayedLayout = new Runnable() {
-        @Override
-        public void run() {
-            requestLayout();
-        }
-    };
+    private int mHeightMeasureSpec;
+    /**
+     * Used to track if a view touch should be blocked because it stopped a fling
+     */
+    private boolean mBlockTouchAction = false;
+    /**
+     * Used to track if the parent vertically scrollable view has been told to DisallowInterceptTouchEvent
+     */
+    private boolean mIsParentVerticiallyScrollableViewDisallowingInterceptTouchEvent = false;
+    /**
+     * The listener that receives notifications when this view is clicked.
+     */
+    private OnClickListener mOnClickListener;
 
     public HorizontalListView(Context context, AttributeSet attrs) {
         super(context, attrs);

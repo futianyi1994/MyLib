@@ -43,11 +43,11 @@ public class UpdateManager {
 
     public static final int INSTALL_PERMISS_CODE = 20000;
     private static volatile UpdateManager instance = null;
+    private final MyHandler handler = new MyHandler(this);
     public boolean stopFlag = false;
     private int length;
     private int progress;
     private TextView progressTv;
-    private final MyHandler handler = new MyHandler(this);
 
     /**
      * 单利构造器私有化

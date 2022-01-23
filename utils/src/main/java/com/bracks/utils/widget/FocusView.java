@@ -94,9 +94,11 @@ public class FocusView extends View {
             }
         }
     };
+
     public FocusView(Context context) {
         super(context);
     }
+
     public FocusView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);

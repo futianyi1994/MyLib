@@ -28,11 +28,11 @@ import com.tencent.smtt.sdk.WebViewClient;
  */
 public class X5WebViewClient extends WebViewClient {
     private final Context mContext;
-    private Activity mActivity;
     /**
      * true:开启全局监听支付宝支付url
      */
     private final boolean payInterceptorWithUrl;
+    private Activity mActivity;
 
     public X5WebViewClient(Context mContext) {
         this(mContext, false);

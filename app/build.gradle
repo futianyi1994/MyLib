@@ -8,10 +8,9 @@ android {
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
+        multiDexEnabled true
         testInstrumentationRunner rootProject.ext.android["androidJUnitRunner"]
         consumerProguardFiles 'consumer-rules.pro'
-
-        multiDexEnabled true
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -36,6 +35,10 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -58,8 +61,25 @@ def static releaseTime() {
 }
 
 
+preBuild {
+    doLast {
+        def imlFile = file("../.idea/modules/${project.name}/" + rootProject.name + ".${project.name}.iml")
+        println('Change ' + imlFile + ' order')
+        try {
+            def parsedXml = (new XmlParser()).parse(imlFile)
+            def jdkNode = parsedXml.component[1].orderEntry.find { it.'@type' == 'jdk' }
+            parsedXml.component[1].remove(jdkNode)
+            def sdkString = "Android API " + android.compileSdkVersion.substring("android-".length()) + " Platform"
+            new Node(parsedXml.component[1], 'orderEntry', ['type': 'jdk', 'jdkName': sdkString, 'jdkType': 'Android SDK'])
+            groovy.xml.XmlUtil.serialize(parsedXml, new FileOutputStream(imlFile))
+        } catch (FileNotFoundException e) {
+            // nop, iml not found
+        }
+    }
+}
+
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs', exclude: ['framework.jar'])
     testImplementation rootProject.ext.dependencies["junit"]
     androidTestImplementation rootProject.ext.dependencies["runner"]
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]
@@ -67,6 +87,7 @@ dependencies {
     implementation project(':mylib')
     implementation project(':utils')
     //implementation rootProject.ext.dependencies["mylib"]
+    //compileOnly files('libs/framework.jar')
 
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["support-v4"]
@@ -85,19 +106,11 @@ dependencies {
     implementation rootProject.ext.dependencies["banner"]
     //Glide
     implementation rootProject.ext.dependencies["glide"]
-    //Multidex
-    implementation rootProject.ext.dependencies["multidex"]
-    //Utilcode
-    implementation rootProject.ext.dependencies["utilcode"]
-    //Autodispose
-    implementation rootProject.ext.dependencies["autodispose-android-archcomponents"]
     //Lottie-Android
     implementation rootProject.ext.dependencies["lottie"]
     //Room
     implementation rootProject.ext.dependencies["room"]
     annotationProcessor rootProject.ext.dependencies["room-compiler"]
     //Butterknife
-    implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
-
 }

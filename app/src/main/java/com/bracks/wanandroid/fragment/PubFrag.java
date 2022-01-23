@@ -1,5 +1,6 @@
 package com.bracks.wanandroid.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,6 +53,7 @@ import butterknife.BindView;
 public class PubFrag extends BaseVmProxyFrag {
 
     public static String search = "";
+    private final List<String> tabList = new ArrayList<>();
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.toolbar)
@@ -64,7 +66,6 @@ public class PubFrag extends BaseVmProxyFrag {
     ViewPager viewPager;
     private PubViewModel viewModel;
     private TabPagerAdapter pagerAdapter;
-    private final List<String> tabList = new ArrayList<>();
     private List<PublicList.DataBean> dataBeans;
     private SearchView searchView;
     private SearchView.SearchAutoComplete mSearchAutoComplete;
@@ -130,6 +131,7 @@ public class PubFrag extends BaseVmProxyFrag {
         });
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_history, menu);

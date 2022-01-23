@@ -20,7 +20,7 @@ public class ApiService {
     public static DataApi getService() {
         if (service == null) {
             synchronized (HttpManager.class) {
-                HttpManager.getOkHttpClientBuilder().interceptors().add(0, new LoginInterceptor());
+                HttpManager.getOkHttpClientBuilder(Contants.BASE_URL).interceptors().add(0, new LoginInterceptor());
                 service = HttpManager.getApiService(DataApi.class, Contants.BASE_URL);
             }
         }

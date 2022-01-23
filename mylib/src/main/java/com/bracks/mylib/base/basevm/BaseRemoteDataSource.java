@@ -4,6 +4,7 @@ import com.bracks.mylib.base.model.Result;
 import com.bracks.mylib.exception.ApiException;
 import com.bracks.mylib.net.https.HttpCallback;
 import com.bracks.mylib.rx.RxAutoDispose;
+import com.uber.autodispose.AutoDisposeConverter;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +31,6 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class BaseRemoteDataSource implements BaseDataSource {
 
     protected CompositeDisposable compositeDisposable;
-
     protected BaseViewModel baseViewModel;
 
     public BaseRemoteDataSource(BaseViewModel baseViewModel) {
@@ -38,20 +38,31 @@ public abstract class BaseRemoteDataSource implements BaseDataSource {
         this.baseViewModel = baseViewModel;
     }
 
-
     protected <T> void execute(Observable<? extends Result<T>> observable, HttpCallback<T> callback) {
-        execute(observable, new BaseSubscriber<>(baseViewModel, callback), true, true);
+        execute(observable, callback, RxAutoDispose.bindLifecycle(baseViewModel.lifecycleOwner));
+    }
+
+    protected <T> void execute(Observable<? extends Result<T>> observable, HttpCallback<T> callback, AutoDisposeConverter<T> autoDisposeConverter) {
+        execute(observable, new BaseSubscriber<>(baseViewModel, callback), autoDisposeConverter, true, true);
     }
 
     protected <T> void executeWithoutShow(Observable<? extends Result<T>> observable, HttpCallback<T> callback) {
-        execute(observable, new BaseSubscriber<>(baseViewModel, callback), false, true);
+        executeWithoutShow(observable, callback, RxAutoDispose.bindLifecycle(baseViewModel.lifecycleOwner));
+    }
+
+    protected <T> void executeWithoutShow(Observable<? extends Result<T>> observable, HttpCallback<T> callback, AutoDisposeConverter<T> autoDisposeConverter) {
+        execute(observable, new BaseSubscriber<>(baseViewModel, callback), autoDisposeConverter, false, true);
     }
 
     protected <T> void executeWithoutDismiss(Observable<? extends Result<T>> observable, HttpCallback<T> callback) {
-        execute(observable, new BaseSubscriber<>(baseViewModel, callback), true, false);
+        executeWithoutDismiss(observable, callback, RxAutoDispose.bindLifecycle(baseViewModel.lifecycleOwner));
     }
 
-    protected <T> void execute(Observable<? extends Result<T>> observable, Observer<T> observer, boolean isShow, boolean isDismiss) {
+    protected <T> void executeWithoutDismiss(Observable<? extends Result<T>> observable, HttpCallback<T> callback, AutoDisposeConverter<T> autoDisposeConverter) {
+        execute(observable, new BaseSubscriber<>(baseViewModel, callback), autoDisposeConverter, true, false);
+    }
+
+    protected <T> void execute(Observable<? extends Result<T>> observable, Observer<T> observer, AutoDisposeConverter<T> autoDisposeConverter, boolean isShow, boolean isDismiss) {
         Observable<T> compose = observable
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
@@ -63,11 +74,11 @@ public abstract class BaseRemoteDataSource implements BaseDataSource {
                         ?
                         (Disposable) compose
                                 .compose(isDismiss ? loadingTransformer() : loadingTransformerWithoutDismiss())
-                                .as(RxAutoDispose.bindLifecycle(baseViewModel.lifecycleOwner))
+                                .as(autoDisposeConverter)
                                 .subscribeWith(observer)
                         :
                         (Disposable) compose
-                                .as(RxAutoDispose.bindLifecycle(baseViewModel.lifecycleOwner))
+                                .as(autoDisposeConverter)
                                 .subscribeWith(observer));
     }
 
@@ -132,5 +143,13 @@ public abstract class BaseRemoteDataSource implements BaseDataSource {
         if (!compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
         }
+    }
+
+    public CompositeDisposable getCompositeDisposable() {
+        return compositeDisposable;
+    }
+
+    public BaseViewModel getBaseViewModel() {
+        return baseViewModel;
     }
 }

@@ -1,20 +1,21 @@
 package com.bracks.mylib.net.https;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bracks.mylib.Constants;
 import com.bracks.mylib.net.interceptor.HttpCacheInterceptor;
 import com.bracks.mylib.net.interceptor.LogInterceptor;
-import com.bracks.mylib.utils.JsonUtils;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.Cache;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
@@ -34,45 +35,53 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class HttpManager {
 
-    private final static int CONNECT_TIMEOUT = 5;
-    private final static int READ_TIMEOUT = 10;
-    private final static int WRITE_TIMEOUT = 10;
+    public final static int CONNECT_TIMEOUT = 5;
+    public final static int READ_TIMEOUT = 10;
+    public final static int WRITE_TIMEOUT = 10;
 
+    private static final Map<String, Retrofit> RETROFIT_MAP = new HashMap<>();
+    private static final Map<String, Retrofit.Builder> RETROFIT_BUILDER_MAP = new HashMap<>();
+    private static final Map<String, OkHttpClient.Builder> OKHTTPCLIENT_BUILDER_MAP = new HashMap<>();
+    private static final Map<String, ClearableCookieJar> COOKIE_MAP = new HashMap<>();
 
-    private static Retrofit retrofit;
-    private static Retrofit.Builder retrofiitBuilder;
-    private static OkHttpClient.Builder okHttpClientBuilder;
-
-    private static ClearableCookieJar cookieJar;
-
-    public static List<Cookie> getCookies(String url) {
-        return cookieJar.loadForRequest(HttpUrl.parse(url));
+    public static void clear() {
+        RETROFIT_MAP.clear();
+        RETROFIT_BUILDER_MAP.clear();
+        OKHTTPCLIENT_BUILDER_MAP.clear();
+        COOKIE_MAP.clear();
     }
 
-    public static OkHttpClient.Builder getOkHttpClientBuilder() {
+    public static List<Cookie> getCookies(String baseUrl, String url) {
+        ClearableCookieJar cookieJar = COOKIE_MAP.get(baseUrl);
+        return cookieJar != null ? cookieJar.loadForRequest(HttpUrl.parse(url)) : null;
+    }
 
-        LogInterceptor logInterceptor = new LogInterceptor();
-        HttpCacheInterceptor httpCacheInterceptor = new HttpCacheInterceptor();
-        //HttpLoggingInterceptor loggingInterceptor = HttpLogInterceptor.get();
-        //PostAndGetFieldIntercepter postAndGetFieldIntercepter = new PostAndGetFieldIntercepter();
-
-        //RequestParamInterceptor requestParamInterceptor = new RequestParamInterceptor();
-        //HttpHeaderInterceptor headerInterceptor = new HttpHeaderInterceptor();
-        //AppendUrlParamIntercepter appendUrlParamIntercepter = new AppendUrlParamIntercepter();
-        //AppendBodyParamIntercepter appendBodyParamIntercepter = new AppendBodyParamIntercepter();
-        //AppendHeaderParamIntercepter appendHeaderParamIntercepter = new AppendHeaderParamIntercepter();
-
-        //ResponseParamInterceptor responseParamInterceptor = new ResponseParamInterceptor();
-        //ReceivedCookiesInterceptor receivedCookiesInterceptor = new ReceivedCookiesInterceptor();
-
-
-        File cacheFile = new File(Utils.getApp().getExternalCacheDir(), Constants.HTTP_CACHE);
-        int cacheSize = 100 * 1024 * 1024;
-        Cache cache = new Cache(cacheFile, cacheSize);
-
-        cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(Utils.getApp()));
+    public static OkHttpClient.Builder getOkHttpClientBuilder(String baseUrl) {
+        OkHttpClient.Builder okHttpClientBuilder = OKHTTPCLIENT_BUILDER_MAP.get(baseUrl);
         if (okHttpClientBuilder == null) {
             synchronized (HttpManager.class) {
+                LogInterceptor logInterceptor = new LogInterceptor();
+                HttpCacheInterceptor httpCacheInterceptor = new HttpCacheInterceptor();
+                //HttpLoggingInterceptor loggingInterceptor = HttpLogInterceptor.get();
+                //PostAndGetFieldIntercepter postAndGetFieldIntercepter = new PostAndGetFieldIntercepter();
+
+                //RequestParamInterceptor requestParamInterceptor = new RequestParamInterceptor();
+                //HttpHeaderInterceptor headerInterceptor = new HttpHeaderInterceptor();
+                //AppendUrlParamIntercepter appendUrlParamIntercepter = new AppendUrlParamIntercepter();
+                //AppendBodyParamIntercepter appendBodyParamIntercepter = new AppendBodyParamIntercepter();
+                //AppendHeaderParamIntercepter appendHeaderParamIntercepter = new AppendHeaderParamIntercepter();
+
+                //ResponseParamInterceptor responseParamInterceptor = new ResponseParamInterceptor();
+                //ReceivedCookiesInterceptor receivedCookiesInterceptor = new ReceivedCookiesInterceptor();
+
+                File cacheFile = new File(Utils.getApp().getExternalCacheDir(), Constants.HTTP_CACHE);
+                int cacheSize = 100 * 1024 * 1024;
+                Cache cache = new Cache(cacheFile, cacheSize);
+                ClearableCookieJar cookieJar = COOKIE_MAP.get(baseUrl);
+                if (cookieJar == null) {
+                    cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(Utils.getApp()));
+                    COOKIE_MAP.put(baseUrl, cookieJar);
+                }
                 okHttpClientBuilder = new OkHttpClient
                         .Builder()
                         .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
@@ -99,57 +108,65 @@ public class HttpManager {
                         .addInterceptor(logInterceptor)
                 ;
             }
+            OKHTTPCLIENT_BUILDER_MAP.put(baseUrl, okHttpClientBuilder);
+            return okHttpClientBuilder;
         }
         return okHttpClientBuilder;
     }
 
 
     public static Retrofit.Builder getRetrofitBuilder(String baseUrl) {
-        return getRetrofitBuilder(baseUrl, getOkHttpClientBuilder());
+        return getRetrofitBuilder(baseUrl, getOkHttpClientBuilder(baseUrl));
     }
 
     public static Retrofit.Builder getRetrofitBuilder(String baseUrl, OkHttpClient.Builder builder) {
+        Retrofit.Builder retrofiitBuilder = RETROFIT_BUILDER_MAP.get(baseUrl);
         if (retrofiitBuilder == null) {
             synchronized (HttpManager.class) {
                 //多域名时使用：me.jessyan:retrofit-url-manager:1.4.0
-                OkHttpClient okHttpClient = RetrofitUrlManager
+                /*OkHttpClient okHttpClient = RetrofitUrlManager
                         .getInstance()
                         .with(builder)
                         .build();
                 retrofiitBuilder = new Retrofit.Builder()
                         .client(okHttpClient)
                         .baseUrl(baseUrl)
-                        .addConverterFactory(GsonConverterFactory.create(JsonUtils.getGsonBuilder().create()))
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-
-                //不使用多域名
-                /*retrofiitBuilder = new Retrofit.Builder()
-                        .client(builder.build())
-                        .baseUrl(baseUrl)
                         .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGsonBuilder().create()))
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create());*/
+
+                //不使用多域名
+                retrofiitBuilder = new Retrofit.Builder()
+                        .client(builder.build())
+                        .baseUrl(baseUrl)
+                        .addConverterFactory(GsonConverterFactory.create(GsonUtils.getGson()))
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+                RETROFIT_BUILDER_MAP.put(baseUrl, retrofiitBuilder);
             }
         }
         return retrofiitBuilder;
     }
 
     public static <T> T getApiService(Class<T> cls, String baseUrl) {
-        return getApiService(cls, baseUrl, getOkHttpClientBuilder());
+        return getApiService(cls, baseUrl, getOkHttpClientBuilder(baseUrl));
     }
 
     public static <T> T getApiService(Class<T> cls, String baseUrl, OkHttpClient.Builder builder) {
+        Retrofit retrofit = RETROFIT_MAP.get(baseUrl);
         if (retrofit == null) {
             synchronized (HttpManager.class) {
                 retrofit = getRetrofitBuilder(baseUrl, builder).build();
+                RETROFIT_MAP.put(baseUrl, retrofit);
             }
         }
         return retrofit.create(cls);
     }
 
     public static <T> T getApiService(Class<T> cls, String baseUrl, Interceptor interceptor) {
+        Retrofit retrofit = RETROFIT_MAP.get(baseUrl);
         if (retrofit == null) {
             synchronized (HttpManager.class) {
-                retrofit = getRetrofitBuilder(baseUrl, getOkHttpClientBuilder().addInterceptor(interceptor)).build();
+                retrofit = getRetrofitBuilder(baseUrl, getOkHttpClientBuilder(baseUrl).addInterceptor(interceptor)).build();
+                RETROFIT_MAP.put(baseUrl, retrofit);
             }
         }
         return retrofit.create(cls);

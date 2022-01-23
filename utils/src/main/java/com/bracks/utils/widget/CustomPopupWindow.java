@@ -46,9 +46,9 @@ import androidx.annotation.RequiresApi;
 public class CustomPopupWindow extends PopupWindow {
     private static CountDownTimer timer;
     private final Context context;
-    private Activity activity;
     private final LayoutInflater inflater;
     private final PopupController controller;
+    private Activity activity;
 
     public CustomPopupWindow(Context context) {
         super(context);
@@ -430,9 +430,9 @@ public class CustomPopupWindow extends PopupWindow {
     }
 
     static class PopupController {
-        private int layoutResId;
         private final Context context;
         private final PopupWindow popupWindow;
+        private int layoutResId;
         private View mPopupView;
         private View mView;
         private Window mWindow;
@@ -506,6 +506,10 @@ public class CustomPopupWindow extends PopupWindow {
 
         static class PopupParams {
             /**
+             * 上下文
+             */
+            private final Context mContext;
+            /**
              * 布局id
              */
             private int layoutResId;
@@ -513,10 +517,6 @@ public class CustomPopupWindow extends PopupWindow {
              * 布局
              */
             private View mView;
-            /**
-             * 上下文
-             */
-            private final Context mContext;
             /**
              * 宽高
              */

@@ -117,6 +117,7 @@ public class CustomAlertDialog extends AlertDialog {
     private OnClickListener neutralButtonClickListener;
     private View.OnClickListener positiveClickListener;
     private View.OnClickListener negativeClickListener;
+
     private CustomAlertDialog(@NonNull Context context) {
         this(context, 0, null);
     }

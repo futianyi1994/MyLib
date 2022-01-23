@@ -7,7 +7,7 @@ android {
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode 1
         versionName "1.0.0"
-
+        multiDexEnabled true
         testInstrumentationRunner rootProject.ext.android["androidJUnitRunner"]
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -17,6 +17,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     compileOptions {
@@ -30,19 +34,26 @@ dependencies {
     androidTestImplementation rootProject.ext.dependencies["runner"]
     androidTestImplementation rootProject.ext.dependencies["espresso-core"]
 
-    compileOnly rootProject.ext.dependencies["support-v4"]
-    compileOnly rootProject.ext.dependencies["appcompat-v7"]
-    compileOnly rootProject.ext.dependencies["annotations"]
-    compileOnly rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["support-v4"]
+    api rootProject.ext.dependencies["appcompat-v7"]
+    api rootProject.ext.dependencies["lifecycle-service"]
 
-    //Utilcode
-    compileOnly rootProject.ext.dependencies["utilcode"]
+    //Mmkv
+    compileOnly rootProject.ext.dependencies["mmkv"]
+    //Zxing
+    compileOnly rootProject.ext.dependencies["zxing"]
     //Gson
     compileOnly rootProject.ext.dependencies["gson"]
+    //Utilcode
+    compileOnly rootProject.ext.dependencies["utilcode"]
     //RxPermissions
     compileOnly rootProject.ext.dependencies["rxpermissions"]
     //AndPermission
     compileOnly rootProject.ext.dependencies["andpermission"]
+    //TinyPinyin
+    compileOnly rootProject.ext.dependencies["tinypinyin"]
+    compileOnly rootProject.ext.dependencies["tinypinyin-cncity"]
     //Glide
     compileOnly rootProject.ext.dependencies["glide"]
     compileOnly rootProject.ext.dependencies["glide-transformations"]

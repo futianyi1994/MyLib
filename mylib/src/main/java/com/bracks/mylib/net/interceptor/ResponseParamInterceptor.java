@@ -1,6 +1,9 @@
 package com.bracks.mylib.net.interceptor;
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -22,6 +25,7 @@ import okio.BufferedSource;
  * @email : futianyi1994@126.com
  * @description :
  */
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public abstract class ResponseParamInterceptor implements Interceptor {
     private static final Charset UTF8 = StandardCharsets.UTF_8;
 

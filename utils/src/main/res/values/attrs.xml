@@ -16,6 +16,12 @@
         <attr name="civ_fill_color" format="color" />
     </declare-styleable>
 
+    <!-- RecycleView增加最大高度和宽度属性 -->
+    <declare-styleable name="MaxLimitRecyclerView">
+        <attr name="limit_maxHeight" format="reference|dimension" />
+        <attr name="limit_maxWidth" format="reference|dimension" />
+    </declare-styleable>
+
     <!--侧边索引栏-->
     <declare-styleable name="WaveSideBar">
         <attr name="sidebar_lazy_respond" format="boolean" />

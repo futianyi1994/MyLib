@@ -1,11 +1,13 @@
 package com.bracks.mylib.base.basevm;
 
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 
 /**
  * good programmer.
@@ -18,13 +20,15 @@ import androidx.lifecycle.ViewModel;
 public class BaseViewModel extends ViewModel implements BaseViewModelInter {
 
     protected LifecycleOwner lifecycleOwner;
-    private final MutableLiveData<BaseActionEvent> actionLiveData;
+    private MediatorLiveData<Object> liveDataMeger;
+    private MutableLiveData<BaseActionEvent> actionLiveData;
 
 
     public BaseViewModel() {
+        liveDataMeger = new MediatorLiveData<>();
         actionLiveData = new MutableLiveData<>();
+        addSource(actionLiveData);
     }
-
 
     @Override
     public void startLoading() {
@@ -100,5 +104,15 @@ public class BaseViewModel extends ViewModel implements BaseViewModelInter {
     @Override
     public void setLifecycleOwner(LifecycleOwner owner) {
         lifecycleOwner = owner;
+    }
+
+    public final void addSource(@NonNull LiveData<?>... source) {
+        for (LiveData<?> sLiveData : source) {
+            liveDataMeger.addSource(sLiveData, liveDataMeger::setValue);
+        }
+    }
+
+    public MediatorLiveData<Object> getLiveDataMeger() {
+        return liveDataMeger;
     }
 }

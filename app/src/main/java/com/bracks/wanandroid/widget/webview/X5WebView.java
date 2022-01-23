@@ -28,10 +28,9 @@ import com.tencent.smtt.sdk.WebView;
 public class X5WebView extends WebView {
 
     private final Context mContext;
-    private Activity mActivity;
-
     private final X5WebChromeClient x5WebChromeClient;
     private final X5WebViewClient x5WebViewClient;
+    private Activity mActivity;
 
     public X5WebView(Context context) {
         this(context, null, null, true, false);

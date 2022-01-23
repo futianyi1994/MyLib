@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
  * @description : https://blog.csdn.net/w690333243/article/details/77175422
  */
 public class RecycleViewUtils {
+    private static final int[] headerHeight = new int[2];
     /**
      * 计算RecyclerView滑动的距离(是适用于除头部外其他item高度相同的情况)这个里为两个头部的情况
      *
      * @return 滑动的距离
      */
     private static int scrollYheight;
-    private static final int[] headerHeight = new int[2];
 
     public static int getScollYHeight(RecyclerView recyclerView) {
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
